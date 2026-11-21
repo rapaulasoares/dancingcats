@@ -5,6 +5,8 @@ export interface Progress {
   evidence: string[];
   visitedLocations: string[];
   askedQuestions: string[];
+  /** The dancing cat has been brought to the Regional Science Center. */
+  catDelivered?: boolean;
 }
 
 export function meets(condition: Condition | undefined, p: Progress): boolean {
@@ -16,6 +18,7 @@ export function meets(condition: Condition | undefined, p: Progress): boolean {
   if (c.anyEvidence && !c.anyEvidence.some((id) => p.evidence.includes(id))) return false;
   if (c.askedQuestion && !c.askedQuestion.every((id) => p.askedQuestions.includes(id))) return false;
   if (c.visitedAny && !c.visitedAny.some((id) => p.visitedLocations.includes(id))) return false;
+  if (c.catDelivered && !p.catDelivered) return false;
   if (c.anyOf && !c.anyOf.some((sub) => meets(sub, p))) return false;
   return true;
 }

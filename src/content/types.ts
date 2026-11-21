@@ -62,6 +62,8 @@ export interface Condition {
   anyEvidence?: string[];
   askedQuestion?: string[];
   visitedAny?: LocationId[];
+  /** True once the dancing cat has been brought to the Regional Science Center. */
+  catDelivered?: true;
   anyOf?: Condition[];
 }
 

@@ -131,14 +131,14 @@ export const locations: Location[] = [
 
 export const locationById = Object.fromEntries(locations.map((l) => [l.id, l]));
 
-/** Progress events. The lab results reach every player, whatever they asked. */
+/** Progress events. The lab results arrive when the player brings the dancing cat to the Science Center. */
 export const events: GameEvent[] = [
   {
     id: 'labResults',
-    when: { ...BALANCE.labResults },
+    when: { catDelivered: true },
     title: 'Message from the Regional Science Center',
     message:
-      'Professor Roberto\'s team has finished testing the fish, the bay mud and the water they collected last week, including water taken from the channel at the north point. They have sent you the results. Professor Roberto can answer questions about them at the Science Center.',
+      'Professor Roberto\'s team has tested the dancing cat you brought, the fish, the bay mud and the water, including water taken from the channel at the north point. Here are the results. Professor Roberto can answer questions about them at the Science Center.',
     unlocks: ['SCI-09', 'SCI-10'],
   },
 ];

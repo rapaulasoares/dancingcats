@@ -59,7 +59,7 @@ Todos os números de ritmo estão num único arquivo, `src/content/balance.ts`.
 |---|---|
 | Passa muito de 45 minutos | Reduzir para 3 as perguntas de João, Dona Rosa e Sr. Santos (`questions`). Depois, retirar as três evidências sem função (quadro de preços, pôster de futebol, tucano de brinquedo). |
 | Muitos times abrem o relatório cedo demais e se frustram | Hoje o botão "Solve the Mystery" fica liberado desde o início, por decisão da autora: decidir a hora faz parte do jogo. Se virar problema, exigir um mínimo em `readyToSolve` (por exemplo 12 evidências e 6 locais). |
-| Os resultados do laboratório chegam cedo demais e entregam o caso | Aumentar `labResults.evidenceCount`. |
+| Os resultados do laboratório chegam cedo demais e entregam o caso | Os resultados chegam quando a equipe leva o gato dançante ao Regional Science Center. Para atrasar, deixar o gato mais rápido ou mais difícil de pegar em `src/features/map/MapScreen.tsx` (`CAT_FLEE_SPEED`, `CAT_SCARE`). |
 | Quase ninguém acha os objetos das cenas | Reduzir `lookAroundMs` para 10 segundos. |
 | As dicas incomodam ou passam despercebidas | Alterar `maxTips`. |
 | Ninguém usa a reunião do time | Reduzir `meeting1Evidence`, ou o professor convida a turma a usá-la num momento combinado. |

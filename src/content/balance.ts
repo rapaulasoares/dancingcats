@@ -22,8 +22,6 @@ export const BALANCE = {
   meeting1Evidence: 5,
   /** Evidence needed for the second Team Meeting (it also opens when the lab results arrive). */
   meeting2Evidence: 10,
-  /** When the Science Center sends the lab results. */
-  labResults: { evidenceCount: 12, locationsVisited: 5 },
   /**
    * When "Solve the Mystery" becomes available. Zero means from the first
    * moment: the player decides when they are ready, and may decide too early.

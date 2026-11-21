@@ -81,6 +81,8 @@ export interface SaveGame {
   evidence: string[];
   eventsFired: string[];
   eventsUnread: string[];
+  /** The dancing cat has been caught on the map and brought to the Regional Science Center. */
+  catDelivered: boolean;
   board: {
     items: Record<string, BoardItem>;
     notes: BoardNote[];
@@ -119,6 +121,7 @@ export function freshSave(): SaveGame {
     evidence: [],
     eventsFired: [],
     eventsUnread: [],
+    catDelivered: false,
     board: { items: {}, notes: [], links: [], topZ: 0 },
     meetings: {},
     final: { index: 0, answers: {}, explanation: '', explanationDone: false },
@@ -160,6 +163,8 @@ interface Actions {
   ask: (interviewId: string, questionId: string) => AskResult;
   collect: (ids: string[]) => string[];
   readEvent: (eventId: string) => void;
+  /** The player brought the dancing cat to the Science Center: the lab results arrive. */
+  deliverCat: () => void;
 
   moveItem: (id: string, x: number, y: number) => void;
   setTag: (id: string, tag: Tag | undefined) => void;
@@ -197,6 +202,7 @@ export function progressOf(s: SaveGame): Progress {
     evidence: s.evidence,
     visitedLocations: s.visitedLocations,
     askedQuestions: Object.values(s.asked).flat(),
+    catDelivered: s.catDelivered,
   };
 }
 
@@ -358,6 +364,13 @@ export const useGame = create<GameState>()(
         });
         return fresh;
       },
+
+      deliverCat: () =>
+        set((s) => {
+          if (s.phase !== 'investigation' || s.catDelivered) return {};
+          const next = { ...s, catDelivered: true };
+          return { catDelivered: true, ...withEvents(next) };
+        }),
 
       readEvent: (eventId) => {
         const event = events.find((e) => e.id === eventId);

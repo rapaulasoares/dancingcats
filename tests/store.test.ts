@@ -158,10 +158,14 @@ describe('progress events and the final report', () => {
     game().finishOpening();
   });
 
-  it('delivers the lab results once enough has been found and visited', () => {
+  it('delivers the lab results only when the dancing cat reaches the Science Center', () => {
     game().collect(evidence.slice(0, 12).map((e) => e.id));
-    expect(game().eventsUnread).toEqual([]);
     (['harbor', 'market', 'clinic', 'community', 'square'] as const).forEach((l) => game().visit(l));
+    expect(game().eventsUnread).toEqual([]);
+    game().deliverCat();
+    expect(game().catDelivered).toBe(true);
+    expect(game().eventsUnread).toEqual(['labResults']);
+    game().deliverCat();
     expect(game().eventsUnread).toEqual(['labResults']);
     game().readEvent('labResults');
     expect(game().evidence).toContain('SCI-09');
