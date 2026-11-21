@@ -13,20 +13,31 @@
     var(--wood-dark);
 }
 
-/* The open book. The flip library sizes and positions the pages itself. */
+/* The open book. The flip library sizes the pages from the block it sits in, so that block is given the
+   exact space left on the screen. Without a fixed height the book grows with the window width and
+   covers the buttons. */
 .stage {
+  position: relative;
   flex: 1;
   min-height: 0;
   width: 100%;
   max-width: 78rem;
   margin: 0 auto;
+}
+
+.bookBox {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .flip {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  /* Exact size set from the component, so the block is the book and nothing else. */
+  width: var(--book-w) !important;
+  height: var(--book-h) !important;
+  max-width: none !important;
 }
 
 .srOnly {

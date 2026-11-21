@@ -1,4 +1,14 @@
-import { forwardRef, useCallback, useEffect, useRef, useState, type ComponentType, type ReactNode } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ComponentType,
+  type CSSProperties,
+  type ReactNode,
+} from 'react';
 import HTMLFlipBookTyped from 'react-pageflip';
 import { opening, type OpeningPage } from '../../content/opening';
 import { useGame } from '../../state/store';
@@ -50,6 +60,10 @@ interface Props {
   onClose?: () => void;
 }
 
+/** Width over height of one page of the book. */
+const PAGE_RATIO = 520 / 640;
+const MAX_PAGE_H = 900;
+
 /** Each story page is two leaves: the picture, then the text. */
 const LEAVES = opening.length * 2;
 
@@ -74,6 +88,27 @@ export function OpeningBook({ onClose }: Props) {
   const [leaf, setLeaf] = useState(startStory * 2);
   const [narrow, setNarrow] = useState(false);
   const bookRef = useRef<FlipRef>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  // The book is given an exact size that fits the space left on the screen. Left to itself the flip
+  // library sizes the book from the window width alone, so on a short window it covers the buttons.
+  const [book, setBook] = useState<{ w: number; h: number } | null>(null);
+
+  useLayoutEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const fit = () => {
+      const pageH = Math.min(stage.clientHeight, stage.clientWidth / 2 / PAGE_RATIO, MAX_PAGE_H);
+      const h = Math.max(Math.floor(pageH), 120);
+      setBook((old) => {
+        const w = Math.floor(h * PAGE_RATIO) * 2;
+        return old && old.w === w && old.h === h ? old : { w, h };
+      });
+    };
+    fit();
+    const observer = new ResizeObserver(fit);
+    observer.observe(stage);
+    return () => observer.disconnect();
+  }, []);
 
   const index = Math.min(Math.floor(leaf / 2), last);
   const atEnd = narrow ? leaf >= LEAVES - 1 : index >= last;
@@ -110,13 +145,18 @@ export function OpeningBook({ onClose }: Props) {
 
   return (
     <main className={styles.screen}>
-      <div className={styles.stage}>
+      <div className={styles.stage} ref={stageRef}>
         {/* The announcement for screen readers; the turning pages are decoration. */}
         <p className={styles.srOnly} aria-live="polite">
           Page {index + 1} of {opening.length}
           {opening[index].heading ? `: ${opening[index].heading}` : ''}
         </p>
 
+        {book && (
+        <div
+          className={styles.bookBox}
+          style={{ ['--book-w' as string]: `${book.w}px`, ['--book-h' as string]: `${book.h}px` } as CSSProperties}
+        >
         <HTMLFlipBook
           ref={bookRef}
           className={styles.flip}
@@ -124,12 +164,12 @@ export function OpeningBook({ onClose }: Props) {
           width={520}
           height={640}
           size="stretch"
-          minWidth={280}
+          minWidth={100}
           maxWidth={760}
-          minHeight={380}
+          minHeight={200}
           maxHeight={900}
           showCover={false}
-          usePortrait={true}
+          usePortrait={false}
           startPage={startStory * 2}
           startZIndex={0}
           autoSize={true}
@@ -151,6 +191,8 @@ export function OpeningBook({ onClose }: Props) {
             <TextLeaf key={`t${i}`} page={page} number={i + 1} />,
           ])}
         </HTMLFlipBook>
+        </div>
+        )}
       </div>
 
       <nav className={styles.controls} aria-label="Story pages">

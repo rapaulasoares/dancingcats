@@ -242,7 +242,9 @@ export function BoardScreen({ readOnly = false }: { readOnly?: boolean }) {
             height: BOARD.height,
             transform: camera ? `translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})` : undefined,
             visibility: camera ? 'visible' : 'hidden',
-            ['--cork-texture' as string]: `url(${import.meta.env.BASE_URL}images/texture-corkboard.webp)`,
+            // A CSS url() inside a stylesheet is resolved against the stylesheet (dist/assets/), not the page,
+            // so the address is made absolute here.
+            ['--cork-texture' as string]: `url(${new URL(`${import.meta.env.BASE_URL}images/texture-corkboard.webp`, document.baseURI).href})`,
           }}
         >
           <div className={styles.header} style={{ height: BOARD_HEADER }}>
