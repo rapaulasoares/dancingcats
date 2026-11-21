@@ -1,0 +1,40 @@
+.bar {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(180deg, #24625c, var(--sea-deep));
+  border-bottom: 4px solid var(--wood-dark);
+}
+
+.link,
+.current {
+  min-height: var(--touch-target);
+  padding: 0.3rem 1rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--paper);
+  font-family: var(--font-typewriter);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.link:hover {
+  border-color: rgba(246, 239, 223, 0.5);
+}
+
+.current {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--wood-dark);
+}
+
+@media print {
+  .bar {
+    display: none;
+  }
+}

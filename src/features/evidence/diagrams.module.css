@@ -1,0 +1,143 @@
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--paper-edge);
+  background: #fbf7ec;
+}
+
+.sea {
+  fill: #cfe6df;
+}
+
+.land {
+  fill: #e9dfc0;
+  stroke: var(--ink-soft);
+  stroke-width: 1.2;
+}
+
+.hill {
+  fill: none;
+  stroke: var(--forest);
+  stroke-width: 1.4;
+}
+
+.river {
+  fill: none;
+  stroke: var(--boat-blue);
+  stroke-width: 2;
+}
+
+.channel {
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 2;
+  stroke-dasharray: 5 3;
+}
+
+.town {
+  fill: var(--boat-red);
+  stroke: var(--wood-dark);
+}
+
+.yard {
+  fill: var(--ink-soft);
+}
+
+.grounds ellipse {
+  fill: none;
+  stroke: var(--boat-blue);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.label {
+  font-family: var(--font-typewriter);
+  font-size: 9px;
+  fill: var(--ink);
+}
+
+.compass {
+  font-family: var(--font-typewriter);
+  font-size: 9px;
+  fill: var(--ink-soft);
+}
+
+.site {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.siteHalo {
+  fill: rgba(168, 51, 42, 0.22);
+  stroke: var(--stamp-red);
+  stroke-width: 0.8;
+}
+
+.siteId {
+  font-family: var(--font-typewriter);
+  font-size: 10px;
+  font-weight: 700;
+  fill: var(--ink);
+}
+
+.siteValue {
+  font-family: var(--font-typewriter);
+  font-size: 12px;
+  font-weight: 700;
+  fill: var(--stamp-red);
+}
+
+.box {
+  fill: var(--paper);
+  stroke: var(--sea-deep);
+  stroke-width: 1.5;
+}
+
+.boxText {
+  font-family: var(--font-hand);
+  font-size: 15px;
+  fill: var(--ink);
+}
+
+.arrow {
+  fill: none;
+  stroke: var(--sea-deep);
+  stroke-width: 1.6;
+}
+
+.arrowHead {
+  fill: var(--sea-deep);
+}
+
+.axis {
+  stroke: var(--ink-soft);
+  stroke-width: 1;
+}
+
+.bar {
+  fill: var(--sea);
+}
+
+.barValue {
+  font-family: var(--font-typewriter);
+  font-size: 11px;
+  fill: var(--ink);
+}
+
+.band {
+  fill: rgba(31, 122, 114, 0.14);
+}
+
+.lineWarm {
+  fill: none;
+  stroke: var(--boat-red);
+  stroke-width: 2;
+}
+
+.lineGreen {
+  fill: none;
+  stroke: var(--forest);
+  stroke-width: 2;
+}

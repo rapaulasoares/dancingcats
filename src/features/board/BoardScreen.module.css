@@ -1,0 +1,199 @@
+.screen {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.viewport {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background: var(--wood-dark);
+  cursor: grab;
+  /* The board handles its own panning and pinching. */
+  touch-action: none;
+}
+
+.viewport:active {
+  cursor: grabbing;
+}
+
+.board {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  /* Cork: the texture image if it exists (set from the component), a speckled colour otherwise. */
+  background:
+    /* A warm brown veil tones the photographed cork down, so papers and pins stand out from it. */
+    linear-gradient(rgba(96, 58, 28, 0.38), rgba(96, 58, 28, 0.38)),
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0 2px, transparent 3px) 0 0 / 46px 46px,
+    radial-gradient(circle at 70% 60%, rgba(60, 39, 24, 0.14) 0 3px, transparent 4px) 0 0 / 62px 62px,
+    var(--cork-texture, none) 0 0 / 512px 512px,
+    var(--cork);
+  /* A wooden frame drawn inside the edge, so the board keeps its exact size. */
+  box-shadow: inset 0 0 0 14px var(--wood), inset 0 0 70px rgba(42, 33, 24, 0.5);
+}
+
+.header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 30px;
+  padding: 22px 44px 0;
+  pointer-events: none;
+}
+
+.title {
+  font-family: var(--font-typewriter);
+  font-size: 44px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  /* Light lettering on the dark cork; the soft shadow keeps it readable over the texture. */
+  color: var(--paper);
+  text-shadow: 0 2px 4px rgba(30, 20, 10, 0.75);
+}
+
+.subtitle {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 32px;
+  color: var(--paper);
+  text-shadow: 0 2px 4px rgba(30, 20, 10, 0.75);
+}
+
+.empty {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 48px;
+  text-align: center;
+  color: var(--paper);
+  text-shadow: 0 2px 5px rgba(30, 20, 10, 0.75);
+}
+
+.zoom {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.zoom button {
+  min-width: var(--touch-target);
+  padding-inline: 0.8em;
+}
+
+/* ── Strings ── */
+.strings {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.string {
+  stroke: var(--stamp-red);
+  stroke-width: 5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 3px 2px rgba(42, 33, 24, 0.45));
+}
+
+/* A wide invisible line so a finger can hit the string. */
+.stringHit {
+  stroke: transparent;
+  stroke-width: 46;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+.stringHit:hover,
+.stringHit:focus-visible {
+  stroke: rgba(255, 255, 255, 0.45);
+  outline: none;
+}
+
+/* ── Tools ── */
+.tools {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: calc(100% - 15rem);
+}
+
+.toolHint {
+  margin: 0;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-size: 0.95rem;
+}
+
+/* ── Classification buttons in the reading view ── */
+/* The question sits above; the three buttons always share one row beneath it. */
+.tagRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0 0.75rem;
+}
+
+.tagButtons {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+
+.tagButtons .tagButton {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-inline: 0.4rem;
+  white-space: nowrap;
+}
+
+.tagAsk {
+  font-family: var(--font-typewriter);
+  font-size: 0.85rem;
+  color: var(--paper-edge);
+}
+
+.tagButton {
+  min-height: var(--touch-target);
+  padding: 0.3rem 0.9rem;
+  border: 2px solid currentColor;
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-family: var(--font-typewriter);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.tagButton[aria-pressed='true'] {
+  box-shadow: 0 0 0 3px var(--paper), 0 0 0 6px var(--boat-yellow);
+  font-weight: 700;
+}
+
+.tag-important {
+  color: var(--stamp-red);
+}
+
+.tag-unsure {
+  color: #8a6a14;
+}
+
+.tag-notRelevant {
+  color: #48515a;
+}

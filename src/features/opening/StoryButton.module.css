@@ -1,0 +1,8 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: var(--wood-dark);
+  /* The bar that opened it may use a light text colour; the book sets its own. */
+  color: var(--ink);
+}

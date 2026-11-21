@@ -1,0 +1,44 @@
+/* Theme tokens: detective investigation + Brazilian coastal village. */
+:root {
+  /* Sea, forest, boats */
+  --sea-deep: #0f4c4a;
+  --sea: #1f7a72;
+  --sea-light: #7cc4b4;
+  --forest: #2f5d3a;
+  --boat-blue: #2f6f9f;
+  --boat-red: #c2463a;
+  --boat-yellow: #e2b84a;
+
+  /* Paper, cork, wood */
+  --paper: #f6efdf;
+  --paper-aged: #eadfc6;
+  --paper-edge: #cdbf9f;
+  --cork: #b98a5a;
+  --cork-dark: #8f6640;
+  --wood: #5b3d28;
+  --wood-dark: #3c2718;
+
+  /* Ink */
+  --ink: #2a2118;
+  --ink-soft: #5a4c3d;
+  --ink-faint: #6b5d4c; /* dark enough for small text on paper (WCAG AA) */
+  --stamp-red: #a8332a;
+
+  /* Player classification pins (never rely on colour alone) */
+  --pin-important: #c2463a;
+  --pin-unsure: #e2b84a;
+  --pin-not-relevant: #7d8791;
+
+  /* Type */
+  --font-story: 'Lora', Georgia, serif;
+  --font-hand: 'Caveat', 'Comic Sans MS', cursive;
+  --font-typewriter: 'Special Elite', 'Courier New', monospace;
+  --text-body: 1.125rem; /* 18px minimum body text */
+  --text-small: 1rem;
+  --text-title: clamp(2rem, 4.5vw, 3.5rem);
+
+  /* Shape */
+  --radius: 6px;
+  --shadow-paper: 0 2px 4px rgba(42, 33, 24, 0.25), 0 8px 18px rgba(42, 33, 24, 0.18);
+  --touch-target: 44px;
+}

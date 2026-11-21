@@ -1,0 +1,33 @@
+.gallery {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  overflow-y: auto;
+  padding: 1rem 1rem 4rem;
+  background: var(--cork);
+}
+
+.close {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+  gap: 2rem 1.5rem;
+  align-items: start;
+  margin-top: 1rem;
+}
+
+.item {
+  margin: 0;
+}
+
+.item figcaption {
+  margin-bottom: 0.4rem;
+  font-family: var(--font-typewriter);
+  font-size: 0.8rem;
+  color: var(--wood-dark);
+}

@@ -1,0 +1,21 @@
+.screen {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: var(--wood-dark);
+}
+
+.note {
+  max-width: 30rem;
+  padding: 1.75rem 2rem;
+  background: var(--paper);
+  box-shadow: var(--shadow-paper);
+  text-align: center;
+}
+
+.note h1 {
+  font-size: 1.6rem;
+  margin-bottom: 0.6rem;
+  color: var(--sea-deep);
+}

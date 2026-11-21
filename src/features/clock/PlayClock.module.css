@@ -1,0 +1,22 @@
+.clock,
+.clockDark {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius);
+  font-family: var(--font-typewriter);
+  font-size: 1rem;
+  /* Digits keep their width, so the clock does not wobble as it counts. */
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.clock {
+  border: 1px solid rgba(246, 239, 223, 0.45);
+  color: var(--paper);
+}
+
+.clockDark {
+  border: 1px solid var(--paper-edge);
+  color: var(--ink-soft);
+}

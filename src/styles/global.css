@@ -1,0 +1,164 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-story);
+  font-size: var(--text-body);
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--wood-dark);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.15;
+  margin: 0;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--boat-yellow);
+  outline-offset: 3px;
+}
+
+/* Shared button: looks like a painted wooden tag. */
+.btn {
+  min-height: var(--touch-target);
+  padding: 0.6em 1.4em;
+  border: 2px solid var(--wood-dark);
+  border-radius: var(--radius);
+  background: var(--boat-yellow);
+  color: var(--ink);
+  font-family: var(--font-typewriter);
+  font-size: var(--text-small);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 3px 0 var(--wood-dark);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.btn:hover {
+  background: #ecc65e;
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--wood-dark);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn--quiet {
+  background: var(--paper);
+}
+
+.btn--quiet:hover {
+  background: #fff8ea;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Printing: plain paper, no game chrome. */
+@media print {
+  html,
+  body,
+  #root {
+    height: auto;
+    background: #fff;
+  }
+
+  nav[aria-label='Developer shortcuts'] {
+    display: none;
+  }
+}
+
+/* Each screen fades in, so changes of place feel like turning a page. */
+.screen-enter {
+  height: 100%;
+  animation: screen-enter 0.22s ease-out;
+}
+
+.screen-enter--fill {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+@keyframes screen-enter {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Phones are not supported: the board and the scenes need room. */
+.too-small {
+  display: none;
+}
+
+@media (max-width: 599px) {
+  .too-small {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+    background: var(--sea-deep);
+    color: var(--paper);
+    text-align: center;
+    font-size: 1.2rem;
+  }
+}
+
+@media print {
+  .too-small {
+    display: none;
+  }
+}
+
+/* The closing screens sit under a small navigation bar. */
+.after-game {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+@media print {
+  .after-game {
+    display: block;
+    height: auto;
+  }
+}

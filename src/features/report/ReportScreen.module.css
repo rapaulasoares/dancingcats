@@ -1,0 +1,228 @@
+.screen {
+  height: 100%;
+  overflow-y: auto;
+  /* Leaves room for the dev bar in development; harmless otherwise. */
+  padding: 1.25rem 1rem 3rem;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.06), transparent 60%),
+    var(--wood-dark);
+}
+
+/* A typed report form inside the case folder. */
+.sheet {
+  width: min(100%, 46rem);
+  margin: 0 auto;
+  padding: 1.5rem 2rem 1.5rem;
+  background: #fdfbf3;
+  border-top: 14px solid #e3c88c;
+  box-shadow: var(--shadow-paper);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--ink);
+}
+
+.kicker {
+  margin: 0;
+  font-family: var(--font-typewriter);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--stamp-red);
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.step,
+.stepDone,
+.stepNow {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--ink-soft);
+}
+
+.stepDone {
+  background: var(--ink-soft);
+}
+
+.stepNow {
+  background: var(--boat-yellow);
+  border-color: var(--wood-dark);
+}
+
+.progressText {
+  margin-left: 0.5rem;
+  font-family: var(--font-typewriter);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.prompt {
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  line-height: 1.3;
+  margin-bottom: 1.1rem;
+  outline: none;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.option,
+.optionChosen {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  min-height: var(--touch-target);
+  padding: 0.7rem 0.9rem;
+  border: 2px solid var(--paper-edge);
+  border-radius: var(--radius);
+  background: var(--paper);
+  cursor: pointer;
+  line-height: 1.35;
+}
+
+.option:hover {
+  border-color: var(--ink-soft);
+}
+
+.optionChosen {
+  border-color: var(--sea-deep);
+  background: #e3f1ec;
+  box-shadow: 0 0 0 2px var(--sea-deep);
+}
+
+/* The real radio button stays in place for keyboards and screen readers, but is not drawn. */
+.option input,
+.optionChosen input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.option:focus-within,
+.optionChosen:focus-within {
+  outline: 3px solid var(--boat-yellow);
+  outline-offset: 2px;
+}
+
+.letter {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid var(--ink-soft);
+  font-family: var(--font-typewriter);
+  font-size: 0.95rem;
+}
+
+.optionChosen .letter {
+  border-color: var(--sea-deep);
+  background: var(--sea-deep);
+  color: var(--paper);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.submit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.lockNote {
+  font-family: var(--font-typewriter);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The read-only board covers the screen. */
+.boardOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 2rem;
+  background: var(--wood-dark);
+}
+
+.boardBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
+  background: linear-gradient(180deg, #24625c, var(--sea-deep));
+  border-bottom: 4px solid var(--wood-dark);
+  color: var(--paper);
+  font-family: var(--font-typewriter);
+  font-size: 0.9rem;
+}
+
+/* The written explanation that comes before the questions. */
+label.prompt {
+  display: block;
+  font-weight: 600;
+}
+
+.explainHelp {
+  margin: 0 0 0.75rem;
+  color: var(--ink-soft);
+}
+
+.explanation {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 2px solid var(--paper-edge);
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  line-height: 1.3;
+  color: var(--ink);
+  resize: vertical;
+}
+
+.explanation:focus-visible {
+  border-color: var(--sea-deep);
+}

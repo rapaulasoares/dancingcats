@@ -1,0 +1,46 @@
+.frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--paper-aged);
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 1rem;
+  text-align: center;
+  color: var(--ink-soft);
+  /* Soft sea-to-sand wash with a sketched hatch, so it reads as "art pending". */
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 14px,
+      rgba(42, 33, 24, 0.05) 14px 15px
+    ),
+    linear-gradient(180deg, #cfe3d8 0%, #e6dcc0 62%, #d9c79f 100%);
+  border: 2px dashed var(--paper-edge);
+}
+
+.label {
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+}
+
+.file {
+  font-family: var(--font-typewriter);
+  font-size: 0.85rem;
+  word-break: break-all;
+}

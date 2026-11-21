@@ -1,0 +1,6 @@
+node_modules
+dist
+*.local
+
+# Original generator images (about 95 MB, not used by the game)
+art-originals
