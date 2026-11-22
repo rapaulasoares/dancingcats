@@ -49,6 +49,8 @@
 }
 
 .title {
+  flex: none;
+  white-space: nowrap;
   font-family: var(--font-typewriter);
   font-size: 44px;
   font-weight: 400;
@@ -63,6 +65,8 @@
   margin: 0;
   font-family: var(--font-hand);
   font-size: 32px;
+  /* Two lines at most, inside the strip above the first row of evidence. */
+  line-height: 1.12;
   color: var(--paper);
   text-shadow: 0 2px 4px rgba(30, 20, 10, 0.75);
 }
