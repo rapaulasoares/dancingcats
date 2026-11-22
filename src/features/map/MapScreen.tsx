@@ -53,11 +53,23 @@ const KEYS: Record<string, [number, number]> = {
 const dist = (a: Pt, b: Pt) => Math.hypot(a[0] - b[0], a[1] - b[1]);
 const pct = (p: Pt) => ({ left: `${(p[0] / MAP_W) * 100}%`, top: `${(p[1] / MAP_H) * 100}%` });
 
-/** Moves a point towards a target, sliding along the edge of the walkable area when blocked. */
+/**
+ * Moves a point, sliding along the edge of the walkable area when blocked: if the
+ * way straight ahead is closed, it tries turning a little to each side, so the
+ * investigator follows a road that bends instead of getting stuck against its edge.
+ */
+const TURNS = [0, 0.35, -0.35, 0.7, -0.7, 1.05, -1.05, 1.4, -1.4];
 function step(from: Pt, dx: number, dy: number): Pt {
-  if (isWalkable(from[0] + dx, from[1] + dy)) return [from[0] + dx, from[1] + dy];
-  if (dx && isWalkable(from[0] + dx, from[1])) return [from[0] + dx, from[1]];
-  if (dy && isWalkable(from[0], from[1] + dy)) return [from[0], from[1] + dy];
+  const len = Math.hypot(dx, dy);
+  if (!len) return from;
+  const angle = Math.atan2(dy, dx);
+  for (const turn of TURNS) {
+    // Turning costs a little speed, so walking into a wall slides slowly rather than racing sideways.
+    const l = len * Math.cos(turn * 0.6);
+    const nx = from[0] + Math.cos(angle + turn) * l;
+    const ny = from[1] + Math.sin(angle + turn) * l;
+    if (isWalkable(nx, ny)) return [nx, ny];
+  }
   return from;
 }
 

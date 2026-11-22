@@ -15,12 +15,14 @@ export type Pt = [number, number];
 
 export const ROADS: { pts: Pt[]; r: number }[] = [
   // The lane through the fishing community, east to the market.
-  { pts: [[60, 465], [140, 455], [240, 412], [330, 398], [450, 385], [530, 400], [620, 440]], r: 20 },
+  { pts: [[60, 465], [140, 455], [240, 412], [330, 398], [450, 385], [530, 400], [620, 440]], r: 28 },
+  // The dirt lane below the community houses, along the beach to the harbor cobbles.
+  { pts: [[200, 556], [330, 556], [420, 545], [470, 525]], r: 22 },
   // Down from the market to the harbor cobbles and the docks.
-  { pts: [[620, 440], [560, 472], [480, 522], [430, 548]], r: 24 },
+  { pts: [[620, 440], [560, 472], [480, 522], [430, 548]], r: 28 },
   { pts: [[560, 472], [540, 565]], r: 22 },
   // The market street east to the town square.
-  { pts: [[620, 440], [720, 440], [800, 418], [850, 398]], r: 22 },
+  { pts: [[620, 440], [720, 440], [800, 418], [850, 398]], r: 26 },
   // From the square down to the Science Center terrace, around the left of the building.
   { pts: [[930, 410], [950, 452], [960, 500], [990, 540], [1040, 572]], r: 20 },
   // Out along the long dock below the harbor.
@@ -41,6 +43,12 @@ export const PLAZAS: { c: Pt; r: number }[] = [
   { c: [490, 527], r: 55 }, // the harbor cobbles
   { c: [1030, 572], r: 40 }, // the terrace in front of the Science Center
   { c: [640, 262], r: 35 }, // the clinic forecourt
+  { c: [255, 420], r: 42 }, // the open ground in the fishing community
+];
+
+/** Places inside the walkable area that cannot be walked through. */
+export const BLOCKS: { c: Pt; r: number }[] = [
+  { c: [862, 335], r: 50 }, // the trunk and low branches of the big tree in the square
 ];
 
 /** Where the investigator stands to go into each place. */
@@ -74,6 +82,7 @@ function distToSegment(px: number, py: number, a: Pt, b: Pt): number {
 
 /** True when a point on the map is on a road or in an open space. */
 export function isWalkable(x: number, y: number): boolean {
+  for (const b of BLOCKS) if (Math.hypot(x - b.c[0], y - b.c[1]) < b.r) return false;
   for (const p of PLAZAS) if (Math.hypot(x - p.c[0], y - p.c[1]) <= p.r) return true;
   for (const road of ROADS) {
     for (let i = 0; i < road.pts.length - 1; i++) {
