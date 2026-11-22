@@ -11,7 +11,9 @@
 /* Deliberately plain: this is a tool for the adult in the room, not part of the game world. */
 .panel {
   width: min(100%, 40rem);
-  max-height: 100%;
+  /* The window height minus the backdrop's padding: a percentage is ignored inside the centring grid. */
+  max-height: calc(100vh - 3.75rem);
+  max-height: calc(100dvh - 3.75rem);
   overflow-y: auto;
   padding: 1.25rem 1.5rem 1.5rem;
   background: #fff;
