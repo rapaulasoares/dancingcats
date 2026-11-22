@@ -15,7 +15,12 @@ export type Pt = [number, number];
 
 export const ROADS: { pts: Pt[]; r: number }[] = [
   // The lane through the fishing community, east to the market.
-  { pts: [[60, 465], [140, 455], [240, 412], [330, 398], [450, 385], [530, 400], [620, 440]], r: 28 },
+  { pts: [[60, 465], [140, 455], [240, 412], [330, 398], [450, 385], [512, 425], [570, 452], [620, 446]], r: 28 },
+  // A street all the way round the fish market.
+  {
+    pts: [[512, 425], [503, 370], [530, 333], [620, 322], [712, 332], [738, 385], [732, 440], [640, 460], [570, 452], [512, 425]],
+    r: 20,
+  },
   // The dirt lane below the community houses, along the beach to the harbor cobbles.
   { pts: [[200, 556], [330, 556], [420, 545], [470, 525]], r: 22 },
   // Down from the market to the harbor cobbles and the docks.
@@ -51,6 +56,11 @@ export const BLOCKS: { c: Pt; r: number }[] = [
   { c: [862, 335], r: 50 }, // the trunk and low branches of the big tree in the square
 ];
 
+/** Buildings inside the walkable area: [left, top, right, bottom]. */
+export const BLOCK_BOXES: [number, number, number, number][] = [
+  [527, 343, 714, 430], // the fish market
+];
+
 /** Where the investigator stands to go into each place. */
 export const ENTRIES: Record<LocationId, Pt> = {
   harbor: [540, 562],
@@ -83,6 +93,7 @@ function distToSegment(px: number, py: number, a: Pt, b: Pt): number {
 /** True when a point on the map is on a road or in an open space. */
 export function isWalkable(x: number, y: number): boolean {
   for (const b of BLOCKS) if (Math.hypot(x - b.c[0], y - b.c[1]) < b.r) return false;
+  for (const [l, t, r, btm] of BLOCK_BOXES) if (x > l && x < r && y > t && y < btm) return false;
   for (const p of PLAZAS) if (Math.hypot(x - p.c[0], y - p.c[1]) <= p.r) return true;
   for (const road of ROADS) {
     for (let i = 0; i < road.pts.length - 1; i++) {
