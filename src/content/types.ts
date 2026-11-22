@@ -64,6 +64,8 @@ export interface Condition {
   visitedAny?: LocationId[];
   /** True once the dancing cat has been brought to the Regional Science Center. */
   catDelivered?: true;
+  /** True once the player has visited the north point after delivering the cat. */
+  samplesTaken?: true;
   anyOf?: Condition[];
 }
 

@@ -83,6 +83,8 @@ export interface SaveGame {
   eventsUnread: string[];
   /** The dancing cat has been caught on the map and brought to the Regional Science Center. */
   catDelivered: boolean;
+  /** After the cat, the player went to the north point: the mud and water samples arrive. */
+  samplesTaken: boolean;
   board: {
     items: Record<string, BoardItem>;
     notes: BoardNote[];
@@ -122,6 +124,7 @@ export function freshSave(): SaveGame {
     eventsFired: [],
     eventsUnread: [],
     catDelivered: false,
+    samplesTaken: false,
     board: { items: {}, notes: [], links: [], topZ: 0 },
     meetings: {},
     final: { index: 0, answers: {}, explanation: '', explanationDone: false },
@@ -203,6 +206,7 @@ export function progressOf(s: SaveGame): Progress {
     visitedLocations: s.visitedLocations,
     askedQuestions: Object.values(s.asked).flat(),
     catDelivered: s.catDelivered,
+    samplesTaken: s.samplesTaken,
   };
 }
 
@@ -294,9 +298,16 @@ export const useGame = create<GameState>()(
 
       visit: (locationId) =>
         set((s) => {
-          if (s.visitedLocations.includes(locationId)) return {};
-          const next = { ...s, visitedLocations: [...s.visitedLocations, locationId] };
-          return { visitedLocations: next.visitedLocations, ...withEvents(next) };
+          const first = !s.visitedLocations.includes(locationId);
+          // Going to the north point after delivering the cat: the sampling team is there.
+          const sampling = locationId === 'channel' && s.catDelivered && !s.samplesTaken;
+          if (!first && !sampling) return {};
+          const next = {
+            ...s,
+            visitedLocations: first ? [...s.visitedLocations, locationId] : s.visitedLocations,
+            samplesTaken: s.samplesTaken || sampling,
+          };
+          return { visitedLocations: next.visitedLocations, samplesTaken: next.samplesTaken, ...withEvents(next) };
         }),
 
       ask: (interviewId, questionId) => {

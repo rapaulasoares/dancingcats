@@ -162,6 +162,10 @@ describe('progress events and the final report', () => {
     game().collect(evidence.slice(0, 12).map((e) => e.id));
     (['harbor', 'market', 'clinic', 'community', 'square'] as const).forEach((l) => game().visit(l));
     expect(game().eventsUnread).toEqual([]);
+    // A visit to the north point before the cat brings nothing.
+    game().collect(['HAR-07']);
+    game().goTo({ screen: 'location', locationId: 'channel' });
+    expect(game().eventsUnread).toEqual([]);
     game().deliverCat();
     expect(game().catDelivered).toBe(true);
     expect(game().eventsUnread).toEqual(['labResults']);
@@ -169,8 +173,13 @@ describe('progress events and the final report', () => {
     expect(game().eventsUnread).toEqual(['labResults']);
     game().readEvent('labResults');
     expect(game().evidence).toContain('SCI-09');
-    expect(game().evidence).toContain('SCI-10');
+    expect(game().evidence).not.toContain('SCI-10');
     expect(game().eventsUnread).toEqual([]);
+    // Going back to the north point after the cat: the mud and water samples.
+    game().goTo({ screen: 'location', locationId: 'channel' });
+    expect(game().eventsUnread).toEqual(['bayResults']);
+    game().readEvent('bayResults');
+    expect(game().evidence).toContain('SCI-10');
   });
 
   it('the player may begin the report at any moment of the investigation, and it never leads back', () => {

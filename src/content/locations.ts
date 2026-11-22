@@ -112,7 +112,8 @@ export const locations: Location[] = [
     intro: "Past the rocks at the north point, a concrete channel comes down from the hills. Look uphill and you can see where it starts: the white Tucano plant, with its blue windows above the trees. The factory's treated wastewater is released into the bay there. Today the water runs clear.",
     interviews: [],
     hotspots: [{ id: 'channel-water', label: 'The channel', x: 60, y: 60, unlocks: ['TUC-06'] }],
-    availableWhen: { anyEvidence: ['HAR-07', 'TUC-03'] },
+    // Found from the harbor chart or Mr. Santos; the lab message also sends the player there.
+    availableWhen: { anyOf: [{ anyEvidence: ['HAR-07', 'TUC-03'] }, { catDelivered: true }] },
   },
   {
     id: 'science',
@@ -131,15 +132,26 @@ export const locations: Location[] = [
 
 export const locationById = Object.fromEntries(locations.map((l) => [l.id, l]));
 
-/** Progress events. The lab results arrive when the player brings the dancing cat to the Science Center. */
+/**
+ * Progress events. The tissue analysis arrives when the player brings the dancing cat to the
+ * Science Center; the mud and water samples when the player then goes to the north point.
+ */
 export const events: GameEvent[] = [
   {
     id: 'labResults',
     when: { catDelivered: true },
     title: 'Message from the Regional Science Center',
     message:
-      'Professor Roberto\'s team has tested the dancing cat you brought, the fish, the bay mud and the water, including water taken from the channel at the north point. Here are the results. Professor Roberto can answer questions about them at the Science Center.',
-    unlocks: ['SCI-09', 'SCI-10'],
+      'Professor Roberto\'s team has tested the dancing cat you brought and fish from the bay. Here are the results. Their team is now at the north point, taking samples of the water and the mud where the channel reaches the bay. Go and see them there. Professor Roberto can answer questions about them at the Science Center.',
+    unlocks: ['SCI-09'],
+  },
+  {
+    id: 'bayResults',
+    when: { samplesTaken: true },
+    title: 'At the north point',
+    message:
+      'The Science Center team is here, filling jars with water from inside the channel and with mud from where it reaches the bay. They have sampled the middle of the bay, the south beach and the river mouth too. Professor Roberto sends you the results from every site.',
+    unlocks: ['SCI-10'],
   },
 ];
 

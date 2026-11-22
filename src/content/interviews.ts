@@ -659,6 +659,8 @@ export const interviews: Interview[] = [
         response:
           "Not on its own. But look at the pattern: the water inside the channel carries the most, the mouth of the channel less, the middle of the bay far less. The farther from the channel, the weaker it gets. That points to whatever flows down that channel.",
         class: 'strong',
+        // It talks about the mud and water samples, so it waits until the player has them.
+        availableWhen: { hasEvidence: ['SCI-10'] },
       },
     ],
   },
