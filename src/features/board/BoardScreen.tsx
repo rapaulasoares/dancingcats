@@ -249,7 +249,7 @@ export function BoardScreen({ readOnly = false }: { readOnly?: boolean }) {
         >
           <div className={styles.header} style={{ height: BOARD_HEADER }}>
             <h1 className={styles.title}>Investigation Wall</h1>
-            <p className={styles.subtitle}>Drag the evidence wherever it helps you think. Tap a piece to read it.</p>
+            <p className={styles.subtitle}>Drag, mark and connect the evidence. Add your own notes.</p>
           </div>
 
           {evidence.length === 0 && (
