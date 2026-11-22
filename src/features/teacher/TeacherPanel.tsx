@@ -255,7 +255,8 @@ export function TeacherPanel({ onClose }: { onClose: () => void }) {
           <p className={styles.small}>
             Questions per character: {BALANCE.questions.maria} of 8 · Partner talk at {BALANCE.meeting1Evidence}{' '}
             evidence · Tissue analysis when the team brings the dancing cat to the Science Center · Mud and
-            water samples when they then go to the North Point · Solve the Mystery:{' '}
+            water samples at {BALANCE.bayResults.evidenceCount} evidence and {BALANCE.bayResults.locationsVisited}{' '}
+            places · Solve the Mystery:{' '}
             {BALANCE.readyToSolve.evidenceCount === 0
               ? 'open from the start'
               : `at ${BALANCE.readyToSolve.evidenceCount} evidence and ${BALANCE.readyToSolve.locationsVisited} places`}

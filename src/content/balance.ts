@@ -23,6 +23,11 @@ export const BALANCE = {
   /** Evidence needed for the second Team Meeting (it also opens when the lab results arrive). */
   meeting2Evidence: 10,
   /**
+   * When the mud and water samples from around the bay arrive. The tissue analysis comes as soon
+   * as the dancing cat is brought to the Science Center; these come later, after more investigating.
+   */
+  bayResults: { evidenceCount: 12, locationsVisited: 5 },
+  /**
    * When "Solve the Mystery" becomes available. Zero means from the first
    * moment: the player decides when they are ready, and may decide too early.
    */

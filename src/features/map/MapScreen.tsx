@@ -37,6 +37,8 @@ type CatMode = 'wander' | 'flee' | 'dance' | 'carried';
 const world = {
   player: [...START] as Pt,
   cat: { pos: [...CAT_START] as Pt, mode: 'wander' as CatMode, path: [] as Pt[], until: 0, nextDance: 0, rethink: 0 },
+  /** The player has been told that the cat is loose. */
+  catAnnounced: false,
 };
 
 const KEYS: Record<string, [number, number]> = {
@@ -97,6 +99,8 @@ export function MapScreen() {
   const save = useGame();
   const places = visibleLocations(save);
   const { goTo, deliverCat, catDelivered, visitedLocations } = save;
+  // The cat is in town from the start until it is brought to the Science Center.
+  const catHere = !catDelivered;
 
   const playerEl = useRef<HTMLDivElement>(null);
   const catEl = useRef<HTMLDivElement>(null);
@@ -110,8 +114,8 @@ export function MapScreen() {
   const [toast, setToast] = useState<string | null>(null);
 
   // The loop reads these through refs, so it never has to restart.
-  const live = useRef({ places, catDelivered, near, goTo, deliverCat });
-  live.current = { places, catDelivered, near, goTo, deliverCat };
+  const live = useRef({ places, catHere, near, goTo, deliverCat });
+  live.current = { places, catHere, near, goTo, deliverCat };
 
   function enter(id: LocationId) {
     world.player = [...ENTRIES[id]] as Pt;
@@ -173,7 +177,7 @@ export function MapScreen() {
 
       // ── The dancing cat ──
       const cat = world.cat;
-      if (!L.catDelivered) {
+      if (L.catHere) {
         if (cat.mode === 'carried') {
           cat.pos = [world.player[0] - 10, world.player[1] - 2];
           if (dist(world.player, ENTRIES.science) <= ENTRY_RADIUS + 10) {
@@ -302,6 +306,15 @@ export function MapScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // The first time the cat is on the map, say so.
+  useEffect(() => {
+    if (catHere && !world.catAnnounced) {
+      world.catAnnounced = true;
+      say('A cat is spinning and stumbling near the market. Catch it and take it to the Regional Science Center.');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [catHere]);
+
   function walkTo(target: Pt, thenEnter: LocationId | null) {
     route.current = findPath(world.player, target);
     pendingEnter.current = thenEnter;
@@ -346,7 +359,7 @@ export function MapScreen() {
         <div ref={playerEl} className={styles.player} style={pct(world.player)}>
           <InvestigatorSprite />
         </div>
-        {!catDelivered && (
+        {catHere && (
           <div ref={catEl} className={styles.cat} style={pct(world.cat.pos)}>
             <CatSprite />
           </div>
@@ -369,7 +382,7 @@ export function MapScreen() {
             Walk with the arrow keys or W A S D, or click where you want to go. Walk up to a place to go in.
           </p>
         )}
-        {!catDelivered && (
+        {catHere && (
           <p className={styles.goal}>
             {carrying
               ? 'You are carrying the dancing cat. Take it to the Regional Science Center.'
