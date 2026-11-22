@@ -23,6 +23,8 @@ export const ROADS: { pts: Pt[]; r: number }[] = [
   },
   // The dirt lane below the community houses, along the beach to the harbor cobbles.
   { pts: [[200, 556], [330, 556], [420, 545], [470, 525]], r: 22 },
+  // From the top of the market street up to the clinic, between the houses.
+  { pts: [[625, 326], [632, 292], [640, 266]], r: 22 },
   // Down from the market to the harbor cobbles and the docks.
   { pts: [[620, 440], [560, 472], [480, 522], [430, 548]], r: 28 },
   { pts: [[560, 472], [540, 565]], r: 22 },
