@@ -48,12 +48,16 @@
   transform: translate(-50%, -22px);
 }
 
+/* The object being pointed at comes to the front, so its name is never covered by a neighbour's. */
+.spot:hover,
+.spot:focus-within {
+  z-index: 2;
+}
+
 .hotspot,
 .hotspotDone {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  position: relative;
+  display: block;
   min-width: var(--touch-target);
   padding: 0;
   border: none;
@@ -81,8 +85,15 @@
   animation: none;
 }
 
-/* Labels stay hidden until hover, focus, or the look-around hint. */
+/* Labels stay hidden until hover, focus, or the look-around hint. They hang below the
+   circle and never take clicks: only the circle is the button's target, so a long name
+   cannot cover the object next to it. */
 .label {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
   padding: 1px 8px;
   border: 1px solid var(--paper-edge);
   border-radius: 3px;
