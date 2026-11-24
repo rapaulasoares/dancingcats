@@ -174,8 +174,8 @@ Funcionário da Tucano que pesca nos fins de semana. É o personagem que é, ao 
 Portrait, waist up, of Marcos Costa, a Brazilian factory worker in his early forties who also fishes on weekends: dark brown skin, short hair, strong shoulders, a clean blue work shirt with a small blank name patch and safety glasses pushed up on his forehead, one hand holding a fishing line. A tired, conflicted look: proud and worried at once. Not a villain and not a victim posing. Plain light paper-coloured background. 3:4.
 ```
 
-### `char-partner.webp` — parceiro de investigação
-O ajudante do jogador nas conversas "Talk to your partner", no papel que o Dr. Watson tem para Sherlock Holmes. Ele diz "Elementary, my dear investigator!".
+### `char-partner.webp` — Whatson Urmind (parceiro de investigação)
+O ajudante do jogador nas conversas "Talk to Whatson", chamado **Whatson Urmind** ("what's on ur mind?"), no papel que o Dr. Watson tem para Sherlock Holmes. Ele diz "Elementary, my dear investigator!".
 ```
 Portrait, waist up, of a Brazilian Dr. Watson-style detective's partner, in his early thirties: medium brown skin, a neat dark moustache, a brown bowler hat (chapéu coco), a tweed waistcoat over a white shirt with a loosened bow tie, a pocket watch chain across the waistcoat, a large magnifying glass held up in one hand and a small notebook in the other. Classic Victorian-detective look with a Brazilian touch (warm tropical colours, a light linen jacket instead of heavy wool). A warm, loyal, encouraging half-smile, raised eyebrows as if about to say "elementary". Kind, curious, a little rumpled; not a villain, not a know-it-all. Plain light paper-coloured background. 3:4.
 ```

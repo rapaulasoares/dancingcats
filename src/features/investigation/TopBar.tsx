@@ -65,10 +65,10 @@ export function TopBar() {
         <button
           className="btn btn--quiet"
           disabled={!meetingReady}
-          title={meetingReady ? undefined : 'Collect more evidence before you talk it over with your partner.'}
+          title={meetingReady ? undefined : 'Collect more evidence before you talk to Whatson.'}
           onClick={() => goTo({ screen: 'meeting' })}
         >
-          Talk to your partner
+          Talk to Whatson
         </button>
 
         <button

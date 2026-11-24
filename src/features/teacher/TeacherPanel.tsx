@@ -100,7 +100,7 @@ export function TeacherPanel({ onClose }: { onClose: () => void }) {
               which questions to ask. They do not need instructions to begin.
             </li>
             <li>
-              <strong>Thinking partner.</strong> At two moments, the investigation partner asks questions that
+              <strong>Thinking partner.</strong> At two moments, Whatson Urmind asks questions that
               help the team think about what they have found so far.
             </li>
             <li>
@@ -253,7 +253,7 @@ export function TeacherPanel({ onClose }: { onClose: () => void }) {
         <section>
           <h3>Current settings</h3>
           <p className={styles.small}>
-            Questions per character: {BALANCE.questions.maria} of 8 · Partner talk at {BALANCE.meeting1Evidence}{' '}
+            Questions per character: {BALANCE.questions.maria} of 8 · Whatson talks at {BALANCE.meeting1Evidence}{' '}
             evidence · Tissue analysis when the team brings the dancing cat to the Science Center · Mud and
             water samples at {BALANCE.bayResults.evidenceCount} evidence and {BALANCE.bayResults.locationsVisited}{' '}
             places · Solve the Mystery:{' '}

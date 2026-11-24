@@ -7,7 +7,7 @@ import { GameImage } from '../../ui/GameImage';
 import styles from './MeetingScreen.module.css';
 
 /**
- * A talk with the investigation partner. The partner asks the questions and
+ * A talk with Whatson Urmind. Whatson asks the questions and
  * the player answers in writing. Nothing here is graded and nothing is
  * revealed. Both talks are always listed, so the player can see what exists
  * and which one is ready.
@@ -20,10 +20,10 @@ export function MeetingScreen() {
   const open = meetings.find((m) => m.id === openId);
 
   return (
-    <section className={styles.screen} aria-label="Talk to your investigation partner">
+    <section className={styles.screen} aria-label="Talk to Whatson">
       <div className={styles.layout}>
         <aside className={styles.partner}>
-          <GameImage file={partner.portrait} alt="Your investigation partner" ratio="3 / 4" className={styles.portrait} />
+          <GameImage file={partner.portrait} alt="Whatson Urmind, your thinking partner" ratio="3 / 4" className={styles.portrait} />
           <p className={styles.partnerName}>{partner.name}</p>
         </aside>
 

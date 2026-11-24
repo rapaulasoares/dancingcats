@@ -2,21 +2,21 @@ import { BALANCE } from './balance';
 import type { Meeting } from './types';
 
 /**
- * Talks with the player's investigation partner: a friendly sidekick, in the
- * way Dr. Watson is to Sherlock Holmes. The partner only asks; nothing here is
+ * Talks with Whatson Urmind, the player's thinking partner: a friendly sidekick, in the
+ * way Dr. Watson is to Sherlock Holmes. His name says what he asks ("what's on ur mind?"). He only asks; nothing here is
  * graded and nothing is revealed.
  */
 export const partner = {
-  name: 'Your Investigation Partner',
+  name: 'Whatson Urmind',
   portrait: 'char-partner.webp',
-  greeting: 'Elementary, my dear investigator! Let us look at what we have found so far.',
+  greeting: "What's on your mind? Elementary, my dear investigator!",
 };
 
 export const meetings: Meeting[] = [
   {
     id: 'meeting1',
     title: 'First talk',
-    partnerSays: 'Elementary, my dear investigator! You have gathered a good deal already. Let us think it through together.',
+    partnerSays: 'You have gathered a good deal already. Let us think it through together.',
     availableWhen: { evidenceCount: BALANCE.meeting1Evidence },
     prompts: [
       { id: 'm1-pattern', text: 'What pattern are you beginning to notice?' },
