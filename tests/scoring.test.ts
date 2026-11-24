@@ -46,7 +46,7 @@ describe('investigator profile', () => {
       },
     });
     const profile = buildProfile(save);
-    expect(profile.correctCount).toBe(7);
+    expect(profile.correctCount).toBe(6);
     for (const d of profile.dimensions) expect(d.level, d.id).toBe('Master Investigator');
     expect(level(save, 'questionQuality').feedback).toContain(
       'You asked several specific questions that produced useful evidence.',
@@ -71,11 +71,11 @@ describe('investigator profile', () => {
   });
 
   it('gives a pointed hint for each wrong explanation, never the answer itself', () => {
-    const save = game(['M1'], { ...allCorrect, R1: 'b', R4: 'more,sick,fewer', R5: 'a', R6: 'b' });
+    const save = game(['M1'], { ...allCorrect, R1: 'b', R4: 'more,sick,fewer', R6: 'b', R7: 'c,a,d' });
     const profile = buildProfile(save);
-    expect(profile.correctCount).toBe(3);
+    expect(profile.correctCount).toBe(2);
     expect(level(save, 'evidenceAnalysis').feedback[0]).toMatch(/Look at who cared for the sick|which came first/);
-    expect(level(save, 'logicalReasoning').feedback.join(' ')).toMatch(/what the factory releases/);
+    expect(level(save, 'logicalReasoning').feedback.join(' ')).toMatch(/Follow them back to where they start/);
     expect(level(save, 'sourceEvaluation').feedback[0]).toMatch(/Who took the independent samples/);
     const everything = JSON.stringify(profile.dimensions);
     expect(everything).not.toMatch(/heavy metal|wastewater released by Tucano/i);

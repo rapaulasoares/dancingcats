@@ -1,6 +1,6 @@
 # Prompts das cartas da reunião da cidade (novo final)
 
-23 ilustrações para o novo final do jogo. Cada carta é tocada, arrastada ou ordenada durante a reunião na praça.
+19 ilustrações para o novo final do jogo. Cada carta é tocada, arrastada ou ordenada durante a reunião na praça.
 
 **Como usar:** cole antes de cada prompt o **bloco de estilo** do topo de [07-image-prompts.md](07-image-prompts.md), o mesmo das outras imagens. Salve em `public/images/` com **exatamente os nomes** abaixo (`.webp`, ou PNG que eu converto).
 
@@ -84,9 +84,9 @@ An empty row of doorsteps along a street of colourful houses, each with a small 
 A fish market stall at dusk with several rats on the crates and baskets, nibbling and watching, not one cat in sight. Centred, simple. Square 1:1.
 ```
 
-## Rodada 5: "Em quem confiar?" (7 imagens)
+## Rodada 5: "Em quem confiar?" (3 imagens)
 
-Os dois toques da rodada: o que a saúde do João diz (4 cartas) e a balança, com o laudo da empresa de um lado e as análises independentes do Science Center do outro (2 cartas e a balança).
+Um só toque: a balança, com o laudo da empresa de um lado e as análises independentes do Science Center do outro. (A pergunta do João foi retirada, então não são mais necessárias as cartas `card-factory-clean`, `card-family-dinner`, `card-worker-protected` e `card-fingers-crossed`.)
 
 ### `card-factory-clean.webp`
 ```
@@ -144,7 +144,7 @@ The town square in the early evening set up for a community meeting: rows of sim
 ## Ordem sugerida
 
 1. As 5 da rodada 1 e as 4 da rodada 2, que são as primeiras que o jogador vê.
-2. As 3 da rodada 4 e as 7 da rodada 5.
+2. As 3 da rodada 4 e as 3 da rodada 5.
 3. `town-meeting-square`, `badge-case-solved` e `crowd-applause`.
 4. `map-bay-sites` por último: o jogo já tem o mapa desenhado por código, que serve enquanto esta não chega.
 

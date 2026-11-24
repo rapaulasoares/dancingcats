@@ -2,7 +2,7 @@
 
 Replaces the written explanation and the 8-question report. Content lives in `src/content/townMeeting.ts`; trust, streak and the ending are computed from the answers in `src/state/meeting.ts`.
 
-## Rounds (7 answers, 6 rounds)
+## Rounds (6 answers, 6 rounds)
 
 | Round | Speaker | Piece | Reasoning id | Right answer |
 |---|---|---|---|---|
@@ -10,8 +10,7 @@ Replaces the written explanation and the 8-question report. Content lives in `sr
 | 2 | Maria | tap 1 of 4 cards | R2 | the fish on our plates |
 | 3 | Carlos | tap a place on the bay map | R3 | the channel at the north point |
 | 4 | Mrs. Silva | put 3 cards in order | R4 | cats sick, fewer cats, more rats |
-| 5a | João | tap 1 of 4 cards | R5 | where you work does not decide who gets sick |
-| 5b | Mr. Santos | put a paper on the heavier side of a balance | R6 | independent analyses by the Science Center |
+| 5 | Mr. Santos | put a paper on the heavier side of a balance | R6 | independent analyses by the Science Center |
 | 6 | Prof. Roberto | build the sentence with a word bank | R7 | heavy metal, Tucano's wastewater, fish they ate |
 
 Every answer is locked with the big Answer button, then the crowd reacts (applause or murmur). No retry, no right answer shown. Trust starts at 50, +10 for a right answer (+3 per extra answer in a row, up to +9), -10 for a wrong one. The streak shows as x2, x3 and so on.

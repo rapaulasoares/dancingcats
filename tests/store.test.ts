@@ -153,8 +153,8 @@ describe('map and views', () => {
   });
 });
 
-const RIGHT = ['c', 'd', 'c', 'sick,fewer,more', 'b', 'c', 'c,c,d'];
-const WRONG = ['a', 'a', 'a', 'more,sick,fewer', 'a', 'b', 'a,a,a'];
+const RIGHT = ['c', 'd', 'c', 'sick,fewer,more', 'c', 'c,c,d'];
+const WRONG = ['a', 'a', 'a', 'more,sick,fewer', 'b', 'a,a,a'];
 const answerAll = (answers: string[]) => answers.forEach((a) => game().answerFinal(a));
 
 describe('progress events and the final report', () => {
@@ -209,12 +209,12 @@ describe('progress events and the final report', () => {
     game().answerFinal('not-an-option');
     expect(game().final.index).toBe(1);
     // An answer that does not fit the step (a pick where an order is needed) is ignored too.
-    for (const answer of ['d', 'c', 'sick,fewer,more', 'b', 'c']) game().answerFinal(answer);
-    expect(game().final.index).toBe(6);
+    for (const answer of ['d', 'c', 'sick,fewer,more', 'c']) game().answerFinal(answer);
+    expect(game().final.index).toBe(5);
     game().answerFinal('sick,sick,more');
-    expect(game().final.index).toBe(6);
+    expect(game().final.index).toBe(5);
     game().answerFinal('c,c,d');
-    expect(game().final.index).toBe(7);
+    expect(game().final.index).toBe(6);
     expect(game().final.answers.R1).toBe('c');
     // The last answer stops the clock but the meeting stays open for its ending.
     expect(game().phase).toBe('report');
@@ -412,7 +412,7 @@ describe('teacher tools', () => {
     answerAll(RIGHT);
     const done = buildSessionSummary(game());
     expect(done.finished).toBe(true);
-    expect(done.report?.outOf).toBe(7);
+    expect(done.report?.outOf).toBe(6);
     expect(done.report?.solved).toBe(true);
     expect(Object.keys(done.report!.levels)).toHaveLength(5);
   });
@@ -461,13 +461,13 @@ describe('town meeting answers', () => {
 
   it('solves the case with the first round, the map and 70% right; trust rises and falls with each answer', () => {
     answerAll(RIGHT);
-    expect(meetingStatus(game().final.answers)).toMatchObject({ solved: true, right: 7, bestStreak: 7, trust: 100 });
+    expect(meetingStatus(game().final.answers)).toMatchObject({ solved: true, right: 6, bestStreak: 6, trust: 100 });
   });
 
   it('does not solve the case when the map is wrong, however many others are right', () => {
-    answerAll(['c', 'd', 'a', 'sick,fewer,more', 'b', 'c', 'c,c,d']);
+    answerAll(['c', 'd', 'a', 'sick,fewer,more', 'c', 'c,c,d']);
     const status = meetingStatus(game().final.answers);
-    expect(status.right).toBe(6);
+    expect(status.right).toBe(5);
     expect(status.solved).toBe(false);
   });
 

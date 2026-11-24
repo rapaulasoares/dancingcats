@@ -1,8 +1,8 @@
 import type { Dimension } from './types';
 
 /**
- * The town meeting: the new ending. Six rounds, seven answers. Every answer keeps
- * the id (R1 to R7) of the reasoning it measures, so scoring and the teacher
+ * The town meeting: the new ending. Six rounds, six answers. Every answer keeps
+ * the id (R1 to R4, R6, R7; R5 was removed) of the reasoning it measures, so scoring and the teacher
  * export keep working.
  * Card illustrations: docs/10-prompts-cartas-reuniao.md
  */
@@ -26,7 +26,7 @@ export interface SentenceSlot {
 }
 
 export interface MeetingStep {
-  /** R1 to R7. Stored in the save as the key of the answer. */
+  /** R1 to R4, R6 or R7. Stored in the save as the key of the answer. */
   id: string;
   round: number;
   speaker: string;
@@ -119,29 +119,12 @@ export const townMeeting: MeetingStep[] = [
     evidenceRefs: ['SQ-01', 'SCI-02', 'MKT-03', 'MKT-05', 'RES-04', 'SQ-08'],
   },
   {
-    id: 'R5',
-    round: 5,
-    speaker: 'João',
-    kind: 'pick',
-    heading: 'Who can we trust? João',
-    prompt: 'João works at Tucano Industrial and his family is healthy. What does that tell us?',
-    options: [
-      { id: 'a', label: 'Tucano cannot be the problem', image: 'card-factory-clean.webp' },
-      { id: 'b', label: 'Where you work does not decide who gets sick', image: 'card-family-dinner.webp' },
-      { id: 'c', label: 'João is hiding something', image: 'card-fingers-crossed.webp' },
-      { id: 'd', label: 'Workers are protected by their gear', image: 'card-worker-protected.webp' },
-    ],
-    correct: 'b',
-    dimension: 'logicalReasoning',
-    evidenceRefs: ['SQ-05', 'SQ-06', 'SQ-07', 'ECO-03', 'ECO-04', 'TUC-05', 'CLI-03'],
-  },
-  {
     id: 'R6',
     round: 5,
     speaker: 'Mr. Santos',
     kind: 'scale',
-    heading: 'Who can we trust? The balance',
-    prompt: "Mr. Santos holds up two papers. Which one weighs more as evidence?",
+    heading: 'Who can we trust?',
+    prompt: 'Mr. Santos holds up two papers. Which one weighs more as evidence?',
     // b: the company's own report. c: the independent analyses of the Science Center.
     options: [
       { id: 'b', label: "The company's own report", image: 'card-company-report.webp' },
@@ -204,5 +187,5 @@ export const townMeeting: MeetingStep[] = [
 
 export const stepById: Record<string, MeetingStep> = Object.fromEntries(townMeeting.map((s) => [s.id, s]));
 
-/** Rounds, as shown in the progress bar. Round 5 has two answers. */
+/** Rounds, as shown in the progress bar. Each round has one answer. */
 export const ROUND_COUNT = 6;

@@ -154,15 +154,6 @@ export function buildProfile(save: SaveGame): Profile {
       lrFeedback.push('Think about what the cats and the affected families all ate.');
     }
   }
-  if (right('R5')) {
-    lrFeedback.push("You drew a careful conclusion from João's case: no stronger than the evidence allows.");
-  } else if (chosen('R5') === 'a' || chosen('R5') === 'd') {
-    lrFeedback.push(
-      "João's health tells you something about factory work. Does it tell you anything about what the factory releases?",
-    );
-  } else if (chosen('R5')) {
-    lrFeedback.push("João's family is healthy and another factory family is not. What is different between them?");
-  }
 
   // ── Source Evaluation ──
   const askedReport = asked.has('T9');
@@ -219,7 +210,7 @@ export function buildProfile(save: SaveGame): Profile {
       dimension('questionQuality', qqScore, qqFeedback),
       // Half from the report answers, half from how the player sorted evidence on the board.
       dimension('evidenceAnalysis', clamp01(0.5 * (count('R1', 'R2') / 2) + 0.5 * marks.score), eaFeedback),
-      dimension('logicalReasoning', clamp01(count('R5', 'R7') / 2), lrFeedback),
+      dimension('logicalReasoning', clamp01(count('R7')), lrFeedback),
       dimension('sourceEvaluation', blend(count('R6'), 1, seBehaviour), seFeedback),
       dimension('systemsThinking', blend(count('R3', 'R4'), 2, stBehaviour), stFeedback),
     ],
