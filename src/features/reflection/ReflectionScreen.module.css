@@ -22,6 +22,42 @@
   margin-bottom: 1rem;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.headerText {
+  min-width: 0;
+}
+
+.whatson {
+  flex: none;
+  width: 7rem;
+  margin: 0;
+  text-align: center;
+}
+
+.whatsonPortrait {
+  border: 3px solid var(--paper);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-paper);
+  overflow: hidden;
+}
+
+.whatsonName {
+  margin-top: 0.3rem;
+  font-family: var(--font-hand);
+  font-size: 1.2rem;
+}
+
+.whatsonSays {
+  margin: 0.4rem 0 0;
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+}
+
 .kicker {
   margin: 0;
   font-family: var(--font-typewriter);

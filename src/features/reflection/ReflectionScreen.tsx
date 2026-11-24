@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
+import { partner } from '../../content/meetings';
 import { reflection } from '../../content/reflection';
 import { buildProfile } from '../../state/scoring';
 import { useGame } from '../../state/store';
+import { GameImage } from '../../ui/GameImage';
 import { formatPlayTime } from '../clock/PlayClock';
 import styles from './ReflectionScreen.module.css';
 
@@ -19,12 +21,21 @@ export function ReflectionScreen() {
     <main className={styles.screen}>
       <div className={styles.onScreen}>
         <header className={styles.header}>
+          <figure className={styles.whatson}>
+            <GameImage file={partner.portrait} alt="Whatson Urmind, your thinking partner" ratio="3 / 4" className={styles.whatsonPortrait} />
+            <figcaption className={styles.whatsonName}>{partner.name}</figcaption>
+          </figure>
+          <div className={styles.headerText}>
           <p className={styles.kicker}>For the whole class</p>
           <h1 className={styles.title}>The case is closed. The thinking isn't.</h1>
           <p className={styles.lead}>
             Pick a theme and talk about the questions together. There are no right or wrong answers, and
             nothing here is scored.
           </p>
+          <p className={styles.whatsonSays}>
+            <strong>Whatson:</strong> {partner.greeting}
+          </p>
+          </div>
         </header>
 
         <div className={styles.tabs} role="tablist" aria-label="Themes">
