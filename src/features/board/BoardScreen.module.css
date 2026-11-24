@@ -197,3 +197,53 @@
 .tag-notRelevant {
   color: #48515a;
 }
+
+/* ── The red thread: its button shows a spool, and nudges until the first thread is tied ── */
+.connectButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.spool {
+  display: inline-flex;
+}
+
+.connectNudge {
+  border-color: var(--stamp-red);
+  animation: thread-ring 1.5s ease-out infinite;
+}
+
+.connectNudge .spool {
+  animation: spool-roll 1.5s ease-in-out infinite;
+}
+
+.nudgeHint {
+  background: var(--boat-yellow);
+  max-width: 24rem;
+}
+
+@keyframes thread-ring {
+  0% {
+    box-shadow: 0 3px 0 var(--wood-dark), 0 0 0 0 rgba(194, 70, 58, 0.9);
+  }
+  70% {
+    box-shadow: 0 3px 0 var(--wood-dark), 0 0 0 14px rgba(194, 70, 58, 0);
+  }
+  100% {
+    box-shadow: 0 3px 0 var(--wood-dark), 0 0 0 0 rgba(194, 70, 58, 0);
+  }
+}
+
+@keyframes spool-roll {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  35% {
+    transform: rotate(-24deg);
+  }
+  70% {
+    transform: rotate(14deg);
+  }
+}

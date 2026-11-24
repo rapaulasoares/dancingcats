@@ -1,5 +1,6 @@
 import { interviewById } from '../../content/interviews';
 import { availableMeetings, canSolve, useGame } from '../../state/store';
+import { Magnifier } from '../../ui/icons';
 import { PlayClock } from '../clock/PlayClock';
 import { StoryButton } from '../opening/StoryButton';
 import { Messages } from './Messages';
@@ -13,6 +14,8 @@ export function TopBar() {
   const meetingReady = availableMeetings(save).length > 0;
   const solveReady = canSolve(save);
   const onMap = view.screen === 'map';
+  // Something new waiting for the player on the Evidence Board: the button blinks until they look.
+  const unseen = evidenceCount > save.boardSeen && view.screen !== 'board';
 
   return (
     <header className={styles.bar}>
@@ -38,16 +41,26 @@ export function TopBar() {
 
       <nav className={styles.actions} aria-label="Investigation">
         <Messages />
-        <button
-          className="btn btn--quiet"
-          aria-current={view.screen === 'board' ? 'page' : undefined}
-          onClick={() => goTo({ screen: 'board' })}
-        >
-          Evidence Board
-          <span className={styles.count} aria-label={`${evidenceCount} pieces of evidence`}>
-            {evidenceCount}
-          </span>
-        </button>
+        <div className={styles.boardSpot}>
+          <button
+            className={unseen ? `btn btn--quiet ${styles.attention}` : 'btn btn--quiet'}
+            aria-current={view.screen === 'board' ? 'page' : undefined}
+            onClick={() => goTo({ screen: 'board' })}
+          >
+            <span className={unseen ? styles.lens : styles.lensCalm}>
+              <Magnifier />
+            </span>
+            Evidence Board
+            <span className={styles.count} aria-label={`${evidenceCount} pieces of evidence`}>
+              {evidenceCount}
+            </span>
+          </button>
+          {unseen && (
+            <span className={styles.bubble} role="status">
+              {save.boardSeen === 0 ? 'Pin your clues here!' : 'New clues to pin!'}
+            </span>
+          )}
+        </div>
 
         <button
           className="btn btn--quiet"

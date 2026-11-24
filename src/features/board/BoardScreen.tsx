@@ -3,6 +3,7 @@ import { evidenceById } from '../../content/evidence';
 import { BOARD, BOARD_HEADER, CARD, useGame, type NoteKind, type Tag } from '../../state/store';
 import { EvidenceDialog } from '../evidence/EvidenceDialog';
 import { BoardItem, TAG_LABEL } from './BoardItem';
+import { YarnSpool } from '../../ui/icons';
 import { BoardNote, NOTE_SIZE } from './BoardNote';
 import styles from './BoardScreen.module.css';
 
@@ -23,6 +24,12 @@ const TAGS: Tag[] = ['important', 'unsure', 'notRelevant'];
 export function BoardScreen({ readOnly = false }: { readOnly?: boolean }) {
   const save = useGame();
   const { evidence, board, moveItem, setTag, addNote, updateNote, moveNote, deleteNote, addLink, removeLink } = save;
+  const { markBoardSeen } = save;
+
+  // Looking at the board counts everything on it as seen, so the top bar stops asking for attention.
+  useEffect(() => {
+    if (!readOnly) markBoardSeen();
+  }, [readOnly, markBoardSeen, evidence.length]);
 
   const viewportRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
@@ -32,6 +39,8 @@ export function BoardScreen({ readOnly = false }: { readOnly?: boolean }) {
   /** The object being dragged follows the pointer here; the save is written once on release. */
   const [live, setLive] = useState<{ id: string; x: number; y: number } | null>(null);
   const [connecting, setConnecting] = useState(false);
+  // Until the first thread is tied, the spool says it exists (once there is something to connect).
+  const showConnectNudge = !readOnly && !connecting && evidence.length >= 2 && board.links.length === 0;
   const [connectFrom, setConnectFrom] = useState<string | null>(null);
 
   const fitScale = size.w ? Math.min(size.w / BOARD.width, size.h / BOARD.height) : 1;
@@ -361,9 +370,24 @@ export function BoardScreen({ readOnly = false }: { readOnly?: boolean }) {
         <button className="btn btn--quiet" onClick={() => newNote('conclusion')}>
           + Conclusion
         </button>
-        <button className={connecting ? 'btn' : 'btn btn--quiet'} aria-pressed={connecting} onClick={toggleConnecting}>
-          {connecting ? 'Done connecting' : 'Connect'}
+        <button
+          className={`${connecting ? 'btn' : 'btn btn--quiet'} ${styles.connectButton} ${
+            showConnectNudge ? styles.connectNudge : ''
+          }`}
+          aria-pressed={connecting}
+          onClick={toggleConnecting}
+        >
+          <span className={styles.spool}>
+            <YarnSpool />
+          </span>
+          {connecting ? 'Done connecting' : 'Connect with red thread'}
         </button>
+        {showConnectNudge && (
+          <p className={`${styles.toolHint} ${styles.nudgeHint}`} role="status">
+            Clues that belong together can be tied with a <strong>red thread</strong>. Tap the spool, then tap two
+            clues.
+          </p>
+        )}
         {connecting && (
           <p className={styles.toolHint} role="status">
             {connectFrom ? 'Now tap what it connects to.' : 'Tap two things to tie a string. Tap a string to cut it.'}

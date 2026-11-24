@@ -50,3 +50,90 @@
   color: #fff;
   font-size: 0.85em;
 }
+
+/* ── The Evidence Board button asks for attention when there is something new on it ── */
+.boardSpot {
+  position: relative;
+  display: inline-flex;
+}
+
+.lens,
+.lensCalm {
+  display: inline-flex;
+  margin-right: 0.45em;
+  vertical-align: middle;
+}
+
+.lensCalm {
+  color: var(--sea-deep);
+}
+
+.lens {
+  color: var(--stamp-red);
+  animation: lens-wiggle 1.4s ease-in-out infinite;
+}
+
+.attention {
+  animation: board-ring 1.4s ease-out infinite;
+  border-color: var(--boat-yellow);
+}
+
+.bubble {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 30;
+  padding: 0.3rem 0.8rem;
+  border-radius: 10px;
+  background: var(--boat-yellow);
+  color: var(--ink);
+  font-family: var(--font-hand);
+  font-size: 1.3rem;
+  line-height: 1.1;
+  white-space: nowrap;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  animation: bubble-bob 1.4s ease-in-out infinite;
+}
+
+/* The little point of the bubble, aimed at the button. */
+.bubble::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 2rem;
+  border: 8px solid transparent;
+  border-top: 0;
+  border-bottom-color: var(--boat-yellow);
+}
+
+@keyframes board-ring {
+  0% {
+    box-shadow: 0 3px 0 var(--wood-dark), 0 0 0 0 rgba(226, 184, 74, 0.9);
+  }
+  70% {
+    box-shadow: 0 3px 0 var(--wood-dark), 0 0 0 14px rgba(226, 184, 74, 0);
+  }
+  100% {
+    box-shadow: 0 3px 0 var(--wood-dark), 0 0 0 0 rgba(226, 184, 74, 0);
+  }
+}
+
+@keyframes lens-wiggle {
+  0%,
+  100% {
+    transform: rotate(0) scale(1);
+  }
+  25% {
+    transform: rotate(-16deg) scale(1.18);
+  }
+  75% {
+    transform: rotate(12deg) scale(1.18);
+  }
+}
+
+@keyframes bubble-bob {
+  50% {
+    transform: translateY(3px);
+  }
+}

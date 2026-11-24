@@ -474,3 +474,31 @@ describe('conclusions on the board', () => {
     expect(byId[conclusion].text).toHaveLength(240);
   });
 });
+
+describe('the Evidence Board asks for attention', () => {
+  it('counts new evidence as unseen until the player looks at the board', () => {
+    game().startNewGame('Team');
+    game().finishOpening();
+    expect(game().boardSeen).toBe(0);
+    game().collect(['HAR-01', 'HAR-02']);
+    expect(game().evidence.length).toBeGreaterThan(game().boardSeen);
+    game().markBoardSeen();
+    expect(game().boardSeen).toBe(2);
+    game().collect(['HAR-03']);
+    expect(game().evidence.length).toBeGreaterThan(game().boardSeen);
+  });
+
+  it('is remembered across a refresh, and older saves start at zero', async () => {
+    game().startNewGame('Team');
+    game().collect(['HAR-01']);
+    game().markBoardSeen();
+    flushSave();
+    useGame.setState({ ...freshSave(), sessionActive: false });
+    await useGame.persist.rehydrate();
+    expect(game().boardSeen).toBe(1);
+
+    disk.set(SAVE_KEY, JSON.stringify({ state: { phase: 'investigation', teamName: 'Old', timing: { startedAt: 5 } }, version: 1 }));
+    await useGame.persist.rehydrate();
+    expect(game().boardSeen).toBe(0);
+  });
+});

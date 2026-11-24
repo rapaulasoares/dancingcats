@@ -83,6 +83,8 @@ export interface SaveGame {
   eventsUnread: string[];
   /** The dancing cat has been caught on the map and brought to the Regional Science Center. */
   catDelivered: boolean;
+  /** How many pieces of evidence the player had seen on the Evidence Board at their last visit. */
+  boardSeen: number;
   board: {
     items: Record<string, BoardItem>;
     notes: BoardNote[];
@@ -122,6 +124,7 @@ export function freshSave(): SaveGame {
     eventsFired: [],
     eventsUnread: [],
     catDelivered: false,
+    boardSeen: 0,
     board: { items: {}, notes: [], links: [], topZ: 0 },
     meetings: {},
     final: { index: 0, answers: {}, explanation: '', explanationDone: false },
@@ -158,6 +161,8 @@ interface Actions {
   /** Opens a screen of the investigation. Opening a location also records the visit. */
   goTo: (view: View) => void;
   setOpeningPage: (page: number) => void;
+  /** Called when the player looks at the Evidence Board: everything collected so far counts as seen. */
+  markBoardSeen: () => void;
   finishOpening: () => void;
   visit: (locationId: LocationId) => void;
   ask: (interviewId: string, questionId: string) => AskResult;
@@ -287,6 +292,11 @@ export const useGame = create<GameState>()(
       resume: () => set({ sessionActive: true, view: { screen: 'map' } }),
 
       setOpeningPage: (page) => set({ openingPage: Math.max(0, page) }),
+
+      markBoardSeen: () => {
+        const count = get().evidence.length;
+        if (get().boardSeen !== count) set({ boardSeen: count });
+      },
 
       finishOpening: () => {
         if (get().phase === 'opening') set((s) => enterPhase(s, 'investigation'));
