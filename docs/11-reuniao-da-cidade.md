@@ -25,7 +25,7 @@ Whatson Urmind sits in the bottom corner of every question screen. After each an
 
 ## Endings
 
-- **Solved**: round 1 right, the map right, and at least 70% of all answers right. A case folder closes, a CASE SOLVED stamp lands on it, the time is shown big with "Were you the fastest in the class?", then a short paragraph about Tucano (held responsible and compensates the affected families; keeps operating, must improve its wastewater treatment and have its water tested by an outside laboratory).
+- **Solved**: round 1 right, the map right, and at least 70% of all answers right. A case folder closes, a CASE SOLVED stamp lands on it, the time is shown big with "Were you the fastest in the class?", then a short paragraph about Tucano (held responsible and compensates the affected families; keeps operating, must improve its wastewater treatment and have its effluent tested by an outside laboratory).
 - **Not solved**: says only that the mystery is not solved yet. No time shown.
 
 No result codes, no ranking, no album. The clock runs from entering Vila do Sol to the last answer.
