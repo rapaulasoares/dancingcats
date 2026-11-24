@@ -115,7 +115,7 @@ export const townMeeting: MeetingStep[] = [
     speaker: 'Mrs. Silva',
     kind: 'order',
     heading: 'And the rats?',
-    prompt: 'First our cats got sick, and now the rats are everywhere. What happened first, and what came after?',
+    prompt: 'What about the rats? We see them everywhere, and our cats are sick too!',
     hint: 'Tap the cards in the order things happened. Tap a card again to take it back.',
     options: [
       { id: 'sick', label: 'The cats get sick', image: 'card-cats-sick.webp' },
