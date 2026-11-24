@@ -1,6 +1,6 @@
 # Prompts das cartas da reunião da cidade (novo final)
 
-19 ilustrações para o novo final do jogo. Cada carta é tocada, arrastada ou ordenada durante a reunião na praça.
+20 ilustrações para o novo final do jogo. Cada carta é tocada, arrastada ou ordenada durante a reunião na praça.
 
 **Como usar:** cole antes de cada prompt o **bloco de estilo** do topo de [07-image-prompts.md](07-image-prompts.md), o mesmo das outras imagens. Salve em `public/images/` com **exatamente os nomes** abaixo (`.webp`, ou PNG que eu converto).
 
@@ -38,7 +38,7 @@ A patch of sea water coloured a rusty reddish-brown by an algae bloom, with tiny
 A single silver fish in the centre, with a small shiny grey metallic droplet floating next to it and a soft silver shimmer running through its body, as if something metallic were inside it. Clean, simple, slightly scientific look. Square 1:1.
 ```
 
-## Rodada 2: "Como isso chega até nós?" (4 cartas)
+## Rodada 2: "Como isso chega até nós?" (5 cartas)
 
 ### `card-tap-water.webp`
 ```
@@ -58,6 +58,11 @@ A tall factory chimney with a gentle plume of white steam drifting up into a blu
 ### `card-fish-plate.webp`
 ```
 A plate of grilled fish with rice, beans and lime on a simple wooden table, steam rising, warm light, a fork beside it. Appetising and ordinary. Centred. Square 1:1.
+```
+
+### `card-rat-urine.webp`
+```
+A wooden kitchen counter with a few small wet puddles and tiny pawprints, a single rat sitting at the edge of a bag of rice looking at the viewer, a faint damp stain spreading on the sack. Centred, simple soft background. Unpleasant but not gory. Square 1:1.
 ```
 
 ## Rodada 3: "De onde vem?" (1 imagem, paisagem)

@@ -111,6 +111,7 @@ export function buildProfile(save: SaveGame): Profile {
     a: "Check where the town's water comes from, and who drinks it.",
     b: 'Some people who never go near the sea became sick. Look at what they have in common with the fishing families.',
     c: 'Look at where the patients live, and at the health of the people who work in the factory all day.',
+    e: 'Rats and illness are both in town. Look at what the sick people and the sick animals have in common.',
   };
   // One comment about the report answers, then one about the marks on the board.
   if (right('R1') && right('R2')) {

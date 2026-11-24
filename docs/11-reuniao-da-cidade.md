@@ -7,7 +7,7 @@ Replaces the written explanation and the 8-question report. Content lives in `sr
 | Round | Speaker | Piece | Reasoning id | Right answer |
 |---|---|---|---|---|
 | 1 | Dr. Ana | tap 1 of 5 cards | R1 | heavy metal contamination |
-| 2 | Maria | tap 1 of 4 cards | R2 | the fish on our plates |
+| 2 | Maria | tap 1 of 5 cards | R2 | the fish on our plates |
 | 3 | Carlos | tap a place on the bay map | R3 | the channel at the north point |
 | 4 | Mrs. Silva | put 3 cards in order | R4 | cats sick, fewer cats, more rats |
 | 5 | Mr. Santos | put a paper on the heavier side of a balance | R6 | independent analyses by the Science Center |

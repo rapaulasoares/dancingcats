@@ -84,6 +84,7 @@ export const townMeeting: MeetingStep[] = [
       { id: 'b', label: 'The sea, through the skin', image: 'card-sea-skin.webp' },
       { id: 'c', label: 'The air from the chimney', image: 'card-chimney-air.webp' },
       { id: 'd', label: 'The fish on our plates', image: 'card-fish-plate.webp' },
+      { id: 'e', label: "The rats' urine", image: 'card-rat-urine.webp' },
     ],
     correct: 'd',
     dimension: 'evidenceAnalysis',
