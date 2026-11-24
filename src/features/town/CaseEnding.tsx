@@ -53,8 +53,9 @@ export function CaseEnding({ solved, onContinue }: { solved: boolean; onContinue
             </p>
             <p className={styles.fastest}>Were you the fastest in the class?</p>
             <p className={styles.text}>
-              Tucano Industrial keeps operating, but it must improve its wastewater treatment to remove heavy metals,
-              and its water will be tested regularly by an outside laboratory. João and Marcos are relieved.
+              Tucano Industrial will be held responsible and will compensate the affected families. It keeps operating,
+              but it must improve its wastewater treatment to remove heavy metals, and its water will be tested
+              regularly by an outside laboratory. João and Marcos are relieved.
             </p>
           </>
         ) : (
