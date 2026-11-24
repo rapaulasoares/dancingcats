@@ -154,5 +154,5 @@ export const events: GameEvent[] = [
   },
 ];
 
-/** The Final Investigation Report can begin once this holds. */
+/** The town meeting can begin once this holds. */
 export const readyToSolve = { ...BALANCE.readyToSolve };

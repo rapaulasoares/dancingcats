@@ -260,22 +260,6 @@
   }
 }
 
-/* ── Temporary ending card ── */
-.endCard {
-  margin: auto;
-  padding: 2rem;
-  text-align: center;
-  background: var(--paper);
-  color: var(--ink);
-  border-radius: 1rem;
-  box-shadow: var(--shadow-paper);
-}
-
-.endTitle {
-  margin: 0 0 1rem;
-  font-family: var(--font-story);
-}
-
 /* ── The player's own board, read only ── */
 .boardOverlay {
   position: fixed;
