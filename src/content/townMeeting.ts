@@ -15,6 +15,8 @@ export interface StepOption {
   label: string;
   /** Illustration in public/images. A placeholder is shown while the file is missing. */
   image?: string;
+  /** map steps: where the pin sits on the picture, in percent from the top left. */
+  at?: { x: number; y: number };
 }
 
 export interface SentenceSlot {
@@ -89,12 +91,12 @@ export const townMeeting: MeetingStep[] = [
     kind: 'map',
     heading: 'Where does it come from?',
     prompt: 'Tap the place on the map where the contamination comes from.',
-    // The map shows the four places of the mud sampling. Ids match the old report: a bay, b river, c channel, d boat yard.
+    // The picture map-bay-sites.webp shows the four places of the mud sampling. Ids: a bay, b river, c channel, d boat yard.
     options: [
-      { id: 'a', label: 'The open bay' },
-      { id: 'b', label: 'The river mouth' },
-      { id: 'c', label: 'The channel at the north point' },
-      { id: 'd', label: 'The boat-repair yard' },
+      { id: 'a', label: 'The open bay', at: { x: 50, y: 56 } },
+      { id: 'b', label: 'The river mouth', at: { x: 16, y: 34 } },
+      { id: 'c', label: 'The channel at the north point', at: { x: 80, y: 24 } },
+      { id: 'd', label: 'The boat-repair yard', at: { x: 22, y: 78 } },
     ],
     correct: 'c',
     dimension: 'systemsThinking',
@@ -139,7 +141,7 @@ export const townMeeting: MeetingStep[] = [
     speaker: 'Mr. Santos',
     kind: 'scale',
     heading: 'Who can we trust? The balance',
-    prompt: "Mr. Santos holds up two papers. Which one weighs more as evidence? Drag it onto the heavier side.",
+    prompt: "Mr. Santos holds up two papers. Which one weighs more as evidence?",
     // b: the company's own report. c: the independent analyses of the Science Center.
     options: [
       { id: 'b', label: "The company's own report", image: 'card-company-report.webp' },
