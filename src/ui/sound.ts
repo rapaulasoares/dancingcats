@@ -35,7 +35,10 @@ export function setSoundEnabled(on: boolean) {
     // The choice is simply not remembered.
   }
   listeners.forEach((l) => l());
-  if (on) play('pick');
+  if (on) {
+    preload();
+    play('pick');
+  }
 }
 
 /** For a toggle button: re-renders when the choice changes. */
@@ -158,10 +161,57 @@ function murmur(ctx: AudioContext, length = 1.9, volume = 0.25) {
 
 export type SoundName = 'pick' | 'applause' | 'murmur' | 'stamp' | 'medal';
 
+/**
+ * Real recordings win over the synthesized sounds: drop applause.mp3, murmur.mp3 (or stamp.mp3, medal.mp3)
+ * into public/sounds/ and they are used instead. Keep them short (about 3 seconds). A missing file is not an error.
+ */
+const samples = new Map<SoundName, AudioBuffer | null>();
+const loading = new Set<SoundName>();
+
+async function loadSample(name: SoundName) {
+  const ctx = audio();
+  if (!ctx || samples.has(name) || loading.has(name)) return;
+  loading.add(name);
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}sounds/${name}.mp3`);
+    // A development server answers a missing file with the home page.
+    const type = res.headers.get('content-type') ?? '';
+    if (!res.ok || type.includes('text/html')) throw new Error('no recording');
+    samples.set(name, await ctx.decodeAudioData(await res.arrayBuffer()));
+  } catch {
+    samples.set(name, null);
+  } finally {
+    loading.delete(name);
+  }
+}
+
+function preload() {
+  (['applause', 'murmur', 'stamp', 'medal'] as SoundName[]).forEach((n) => void loadSample(n));
+}
+
+function playSample(ctx: AudioContext, buffer: AudioBuffer) {
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  const gain = ctx.createGain();
+  const end = Math.min(buffer.duration, 3.5);
+  gain.gain.setValueAtTime(1, ctx.currentTime);
+  gain.gain.setValueAtTime(1, ctx.currentTime + Math.max(0, end - 0.4));
+  gain.gain.linearRampToValueAtTime(0, ctx.currentTime + end);
+  source.connect(gain).connect(ctx.destination);
+  source.start();
+  source.stop(ctx.currentTime + end);
+}
+
 export function play(name: SoundName) {
   if (!enabled) return;
   const ctx = audio();
   if (!ctx) return;
+  if (!samples.has(name)) void loadSample(name); // so a recording is ready next time
+  const recording = samples.get(name);
+  if (recording) {
+    playSample(ctx, recording);
+    return;
+  }
   switch (name) {
     case 'pick':
       tone(ctx, 660, 0, 0.08, 'triangle', 0.1);
