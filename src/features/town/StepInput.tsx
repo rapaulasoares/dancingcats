@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { evidenceById } from '../../content/evidence';
+import { inferences } from '../../content/inferences';
 import { ANSWER_SEPARATOR, type MeetingStep } from '../../content/townMeeting';
+import { cluesNeedingThoughts, inferencePairs } from '../../state/meeting';
 import { useGame } from '../../state/store';
 import { shuffled } from '../../state/scoring';
 import { GameImage } from '../../ui/GameImage';
@@ -26,7 +28,14 @@ interface Props {
 export function StepInput(props: Props) {
   // A small tick whenever the player picks something (the sound is off unless they turned it on).
   const inner = props.onChange;
-  props = { ...props, onChange: (answer) => { play('pick'); inner(answer); } };
+  const onChange = useCallback(
+    (answer: string | null) => {
+      play('pick');
+      inner(answer);
+    },
+    [inner],
+  );
+  props = { ...props, onChange };
   switch (props.step.kind) {
     case 'map':
       return <MapPins {...props} />;
@@ -38,6 +47,8 @@ export function StepInput(props: Props) {
       return <SentenceBuilder {...props} />;
     case 'proof':
       return <ProofPicker {...props} />;
+    case 'inference':
+      return <Thoughts {...props} />;
     default:
       return <CardChoice {...props} />;
   }
@@ -287,9 +298,11 @@ function ProofPicker({ locked, onChange }: Props) {
   const toggle = (id: string) =>
     setPicked((now) => (now.includes(id) ? now.filter((x) => x !== id) : now.length < MAX ? [...now, id] : now));
 
-  // The answer follows the clues chosen.
+  // The answer follows the clues chosen (nothing is reported until the player has touched a clue).
+  const touched = useRef(false);
   useEffect(() => {
-    if (locked === undefined && collected.length > 0) onChange(picked.length ? picked.join(ANSWER_SEPARATOR) : null);
+    if (picked.length > 0) touched.current = true;
+    if (touched.current && locked === undefined && collected.length > 0) onChange(picked.length ? picked.join(ANSWER_SEPARATOR) : null);
   }, [picked, locked, collected.length, onChange]);
 
   if (collected.length === 0) {
@@ -329,6 +342,56 @@ function ProofPicker({ locked, onChange }: Props) {
           );
         })}
       </ul>
+    </div>
+  );
+}
+
+/** "What does this clue tell you?": for each clue shown as proof, a thought bubble with four thoughts to choose from. */
+function Thoughts({ step, seed, locked, onChange }: Props) {
+  const proof = useGame((s) => s.final.answers.P1);
+  const clues = cluesNeedingThoughts(proof);
+  const [picked, setPicked] = useState<Record<string, string>>({});
+  const shown: Record<string, string> = locked && locked !== 'skip' ? Object.fromEntries(inferencePairs(locked).map((p) => [p.clue, p.card])) : picked;
+
+  const touched = useRef(false);
+  useEffect(() => {
+    if (Object.keys(picked).length > 0) touched.current = true;
+    if (!touched.current || locked !== undefined) return;
+    onChange(clues.every((id) => picked[id]) ? clues.map((id) => `${id}:${picked[id]}`).join(ANSWER_SEPARATOR) : null);
+  }, [picked, locked, clues.join(','), onChange]);
+
+  return (
+    <div className={styles.thoughts}>
+      {clues.map((id) => {
+        const clue = evidenceById[id];
+        const set = inferences[id];
+        if (!clue || !set) return null;
+        const cards = shuffled(set.cards, `${seed}:${step.id}:${id}`);
+        return (
+          <section key={id} className={styles.thinkBlock} aria-label={`What does "${clue.title}" tell you?`}>
+            <div className={styles.thinkClue}>
+              <span className={styles.proofKind}>{FORMAT_LABEL[clue.format]}</span>
+              <span className={styles.proofTitle}>{clue.title}</span>
+            </div>
+            <ul className={styles.bubbleCards} role="radiogroup" aria-label={`What does "${clue.title}" tell you?`}>
+              {cards.map((card) => (
+                <li key={card.id}>
+                  <button
+                    type="button"
+                    role="radio"
+                    aria-checked={shown[id] === card.id}
+                    disabled={locked !== undefined}
+                    className={shown[id] === card.id ? `${styles.thought} ${styles.thoughtOn}` : styles.thought}
+                    onClick={() => setPicked((now) => ({ ...now, [id]: card.id }))}
+                  >
+                    {card.text}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })}
     </div>
   );
 }

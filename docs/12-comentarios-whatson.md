@@ -1,6 +1,6 @@
 # Whatson Urmind: comments after each answer
 
-Generated from `src/content/townMeeting.ts` (the `whatson` field of each step). Edit them there.
+Generated from `src/content/townMeeting.ts` (the `whatson` field of each step). Edit them there. The comments on each clue's thoughts are in `src/content/inferences.ts`.
 
 ## Round 1 · Dr. Ana (R1)
 
@@ -66,6 +66,15 @@ Generated from `src/content/townMeeting.ts` (the `whatson` field of each step). 
 **Right answer:** Those clues hold up. Measurements in the animals, in the bay and in the factory, and what the sick and the healthy families eat, all point the same way.
 
 **Wrong answer (general):** Some of those clues do not show how the metal got from Tucano to the cats. Look for the ones that measured it, in the animals, in the mud and water, and in what the factory uses. Or for the ones that show what the sick families eat, and what the healthy ones eat.
+
+
+## Round 6 · Prof. Roberto (P2)
+
+**Question:** Good. Now tell us: what does each of those clues tell you?
+
+**Right answer:** Sharp thinking. Each clue says something specific, and you saw what it really shows.
+
+**Wrong answer (general):** A clue only shows what it shows. Check each thought against the clue itself.
 
 
 ## Round 6 · Prof. Roberto (R7)

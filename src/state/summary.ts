@@ -1,6 +1,6 @@
 import { evidence } from '../content/evidence';
 import { finalReport } from '../content/finalReport';
-import { meetingStatus } from './meeting';
+import { isSkipped, meetingStatus } from './meeting';
 import { buildProfile } from './scoring';
 import { PHASES, type SaveGame } from './store';
 
@@ -64,7 +64,8 @@ export function buildSessionSummary(save: SaveGame) {
           solved: meetingStatus(save.final.answers).solved,
           bestStreak: meetingStatus(save.final.answers).bestStreak,
           correct: profile!.correctCount,
-          outOf: finalReport.length,
+          // Steps that did not apply to this player (skipped) are not counted.
+          outOf: profile!.answers.filter((a) => !isSkipped(a.chosen)).length,
           answers: profile!.answers.map((a) => ({ question: a.questionId, chosen: a.chosen, correct: a.isCorrect })),
           levels: Object.fromEntries(profile!.dimensions.map((d) => [d.id, d.level])),
         }

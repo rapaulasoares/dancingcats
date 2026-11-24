@@ -7,7 +7,7 @@ import type { Dimension } from './types';
  * Card illustrations: docs/10-prompts-cartas-reuniao.md
  */
 
-export type StepKind = 'pick' | 'map' | 'order' | 'scale' | 'sentence' | 'proof';
+export type StepKind = 'pick' | 'map' | 'order' | 'scale' | 'sentence' | 'proof' | 'inference';
 
 export interface StepOption {
   id: string;
@@ -48,6 +48,7 @@ export interface MeetingStep {
   /**
    * What the right answer is. pick/map/scale: an option id. order: option ids joined by ",".
    * sentence: one chosen option id per slot, joined by ",".
+   * inference: one "clueId:cardId" pair per clue shown in the proof, joined by "," (or "skip" when none of them has thoughts to choose from).
    * proof: up to three evidence ids from the player's own board, joined by "," (or "none"). Right when at least two of them
    * (or all, if fewer were picked) are in evidenceRefs; `correct` only lists the best clues, for the review.
    */
@@ -212,6 +213,23 @@ export const townMeeting: MeetingStep[] = [
       'SCI-09', 'SCI-10', 'TUC-03', 'TUC-08', 'SCI-04', 'SCI-01',
       'RES-01', 'RES-02', 'HAR-03', 'SQ-06', 'SQ-07', 'SQ-05', 'MKT-04',
     ],
+  },
+  {
+    id: 'P2',
+    round: 6,
+    speaker: 'Prof. Roberto',
+    kind: 'inference',
+    heading: 'What do the clues tell you?',
+    prompt: 'Good. Now tell us: what does each of those clues tell you?',
+    hint: 'For each clue, tap the thought you agree with.',
+    whatson: {
+      right: 'Sharp thinking. Each clue says something specific, and you saw what it really shows.',
+      wrong: 'A clue only shows what it shows. Check each thought against the clue itself.',
+    },
+    options: [],
+    correct: '',
+    dimension: 'logicalReasoning',
+    evidenceRefs: [],
   },
   {
     id: 'R7',

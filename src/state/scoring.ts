@@ -145,6 +145,8 @@ export function buildProfile(save: SaveGame): Profile {
 
   // ── Logical Reasoning ──
   const lrFeedback: string[] = [];
+  // The thoughts step only applies when a clue shown as proof had thoughts to choose from.
+  const lrIds = chosen('P2') === 'skip' || chosen('P2') === undefined ? ['R7'] : ['R7', 'P2'];
   if (right('R7')) {
     lrFeedback.push(
       "You joined the whole chain of evidence into one clear conclusion, from the factory's wastewater to the symptoms.",
@@ -161,6 +163,14 @@ export function buildProfile(save: SaveGame): Profile {
     } else if (carrier && carrier !== 'd') {
       lrFeedback.push('Think about what the cats and the affected families all ate.');
     }
+  }
+
+  if (chosen('P2') && chosen('P2') !== 'skip') {
+    lrFeedback.push(
+      right('P2')
+        ? 'You read what each clue really tells you, without going further than it shows.'
+        : 'Some of your thoughts went further than the clue shows. Ask what a clue really proves, and what it does not.',
+    );
   }
 
   // ── Source Evaluation ──
@@ -219,7 +229,7 @@ export function buildProfile(save: SaveGame): Profile {
       dimension('questionQuality', qqScore, qqFeedback),
       // Half from the report answers, half from how the player sorted evidence on the board.
       dimension('evidenceAnalysis', clamp01(0.5 * (count('R1', 'R2', 'P1') / 3) + 0.5 * marks.score), eaFeedback),
-      dimension('logicalReasoning', clamp01(count('R7')), lrFeedback),
+      dimension('logicalReasoning', clamp01(count(...lrIds) / lrIds.length), lrFeedback),
       dimension('sourceEvaluation', blend(count('R6'), 1, seBehaviour), seFeedback),
       dimension('systemsThinking', blend(count('R3', 'R4'), 2, stBehaviour), stFeedback),
     ],

@@ -20,8 +20,8 @@ function unique<T>(items: T[]): boolean {
 describe('content counts match the design documents', () => {
   it('has 64 evidence items', () => expect(evidence).toHaveLength(64));
   it('has 76 questions', () => expect(allQuestions).toHaveLength(76));
-  it('has 7 town meeting answers in 6 rounds', () => {
-    expect(finalReport).toHaveLength(7);
+  it('has 8 town meeting answers in 6 rounds', () => {
+    expect(finalReport).toHaveLength(8);
     expect(new Set(finalReport.map((q) => q.round)).size).toBe(6);
   });
   it('has 9 locations and 9 characters', () => {
@@ -85,7 +85,9 @@ describe('references', () => {
 
   it('final report answers and evidence references exist', () => {
     for (const q of finalReport) {
-      if (q.kind === 'proof') {
+      if (q.kind === 'inference') {
+        // Its cards live in inferences.ts.
+      } else if (q.kind === 'proof') {
         for (const id of q.correct.split(',')) expect(q.evidenceRefs).toContain(id);
       } else if (q.kind === 'sentence') {
         expect(q.sentence!.slots.map((slot) => slot.correct).join(',')).toBe(q.correct);
@@ -262,6 +264,19 @@ describe('historical context', () => {
     const sources = readFileSync(join(__dirname, '..', 'docs', '09-fontes-historicas.md'), 'utf8');
     for (const topic of ['1932', '1954', '1956', '1959', '1961', '1968', '2013', 'Munduruku', 'Não confirmada']) {
       expect(sources, topic).toContain(topic);
+    }
+  });
+});
+
+describe('inferences about clues', () => {
+  it('give every clue one supported thought and three that go wrong, each explained', async () => {
+    const { inferences } = await import('../src/content/inferences');
+    for (const [id, set] of Object.entries(inferences)) {
+      expect(evidenceById[id], id).toBeDefined();
+      expect(set.cards.map((c) => c.id)).toEqual(['a', 'b', 'c', 'd']);
+      expect(set.cards[0].why, id).toBeUndefined();
+      for (const card of set.cards.slice(1)) expect(card.why, `${id} ${card.id}`).toBeTruthy();
+      expect(set.right.length, id).toBeGreaterThan(10);
     }
   });
 });

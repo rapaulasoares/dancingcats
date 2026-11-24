@@ -153,8 +153,8 @@ describe('map and views', () => {
   });
 });
 
-const RIGHT = ['c', 'd', 'c', 'sick,fewer,more', 'c', 'SCI-09,SCI-10,TUC-03', 'c,c,d'];
-const WRONG = ['a', 'a', 'a', 'more,sick,fewer', 'b', 'CLI-01', 'a,a,a'];
+const RIGHT = ['c', 'd', 'c', 'sick,fewer,more', 'c', 'SCI-09,SCI-10,TUC-03', 'SCI-09:a,SCI-10:a,TUC-03:a', 'c,c,d'];
+const WRONG = ['a', 'a', 'a', 'more,sick,fewer', 'b', 'CLI-01', 'skip', 'a,a,a'];
 const answerAll = (answers: string[]) => answers.forEach((a) => game().answerFinal(a));
 
 describe('progress events and the final report', () => {
@@ -215,10 +215,14 @@ describe('progress events and the final report', () => {
     expect(game().final.index).toBe(5);
     game().answerFinal('SCI-09,SCI-10,TUC-03');
     expect(game().final.index).toBe(6);
-    game().answerFinal('c,a');
+    game().answerFinal('SCI-09:z');
     expect(game().final.index).toBe(6);
-    game().answerFinal('c,c,d');
+    game().answerFinal('SCI-09:a,SCI-10:b,TUC-03:c');
     expect(game().final.index).toBe(7);
+    game().answerFinal('c,a');
+    expect(game().final.index).toBe(7);
+    game().answerFinal('c,c,d');
+    expect(game().final.index).toBe(8);
     expect(game().final.answers.R1).toBe('c');
     // The last answer stops the clock but the meeting stays open for its ending.
     expect(game().phase).toBe('report');
@@ -416,7 +420,7 @@ describe('teacher tools', () => {
     answerAll(RIGHT);
     const done = buildSessionSummary(game());
     expect(done.finished).toBe(true);
-    expect(done.report?.outOf).toBe(7);
+    expect(done.report?.outOf).toBe(8);
     expect(done.report?.solved).toBe(true);
     expect(Object.keys(done.report!.levels)).toHaveLength(5);
   });
@@ -465,13 +469,13 @@ describe('town meeting answers', () => {
 
   it('solves the case with the first round, the map and 70% right; trust rises and falls with each answer', () => {
     answerAll(RIGHT);
-    expect(meetingStatus(game().final.answers)).toMatchObject({ solved: true, right: 7, bestStreak: 7, trust: 100 });
+    expect(meetingStatus(game().final.answers)).toMatchObject({ solved: true, right: 8, bestStreak: 8, trust: 100 });
   });
 
   it('does not solve the case when the map is wrong, however many others are right', () => {
-    answerAll(['c', 'd', 'a', 'sick,fewer,more', 'c', 'SCI-09,SCI-10,TUC-03', 'c,c,d']);
+    answerAll(['c', 'd', 'a', 'sick,fewer,more', 'c', 'SCI-09,SCI-10,TUC-03', 'SCI-09:a,SCI-10:a,TUC-03:a', 'c,c,d']);
     const status = meetingStatus(game().final.answers);
-    expect(status.right).toBe(6);
+    expect(status.right).toBe(7);
     expect(status.solved).toBe(false);
   });
 
@@ -557,5 +561,26 @@ describe('show your proof', () => {
     expect(isRight(proof, 'RES-01,RES-02,SQ-06')).toBe(true); // what the sick and the healthy families eat
     expect(isRight(proof, 'CLI-01')).toBe(false);
     expect(isRight(proof, 'none')).toBe(false);
+  });
+});
+
+describe('what do the clues tell you', () => {
+  it('is right when at least half of the thoughts are the supported ones, and a skipped step is neutral', async () => {
+    const { isRight, cluesNeedingThoughts, meetingStatus: status } = await import('../src/state/meeting');
+    const { stepById } = await import('../src/content/townMeeting');
+    const step = stepById.P2;
+    expect(isRight(step, 'SCI-09:a,SCI-10:a,TUC-03:a')).toBe(true);
+    expect(isRight(step, 'SCI-09:a,SCI-10:b,TUC-03:a')).toBe(true); // two of three
+    expect(isRight(step, 'SCI-09:a,SCI-10:b,TUC-03:c')).toBe(false); // one of three
+    expect(isRight(step, 'SCI-09:a,SCI-10:b')).toBe(true); // one of two
+    expect(isRight(step, 'SCI-09:b')).toBe(false);
+    expect(isRight(step, 'skip')).toBe(false);
+    // Only clues with thoughts to choose from need them; others are skipped.
+    expect(cluesNeedingThoughts('SCI-09,CLI-01,TUC-03')).toEqual(['SCI-09', 'TUC-03']);
+    expect(cluesNeedingThoughts('CLI-01')).toEqual([]);
+    expect(cluesNeedingThoughts('none')).toEqual([]);
+    // Skipped: no trust change, not counted as right or wrong, and the case can still be solved.
+    const all = { R1: 'c', R2: 'd', R3: 'c', R4: 'sick,fewer,more', R6: 'c', P1: 'SCI-09,SCI-10,TUC-03', P2: 'skip', R7: 'c,c,d' };
+    expect(status(all)).toMatchObject({ solved: true, right: 7, counted: 7, answered: 8 });
   });
 });

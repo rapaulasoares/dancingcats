@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { evidenceById } from '../../content/evidence';
 import { finalReport } from '../../content/finalReport';
-import { describeAnswer, meetingStatus } from '../../state/meeting';
+import { describeAnswer, describeBest, isSkipped, meetingStatus } from '../../state/meeting';
 import { LEVELS, buildProfile } from '../../state/scoring';
 import { useGame } from '../../state/store';
 import { formatPlayTime } from '../clock/PlayClock';
@@ -207,6 +207,8 @@ export function ProfileScreen({ onClose }: Props = {}) {
           <ol className={styles.answers}>
             {finalReport.map((q, i) => {
               const result = profile.answers[i];
+              // A step that did not apply to this player (no clue with thoughts to choose from) is not listed.
+              if (isSkipped(result.chosen)) return null;
               return (
                 <li key={q.id} className={styles.answer}>
                   <h3 className={styles.question}>{q.prompt}</h3>
@@ -218,7 +220,7 @@ export function ProfileScreen({ onClose }: Props = {}) {
                   {!result.isCorrect && (
                     <p className={styles.best}>
                       <span className={styles.tag}>Best supported by the evidence</span>
-                      {describeAnswer(q, q.correct)}
+                      {describeBest(q, result.chosen)}
                     </p>
                   )}
 

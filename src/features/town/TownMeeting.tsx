@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { characters } from '../../content/characters';
 import { partner } from '../../content/meetings';
 import { ROUND_COUNT, townMeeting } from '../../content/townMeeting';
-import { meetingStatus, whatsonSays } from '../../state/meeting';
+import { cluesNeedingThoughts, meetingStatus, whatsonSays } from '../../state/meeting';
 import { useGame } from '../../state/store';
 import { GameImage } from '../../ui/GameImage';
 import { Typewriter } from '../../ui/Typewriter';
@@ -56,6 +56,13 @@ export function TownMeeting() {
     setDraft(null);
     bubbleRef.current?.focus();
   }, [shownIndex]);
+
+  // The thoughts step only exists for clues that have thoughts to choose from; otherwise it is skipped silently.
+  const skipThoughts = !finished && !reaction && step.kind === 'inference' && cluesNeedingThoughts(answers.P1).length === 0;
+  useEffect(() => {
+    if (skipThoughts) answerFinal('skip');
+  }, [skipThoughts, answerFinal]);
+  if (skipThoughts) return null;
 
   if (!started && !finished) {
     return (
