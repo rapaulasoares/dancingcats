@@ -11,7 +11,7 @@ import styles from './TeacherPanel.module.css';
 const PHASE_LABEL: Record<string, string> = {
   opening: 'Opening story',
   investigation: 'Investigation',
-  report: 'Final report',
+  report: 'Town meeting',
   profile: 'Investigator Profile',
   reveal: 'Historical reveal',
   reflection: 'Reflection',
@@ -83,41 +83,27 @@ export function TeacherPanel({ onClose }: { onClose: () => void }) {
         </header>
 
         <section className={styles.about}>
-          <h3>About the game</h3>
-          <p>
-            <em>The Mystery of the Dancing Cats</em> is an investigation game for students aged 11 to 14. They
-            investigate a strange illness in a fishing town, using clues, interviews and their own reasoning.
-            It is planned for about 40 minutes of play.
-          </p>
+          <h3>Quick guide</h3>
           <ul>
             <li>
-              <strong>Runs in the browser.</strong> Nothing to install and no account. Progress is saved
-              automatically on this computer, in this browser, so a team can stop and continue later on the
-              same device.
+              <strong>Setup.</strong> Open the link on a tablet or laptop. No install, no account. Students can play
+              alone or in small teams, about 40 to 50 minutes. Progress saves on the device.
             </li>
             <li>
-              <strong>Easy to pick up.</strong> Students explore a map, visit places, tap objects and choose
-              which questions to ask. They do not need instructions to begin.
+              <strong>Play.</strong> Students explore the map, interview people, pin clues on the Evidence Board and can
+              talk things over with Whatson Urmind. They press <em>Solve the Mystery</em> whenever they feel ready, which
+              opens a short town meeting (about 8 to 10 minutes).
             </li>
             <li>
-              <strong>Thinking partner.</strong> At two moments, Whatson Urmind asks questions that
-              help the team think about what they have found so far.
+              <strong>Competition (optional).</strong> The clock runs from entering the town to the last answer of the
+              meeting. A solved case shows the time taken. Just ask: who was fastest?
             </li>
             <li>
-              <strong>Evidence Board.</strong> A corkboard where students move their evidence, mark it as
-              Important, Unsure or Not relevant, add notes and connect pieces with strings.
+              <strong>Afterwards.</strong> Investigator Profile, the real case that inspired the story, and discussion
+              questions that can be printed.
             </li>
             <li>
-              <strong>Optional class competition.</strong> The game keeps time from the moment students enter
-              the town until they finish the final report, and the Investigator Profile shows the time taken
-              and how many answers were correct. You can ask teams to compete to see who solves the case
-              correctly and fastest.
-            </li>
-            <li>
-              <strong>The end of the game.</strong> Students answer a final report, then see their
-              Investigator Profile with personal feedback. The solution is explained, followed by the real case
-              that inspired the story (Minamata, Japan). The game closes with discussion questions for the
-              whole class on critical thinking, environmental issues and social issues. They can be printed.
+              <strong>Shared devices.</strong> Use the erase button below between classes.
             </li>
           </ul>
         </section>
@@ -192,7 +178,7 @@ export function TeacherPanel({ onClose }: { onClose: () => void }) {
               <h3>Investigator Profile</h3>
               <p className={styles.small}>
                 The assessment sheet for this team: five dimensions with a level and comments. Students see it
-                themselves after the final report. Before that, it opens here without the report answers.
+                themselves after the town meeting. Before that, it opens here without the meeting answers.
               </p>
               <button className="btn" onClick={() => setShowProfile(true)}>
                 See the Investigator Profile
@@ -202,7 +188,7 @@ export function TeacherPanel({ onClose }: { onClose: () => void }) {
             <section>
               <h3>Export</h3>
               <p className={styles.small}>
-                Saves a small file with timings, the evidence and questions chosen, and the report results. It
+                Saves a small file with timings, the evidence and questions chosen, and the meeting results. It
                 does not include the team name or anything the students typed.
               </p>
               <button className="btn" onClick={exportSummary}>
