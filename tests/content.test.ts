@@ -20,9 +20,9 @@ function unique<T>(items: T[]): boolean {
 describe('content counts match the design documents', () => {
   it('has 64 evidence items', () => expect(evidence).toHaveLength(64));
   it('has 76 questions', () => expect(allQuestions).toHaveLength(76));
-  it('has 8 town meeting answers in 6 rounds', () => {
-    expect(finalReport).toHaveLength(8);
-    expect(new Set(finalReport.map((q) => q.round)).size).toBe(6);
+  it('has 9 town meeting answers in 7 rounds', () => {
+    expect(finalReport).toHaveLength(9);
+    expect(new Set(finalReport.map((q) => q.round)).size).toBe(7);
   });
   it('has 9 locations and 9 characters', () => {
     expect(locations).toHaveLength(9);
@@ -85,7 +85,11 @@ describe('references', () => {
 
   it('final report answers and evidence references exist', () => {
     for (const q of finalReport) {
-      if (q.kind === 'inference') {
+      if (q.kind === 'multi') {
+        const ids = q.correct.split(',');
+        expect(ids).toHaveLength(q.pickCount!);
+        for (const id of ids) expect(q.options.map((o) => o.id)).toContain(id);
+      } else if (q.kind === 'inference') {
         // Its cards live in inferences.ts.
       } else if (q.kind === 'proof') {
         for (const id of q.correct.split(',')) expect(q.evidenceRefs).toContain(id);

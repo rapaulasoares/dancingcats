@@ -231,7 +231,7 @@ export function buildProfile(save: SaveGame): Profile {
       dimension('evidenceAnalysis', clamp01(0.5 * (count('R1', 'R2', 'P1') / 3) + 0.5 * marks.score), eaFeedback),
       dimension('logicalReasoning', clamp01(count(...lrIds) / lrIds.length), lrFeedback),
       dimension('sourceEvaluation', blend(count('R6'), 1, seBehaviour), seFeedback),
-      dimension('systemsThinking', blend(count('R3', 'R4'), 2, stBehaviour), stFeedback),
+      dimension('systemsThinking', blend(count('R3', 'R4', 'M1'), 3, stBehaviour), stFeedback),
     ],
     answers,
     correctCount: answers.filter((a) => a.isCorrect).length,

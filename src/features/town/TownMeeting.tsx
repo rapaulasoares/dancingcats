@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { characters } from '../../content/characters';
 import { partner } from '../../content/meetings';
-import { ROUND_COUNT, townMeeting } from '../../content/townMeeting';
-import { cluesNeedingThoughts, meetingStatus, whatsonSays } from '../../state/meeting';
+import { ROUND_COUNT, stepById, townMeeting } from '../../content/townMeeting';
+import { cluesNeedingThoughts, isRight, meetingStatus, whatsonSays } from '../../state/meeting';
 import { useGame } from '../../state/store';
 import { GameImage } from '../../ui/GameImage';
 import { Typewriter } from '../../ui/Typewriter';
@@ -72,7 +72,11 @@ export function TownMeeting() {
       </>
     );
   }
-  if (finished) return <CaseEnding solved={status.solved} onContinue={finishMeeting} />;
+  if (finished) return <CaseEnding
+        solved={status.solved}
+        measuresRight={isRight(stepById.M1, answers.M1)}
+        onContinue={finishMeeting}
+      />;
 
   const lock = () => {
     if (!draft || reaction) return;

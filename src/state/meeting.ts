@@ -40,6 +40,8 @@ export function isValidAnswer(step: MeetingStep, answer: string): boolean {
     }
     case 'proof':
       return answer === 'none' || (parts.length >= 1 && parts.length <= 3 && new Set(parts).size === parts.length && parts.every((id) => !!evidenceById[id]));
+    case 'multi':
+      return parts.length === (step.pickCount ?? 1) && new Set(parts).size === parts.length && parts.every((id) => step.options.some((o) => o.id === id));
     case 'inference': {
       if (answer === 'skip') return true;
       const pairs = inferencePairs(answer);
@@ -64,6 +66,10 @@ export function isRight(step: MeetingStep, answer: string | undefined): boolean 
     const picked = answer.split(ANSWER_SEPARATOR);
     const hits = picked.filter((id) => step.evidenceRefs.includes(id)).length;
     return hits >= Math.min(2, picked.length);
+  }
+  if (step.kind === 'multi') {
+    if (!answer) return false;
+    return [...answer.split(ANSWER_SEPARATOR)].sort().join(ANSWER_SEPARATOR) === [...step.correct.split(ANSWER_SEPARATOR)].sort().join(ANSWER_SEPARATOR);
   }
   if (step.kind === 'inference') {
     if (!answer || answer === 'skip') return false;
@@ -130,6 +136,7 @@ export function describeAnswer(step: MeetingStep, answer: string | undefined): s
   const parts = answer.split(ANSWER_SEPARATOR);
   const label = (id: string) => step.options.find((o) => o.id === id)?.label ?? id;
   if (step.kind === 'order') return parts.map(label).join(' → ');
+  if (step.kind === 'multi') return [...parts].sort().map(label).join(' · ');
   if (step.kind === 'proof') return answer === 'none' ? 'No clues shown' : parts.map((id) => evidenceById[id]?.title ?? id).join(' · ');
   if (step.kind === 'scale') return `${label(answer)} weighs more`;
   if (step.kind === 'inference') {
@@ -170,6 +177,10 @@ export function whatsonSays(step: MeetingStep, answer: string, right: boolean): 
     return [praise, note].filter(Boolean).join(' ') || whatson.wrong;
   }
   if (right) return whatson.right;
+  if (step.kind === 'multi') {
+    const wrongOne = answer.split(ANSWER_SEPARATOR).find((id) => step.correct.split(ANSWER_SEPARATOR).indexOf(id) < 0);
+    return (wrongOne && whatson.wrongBy?.[wrongOne]) || whatson.wrong;
+  }
   if (step.kind === 'sentence' && step.sentence) {
     const chosen = answer.split(ANSWER_SEPARATOR);
     const wrongSlot = step.sentence.slots.find((slot, i) => chosen[i] !== slot.correct);

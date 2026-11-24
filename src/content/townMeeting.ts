@@ -7,7 +7,7 @@ import type { Dimension } from './types';
  * Card illustrations: docs/10-prompts-cartas-reuniao.md
  */
 
-export type StepKind = 'pick' | 'map' | 'order' | 'scale' | 'sentence' | 'proof' | 'inference';
+export type StepKind = 'pick' | 'map' | 'order' | 'scale' | 'sentence' | 'proof' | 'inference' | 'multi';
 
 export interface StepOption {
   id: string;
@@ -41,6 +41,8 @@ export interface MeetingStep {
    * wrongBy: a more pointed comment for a particular wrong answer (an option id; for the sentence, the id of the first wrong blank).
    */
   whatson: { right: string; wrong: string; wrongBy?: Record<string, string> };
+  /** multi only: how many cards the player must choose. */
+  pickCount?: number;
   /** pick, map, order (the cards to put in order) and scale (what goes on the scale). */
   options: StepOption[];
   /** sentence only: the words that fill the blanks, in order. */
@@ -48,6 +50,7 @@ export interface MeetingStep {
   /**
    * What the right answer is. pick/map/scale: an option id. order: option ids joined by ",".
    * sentence: one chosen option id per slot, joined by ",".
+   * multi: the chosen option ids, in any order, joined by "," (right when they are exactly the ones in `correct`).
    * inference: one "clueId:cardId" pair per clue shown in the proof, joined by "," (or "skip" when none of them has thoughts to choose from).
    * proof: up to three evidence ids from the player's own board, joined by "," (or "none"). Right when at least two of them
    * (or all, if fewer were picked) are in evidenceRefs; `correct` only lists the best clues, for the review.
@@ -290,9 +293,43 @@ export const townMeeting: MeetingStep[] = [
     dimension: 'logicalReasoning',
     evidenceRefs: ['TUC-03', 'SCI-10', 'SCI-09', 'SCI-01', 'SCI-04', 'CLI-03', 'CLI-01', 'SCI-07'],
   },
+  {
+    id: 'M1',
+    round: 7,
+    speaker: 'Marcos Costa',
+    kind: 'multi',
+    heading: 'What should happen now?',
+    prompt: 'So the factory is to blame. Half this town depends on those jobs. What should happen now?',
+    hint: 'Tap the three things that should happen.',
+    pickCount: 3,
+    whatson: {
+      right:
+        'Exactly. Those three go together: make the factory answer for the harm, repair what happened to the families, and stop it at the source with weekly proof. The town keeps its jobs as long as the factory complies.',
+      wrong:
+        'Think about three things: who is responsible, who must repair the harm, and how to stop it at the source and be sure it stays stopped.',
+      wrongBy: {
+        d: 'Closing the factory would stop the poison, but it would also take hundreds of jobs from the town. Is there a way to stop the harm and keep the town working?',
+        e: 'Banning fishing leaves the source untouched, and the fishermen did nothing wrong.',
+        f: 'That puts the burden on the families who are already sick. Who should repair the harm?',
+        g: 'More studies are not needed to know what to do. The samples already show where it comes from.',
+      },
+    },
+    options: [
+      { id: 'a', label: 'Hold Tucano responsible for the harm' },
+      { id: 'b', label: 'Make Tucano compensate the affected families' },
+      { id: 'c', label: 'Require Tucano to treat and monitor its effluent, with weekly proof, or the factory can be shut down (embargoed)' },
+      { id: 'd', label: 'Close the factory for good' },
+      { id: 'e', label: 'Ban fishing in the bay forever' },
+      { id: 'f', label: 'Tell the families to eat less fish, and do nothing else' },
+      { id: 'g', label: 'Wait for more studies before doing anything' },
+    ],
+    correct: 'a,b,c',
+    dimension: 'systemsThinking',
+    evidenceRefs: ['SCI-10', 'TUC-03', 'ECO-01', 'ECO-02'],
+  },
 ];
 
 export const stepById: Record<string, MeetingStep> = Object.fromEntries(townMeeting.map((s) => [s.id, s]));
 
 /** Rounds, as shown in the progress bar. Each round has one answer. */
-export const ROUND_COUNT = 6;
+export const ROUND_COUNT = 7;

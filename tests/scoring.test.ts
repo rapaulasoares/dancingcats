@@ -46,7 +46,7 @@ describe('investigator profile', () => {
       },
     });
     const profile = buildProfile(save);
-    expect(profile.correctCount).toBe(8);
+    expect(profile.correctCount).toBe(9);
     for (const d of profile.dimensions) expect(d.level, d.id).toBe('Master Investigator');
     expect(level(save, 'questionQuality').feedback).toContain(
       'You asked several specific questions that produced useful evidence.',
@@ -73,7 +73,7 @@ describe('investigator profile', () => {
   it('gives a pointed hint for each wrong explanation, never the answer itself', () => {
     const save = game(['M1'], { ...allCorrect, R1: 'b', R4: 'more,sick,fewer', R6: 'b', R7: 'c,a,d' });
     const profile = buildProfile(save);
-    expect(profile.correctCount).toBe(4);
+    expect(profile.correctCount).toBe(5);
     expect(level(save, 'evidenceAnalysis').feedback[0]).toMatch(/Look at who cared for the sick|which came first/);
     expect(level(save, 'logicalReasoning').feedback.join(' ')).toMatch(/Follow them back to where they start/);
     expect(level(save, 'sourceEvaluation').feedback[0]).toMatch(/Who took the independent samples/);

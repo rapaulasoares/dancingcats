@@ -153,8 +153,8 @@ describe('map and views', () => {
   });
 });
 
-const RIGHT = ['c', 'd', 'c', 'sick,fewer,more', 'c', 'SCI-09,SCI-10,TUC-03', 'SCI-09:a,SCI-10:a,TUC-03:a', 'c,c,d'];
-const WRONG = ['a', 'a', 'a', 'more,sick,fewer', 'b', 'CLI-01', 'skip', 'a,a,a'];
+const RIGHT = ['c', 'd', 'c', 'sick,fewer,more', 'c', 'SCI-09,SCI-10,TUC-03', 'SCI-09:a,SCI-10:a,TUC-03:a', 'c,c,d', 'a,b,c'];
+const WRONG = ['a', 'a', 'a', 'more,sick,fewer', 'b', 'CLI-01', 'skip', 'a,a,a', 'd,e,f'];
 const answerAll = (answers: string[]) => answers.forEach((a) => game().answerFinal(a));
 
 describe('progress events and the final report', () => {
@@ -223,6 +223,10 @@ describe('progress events and the final report', () => {
     expect(game().final.index).toBe(7);
     game().answerFinal('c,c,d');
     expect(game().final.index).toBe(8);
+    game().answerFinal('a,b');
+    expect(game().final.index).toBe(8);
+    game().answerFinal('a,b,c');
+    expect(game().final.index).toBe(9);
     expect(game().final.answers.R1).toBe('c');
     // The last answer stops the clock but the meeting stays open for its ending.
     expect(game().phase).toBe('report');
@@ -420,7 +424,7 @@ describe('teacher tools', () => {
     answerAll(RIGHT);
     const done = buildSessionSummary(game());
     expect(done.finished).toBe(true);
-    expect(done.report?.outOf).toBe(8);
+    expect(done.report?.outOf).toBe(9);
     expect(done.report?.solved).toBe(true);
     expect(Object.keys(done.report!.levels)).toHaveLength(5);
   });
@@ -469,13 +473,13 @@ describe('town meeting answers', () => {
 
   it('solves the case with the first round, the map and 70% right; trust rises and falls with each answer', () => {
     answerAll(RIGHT);
-    expect(meetingStatus(game().final.answers)).toMatchObject({ solved: true, right: 8, bestStreak: 8, trust: 100 });
+    expect(meetingStatus(game().final.answers)).toMatchObject({ solved: true, right: 9, bestStreak: 9, trust: 100 });
   });
 
   it('does not solve the case when the map is wrong, however many others are right', () => {
-    answerAll(['c', 'd', 'a', 'sick,fewer,more', 'c', 'SCI-09,SCI-10,TUC-03', 'SCI-09:a,SCI-10:a,TUC-03:a', 'c,c,d']);
+    answerAll(['c', 'd', 'a', 'sick,fewer,more', 'c', 'SCI-09,SCI-10,TUC-03', 'SCI-09:a,SCI-10:a,TUC-03:a', 'c,c,d', 'a,b,c']);
     const status = meetingStatus(game().final.answers);
-    expect(status.right).toBe(7);
+    expect(status.right).toBe(8);
     expect(status.solved).toBe(false);
   });
 
@@ -580,7 +584,22 @@ describe('what do the clues tell you', () => {
     expect(cluesNeedingThoughts('CLI-01')).toEqual([]);
     expect(cluesNeedingThoughts('none')).toEqual([]);
     // Skipped: no trust change, not counted as right or wrong, and the case can still be solved.
-    const all = { R1: 'c', R2: 'd', R3: 'c', R4: 'sick,fewer,more', R6: 'c', P1: 'SCI-09,SCI-10,TUC-03', P2: 'skip', R7: 'c,c,d' };
-    expect(status(all)).toMatchObject({ solved: true, right: 7, counted: 7, answered: 8 });
+    const all = { R1: 'c', R2: 'd', R3: 'c', R4: 'sick,fewer,more', R6: 'c', P1: 'SCI-09,SCI-10,TUC-03', P2: 'skip', R7: 'c,c,d', M1: 'a,b,c' };
+    expect(status(all)).toMatchObject({ solved: true, right: 8, counted: 8, answered: 9 });
+  });
+});
+
+describe('what should happen to Tucano', () => {
+  it('is right only with exactly the three measures, in any order', async () => {
+    const { isRight, isValidAnswer } = await import('../src/state/meeting');
+    const { stepById } = await import('../src/content/townMeeting');
+    const step = stepById.M1;
+    expect(isRight(step, 'c,a,b')).toBe(true);
+    expect(isRight(step, 'a,b,d')).toBe(false); // closing the factory is not one of the measures
+    expect(isRight(step, 'd,e,f')).toBe(false);
+    expect(isValidAnswer(step, 'a,b')).toBe(false); // three are needed
+    expect(isValidAnswer(step, 'a,a,b')).toBe(false);
+    expect(isValidAnswer(step, 'a,b,z')).toBe(false);
+    expect(isValidAnswer(step, 'a,b,g')).toBe(true);
   });
 });

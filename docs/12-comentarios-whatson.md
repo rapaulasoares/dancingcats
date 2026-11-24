@@ -89,3 +89,16 @@ Generated from `src/content/townMeeting.ts` (the `whatson` field of each step). 
 - **If wrong, after choosing blank "source":** Where were the highest amounts measured? Follow them back to where they start.
 - **If wrong, after choosing blank "carrier":** Think about what the cats and the affected families all ate.
 
+## Round 7 · Marcos Costa (M1)
+
+**Question:** So the factory is to blame. Half this town depends on those jobs. What should happen now?
+
+**Right answer:** Exactly. Those three go together: make the factory answer for the harm, repair what happened to the families, and stop it at the source with weekly proof. The town keeps its jobs as long as the factory complies.
+
+**Wrong answer (general):** Think about three things: who is responsible, who must repair the harm, and how to stop it at the source and be sure it stays stopped.
+
+- **If wrong, after choosing Close the factory for good:** Closing the factory would stop the poison, but it would also take hundreds of jobs from the town. Is there a way to stop the harm and keep the town working?
+- **If wrong, after choosing Ban fishing in the bay forever:** Banning fishing leaves the source untouched, and the fishermen did nothing wrong.
+- **If wrong, after choosing Tell the families to eat less fish, and do nothing else:** That puts the burden on the families who are already sick. Who should repair the harm?
+- **If wrong, after choosing Wait for more studies before doing anything:** More studies are not needed to know what to do. The samples already show where it comes from.
+

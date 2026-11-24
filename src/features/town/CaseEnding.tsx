@@ -10,7 +10,16 @@ import styles from './CaseEnding.module.css';
  * with the time it took in big type. Not solved: the folder stays open and no time is shown.
  * Every animation ends in the finished picture, so with reduced motion the player simply sees that.
  */
-export function CaseEnding({ solved, onContinue }: { solved: boolean; onContinue: () => void }) {
+export function CaseEnding({
+  solved,
+  measuresRight,
+  onContinue,
+}: {
+  solved: boolean;
+  /** The player chose the right measures for Tucano. */
+  measuresRight: boolean;
+  onContinue: () => void;
+}) {
   const playMs = useGame((s) => s.timing.playMs);
 
   // The stamp lands 2.25 seconds in (see the stamp animation in the stylesheet).
@@ -53,9 +62,9 @@ export function CaseEnding({ solved, onContinue }: { solved: boolean; onContinue
             </p>
             <p className={styles.fastest}>Were you the fastest in the class?</p>
             <p className={styles.text}>
-              Tucano Industrial will be held responsible and will compensate the affected families. It keeps operating,
-              but it must improve its wastewater treatment to remove heavy metals, and its effluent will be tested
-              regularly by an outside laboratory. João and Marcos are relieved.
+              {measuresRight
+                ? 'Everyone agrees with your measures. Tucano Industrial will be held responsible and will compensate the affected families. It keeps operating, but it must treat and monitor its effluent to remove heavy metals, with weekly proof, or the factory can be shut down. João and Marcos are relieved.'
+                : 'The town agrees with your solution to the case, but people are still arguing about what to do with Tucano. Who is responsible, who must repair the harm, and how do you stop it at the source and make sure it never happens again?'}
             </p>
           </>
         ) : (

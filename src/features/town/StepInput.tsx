@@ -49,6 +49,8 @@ export function StepInput(props: Props) {
       return <ProofPicker {...props} />;
     case 'inference':
       return <Thoughts {...props} />;
+    case 'multi':
+      return <MultiPick {...props} />;
     default:
       return <CardChoice {...props} />;
   }
@@ -392,6 +394,49 @@ function Thoughts({ step, seed, locked, onChange }: Props) {
           </section>
         );
       })}
+    </div>
+  );
+}
+
+/** Round 7: tap the right number of cards among several, for example the three things that should happen. */
+function MultiPick({ step, seed, locked, onChange }: Props) {
+  const need = step.pickCount ?? 1;
+  const [picked, setPicked] = useState<string[]>([]);
+  const shown = locked ? locked.split(ANSWER_SEPARATOR) : picked;
+  const cards = shuffled(step.options, `${seed}:${step.id}`);
+
+  const touched = useRef(false);
+  useEffect(() => {
+    if (picked.length > 0) touched.current = true;
+    if (touched.current && locked === undefined) onChange(picked.length === need ? picked.join(ANSWER_SEPARATOR) : null);
+  }, [picked, locked, need, onChange]);
+
+  const toggle = (id: string) =>
+    setPicked((now) => (now.includes(id) ? now.filter((x) => x !== id) : now.length < need ? [...now, id] : now));
+
+  return (
+    <div className={styles.proofArea}>
+      <p className={styles.proofCount} role="status">
+        {shown.length} of {need} chosen
+      </p>
+      <ul className={styles.multiList} aria-label="Things that could happen">
+        {cards.map((card) => {
+          const on = shown.includes(card.id);
+          return (
+            <li key={card.id}>
+              <button
+                type="button"
+                aria-pressed={on}
+                disabled={locked !== undefined || (!on && shown.length >= need)}
+                className={on ? `${styles.multi} ${styles.multiOn}` : styles.multi}
+                onClick={() => toggle(card.id)}
+              >
+                {card.label}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

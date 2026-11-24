@@ -14,6 +14,7 @@ Replaces the written explanation and the 8-question report. Content lives in `sr
 | 6a | Prof. Roberto | show your proof: tap up to 3 clues from your own Evidence Board | P1 | at least 2 of the 3 clues are key ones (tissue analysis, bay samples, Tucano's waste, chemicals in production, substances that build up, food chain, and what the sick and the healthy families eat: Silva, Maria, João, Costa, fish sent to Porto Azul) |
 | 6b | Prof. Roberto | what does each clue tell you? A thought bubble with 4 thoughts for each clue shown as proof (one supported, three that go wrong) | P2 | at least half of the thoughts are the supported ones (skipped silently when none of the clues shown has thoughts) |
 | 6c | Prof. Roberto | build the sentence with a word bank | R7 | heavy metal, Tucano's wastewater, fish they ate |
+| 7 | Marcos Costa | tap the three things that should happen to Tucano (7 cards) | M1 | hold Tucano responsible; make it compensate the families; require it to treat and monitor its effluent, with weekly proof, or the factory can be shut down (embargoed). The wrong ones: close the factory for good, ban fishing forever, tell families to eat less fish, wait for more studies |
 
 Every answer is locked with the big Answer button, then the crowd reacts (applause or murmur). No retry, no right answer shown. Trust starts at 50, +10 for a right answer (+3 per extra answer in a row, up to +9), -10 for a wrong one. The streak shows as x2, x3 and so on.
 
@@ -27,7 +28,7 @@ Whatson Urmind sits in the bottom corner of every question screen. After each an
 
 ## Endings
 
-- **Solved**: round 1 right, the map right, and at least 70% of all answers right. A case folder closes, a CASE SOLVED stamp lands on it, the time is shown big with "Were you the fastest in the class?", then a short paragraph about Tucano (held responsible and compensates the affected families; keeps operating, must improve its wastewater treatment and have its effluent tested by an outside laboratory).
+- **Solved**: round 1 right, the map right, and at least 70% of all answers right. A case folder closes, a CASE SOLVED stamp lands on it, the time is shown big with "Were you the fastest in the class?", then, if the player chose the right measures for Tucano, a short paragraph that confirms them (held responsible, compensates the families, keeps operating but must treat and monitor its effluent with weekly proof, or can be shut down); if not, a paragraph saying the town is still arguing about what to do.
 - **Not solved**: says only that the mystery is not solved yet. No time shown.
 
 No result codes, no ranking, no album. The clock runs from entering Vila do Sol to the last answer.
