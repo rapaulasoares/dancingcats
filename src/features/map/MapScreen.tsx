@@ -17,6 +17,7 @@ import {
   randomWalkableNear,
   type Pt,
 } from './walkways';
+import { Trophies } from './Trophies';
 import styles from './MapScreen.module.css';
 
 /** Speeds in map pixels per second. The cat is slower than the investigator, and stops to "dance". */
@@ -98,7 +99,7 @@ function follow(pos: Pt, path: Pt[], speed: number, dt: number): [Pt, Pt[]] {
 export function MapScreen() {
   const save = useGame();
   const places = visibleLocations(save);
-  const { goTo, deliverCat, catDelivered, visitedLocations } = save;
+  const { goTo, deliverCat, catchCat, catDelivered, visitedLocations } = save;
   // The cat is in town from the start until it is brought to the Science Center.
   const catHere = !catDelivered;
 
@@ -114,8 +115,8 @@ export function MapScreen() {
   const [toast, setToast] = useState<string | null>(null);
 
   // The loop reads these through refs, so it never has to restart.
-  const live = useRef({ places, catHere, near, goTo, deliverCat });
-  live.current = { places, catHere, near, goTo, deliverCat };
+  const live = useRef({ places, catHere, near, goTo, deliverCat, catchCat });
+  live.current = { places, catHere, near, goTo, deliverCat, catchCat };
 
   function enter(id: LocationId) {
     world.player = [...ENTRIES[id]] as Pt;
@@ -190,6 +191,7 @@ export function MapScreen() {
           const d = dist(world.player, cat.pos);
           if (d <= CATCH) {
             cat.mode = 'carried';
+            L.catchCat();
             setCarrying(true);
             say('You caught the dancing cat! Take it to the Regional Science Center.');
           } else if (cat.mode === 'dance') {
@@ -364,6 +366,8 @@ export function MapScreen() {
             <CatSprite />
           </div>
         )}
+
+        <Trophies />
 
         {toast && (
           <p className={styles.toast} role="status">

@@ -78,7 +78,9 @@ export interface SaveGame {
   evidence: string[];
   eventsFired: string[];
   eventsUnread: string[];
-  /** The dancing cat has been caught on the map and brought to the Regional Science Center. */
+  /** The investigator has caught the dancing cat on the map. */
+  catCaught: boolean;
+  /** The dancing cat has been brought to the Regional Science Center. */
   catDelivered: boolean;
   /** How many pieces of evidence the player had seen on the Evidence Board at their last visit. */
   boardSeen: number;
@@ -120,6 +122,7 @@ export function freshSave(): SaveGame {
     evidence: [],
     eventsFired: [],
     eventsUnread: [],
+    catCaught: false,
     catDelivered: false,
     boardSeen: 0,
     board: { items: {}, notes: [], links: [], topZ: 0 },
@@ -167,6 +170,8 @@ interface Actions {
   readEvent: (eventId: string) => void;
   /** The player brought the dancing cat to the Science Center: the lab results arrive. */
   deliverCat: () => void;
+  /** The player caught the dancing cat on the map. */
+  catchCat: () => void;
 
   moveItem: (id: string, x: number, y: number) => void;
   setTag: (id: string, tag: Tag | undefined) => void;
@@ -376,9 +381,11 @@ export const useGame = create<GameState>()(
       deliverCat: () =>
         set((s) => {
           if (s.phase !== 'investigation' || s.catDelivered) return {};
-          const next = { ...s, catDelivered: true };
-          return { catDelivered: true, ...withEvents(next) };
+          const next = { ...s, catCaught: true, catDelivered: true };
+          return { catCaught: true, catDelivered: true, ...withEvents(next) };
         }),
+
+      catchCat: () => set((s) => (s.phase !== 'investigation' || s.catCaught ? {} : { catCaught: true })),
 
       readEvent: (eventId) => {
         const event = events.find((e) => e.id === eventId);

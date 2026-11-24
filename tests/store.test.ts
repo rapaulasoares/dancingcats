@@ -527,3 +527,16 @@ describe('the Evidence Board asks for attention', () => {
     expect(game().boardSeen).toBe(0);
   });
 });
+
+describe('cat chase milestones', () => {
+  it('marks the cat as caught, then delivered; delivering also counts as caught', () => {
+    game().startNewGame('Team');
+    game().finishOpening();
+    expect(game().catCaught).toBe(false);
+    game().catchCat();
+    expect(game().catCaught).toBe(true);
+    expect(game().catDelivered).toBe(false);
+    game().deliverCat();
+    expect(game().catDelivered).toBe(true);
+  });
+});

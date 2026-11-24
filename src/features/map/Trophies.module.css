@@ -1,0 +1,99 @@
+.trophies {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: 3000;
+  max-width: 15rem;
+  padding: 0.5rem 0.7rem;
+  background: rgba(246, 239, 223, 0.92);
+  border: 2px solid var(--paper-edge);
+  border-radius: 0.7rem;
+  box-shadow: var(--shadow-paper);
+  color: var(--ink);
+  font-family: var(--font-story);
+  font-size: 0.9rem;
+}
+
+.trophies ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.todoItem,
+.doneItem,
+.freshItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.medal {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  border: 2px dashed var(--ink-faint);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.todoItem {
+  color: var(--ink-faint);
+}
+
+.doneItem .medal,
+.freshItem .medal {
+  border: 2px solid #b98a1d;
+  background: radial-gradient(circle at 35% 30%, #fff0a8, var(--boat-yellow));
+  color: #7a5400;
+}
+
+.doneItem .text,
+.freshItem .text {
+  font-weight: 700;
+}
+
+/* Earned right now: the medal pops and the whole line flashes once. */
+.freshItem .medal {
+  animation: pop 0.7s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+
+.freshItem {
+  animation: flash 1.6s ease both;
+  border-radius: 0.5rem;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0) rotate(-120deg);
+  }
+}
+
+@keyframes flash {
+  0%,
+  40% {
+    background: #fff2a8;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 40rem) {
+  .trophies {
+    max-width: 11rem;
+    font-size: 0.8rem;
+  }
+}
