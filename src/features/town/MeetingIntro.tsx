@@ -3,15 +3,13 @@ import { GameImage } from '../../ui/GameImage';
 import { PlayClock } from '../clock/PlayClock';
 import styles from './MeetingIntro.module.css';
 
-/** The residents who will ask their questions, in the order they speak. */
-const RESIDENTS = ['ana', 'maria', 'carlos', 'silva', 'santos', 'roberto'];
-
 /**
  * The first screen of the ending: the whole town is in the square and the investigator is about to
  * present the solution. The play clock keeps running from the moment the player entered the map.
  */
 export function MeetingIntro({ onStart, onBoard }: { onStart: () => void; onBoard: () => void }) {
-  const people = RESIDENTS.map((id) => characters.find((c) => c.id === id)!).filter(Boolean);
+  // Everyone the investigator met is in the square, not only those who will ask a question.
+  const people = characters;
   return (
     <main className={styles.scene}>
       <header className={styles.hud}>
@@ -31,7 +29,7 @@ export function MeetingIntro({ onStart, onBoard }: { onStart: () => void; onBoar
           The residents have questions for you. Answer them with what the evidence shows.
         </p>
 
-        <ul className={styles.crowd} aria-label="Residents who will ask you questions">
+        <ul className={styles.crowd} aria-label="Everyone gathered at the meeting">
           {people.map((c) => (
             <li key={c.id} className={styles.person}>
               <GameImage file={c.portrait} alt="" ratio="3 / 4" className={styles.portrait} />
