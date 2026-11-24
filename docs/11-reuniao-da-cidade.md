@@ -17,7 +17,7 @@ Every answer is locked with the big Answer button, then the crowd reacts (applau
 
 ## Opening and wording
 
-The meeting opens on its own screen (the town square, the residents who will ask questions, "Face the town"). There is no separate meeting clock: the play clock keeps running from the moment the player entered the map. Each round is a real question from the character ("My family eats from this bay every single day. How is this poison reaching us?"), with a small instruction under it ("Tap one card.").
+The meeting opens on its own screen (the town square, the residents who will ask questions, "Face the town"). There is no separate meeting clock: the play clock keeps running from the moment the player entered the map. Each round is a real question from the character ("My family is sick. How is this poison reaching us?"), with a small instruction under it ("Tap one card.").
 
 ## Endings
 

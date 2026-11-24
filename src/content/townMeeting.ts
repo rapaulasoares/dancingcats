@@ -77,7 +77,7 @@ export const townMeeting: MeetingStep[] = [
     speaker: 'Maria',
     kind: 'pick',
     heading: 'How does it reach us?',
-    prompt: 'My family eats from this bay every single day. How is this poison reaching us?',
+    prompt: 'My family is sick. How is this poison reaching us?',
     hint: 'Tap one card.',
     options: [
       { id: 'a', label: 'The tap water', image: 'card-tap-water.webp' },
