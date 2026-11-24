@@ -252,8 +252,8 @@ function SentenceBuilder({ step, seed, locked, onChange }: Props) {
               onClick={() => setActive(i)}
             >
               {wordFor(i) ?? '…'}
-            </button>{' '}
-            {sentence.joins[i] ? `${sentence.joins[i]} ` : `${sentence.after}`}
+            </button>
+            {sentence.joins[i] ? ` ${sentence.joins[i]} ` : sentence.after}
           </span>
         ))}
       </p>

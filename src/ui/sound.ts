@@ -63,25 +63,97 @@ function tone(ctx: AudioContext, freq: number, start: number, length: number, ty
   osc.stop(ctx.currentTime + start + length + 0.05);
 }
 
-/** A burst of filtered noise: clapping when bright and short, a murmur when dark and slow. */
-function noise(ctx: AudioContext, start: number, length: number, freq: number, volume: number, pulses: number) {
-  const buffer = ctx.createBuffer(1, Math.floor(ctx.sampleRate * length), ctx.sampleRate);
+/**
+ * Applause: hundreds of tiny claps at random moments, thickest in the middle and fading out.
+ * Each clap is a few milliseconds of bright, decaying noise, so together they sound like hands.
+ */
+function applause(ctx: AudioContext, length = 2.4, volume = 1.6) {
+  const rate = ctx.sampleRate;
+  const buffer = ctx.createBuffer(1, Math.floor(rate * length), rate);
   const data = buffer.getChannelData(0);
-  for (let i = 0; i < data.length; i++) {
-    const t = i / data.length;
-    // Many small pulses, like hands clapping out of step.
-    const pulse = 0.4 + 0.6 * Math.abs(Math.sin(t * pulses * Math.PI));
-    data[i] = (Math.random() * 2 - 1) * pulse * (1 - t);
+  const claps = 260;
+  for (let c = 0; c < claps; c++) {
+    // More claps near the start, then a long tail.
+    const t = Math.pow(Math.random(), 1.6) * (length - 0.1);
+    const start = Math.floor(t * rate);
+    const size = Math.floor(rate * (0.012 + Math.random() * 0.02));
+    const loud = (0.4 + Math.random() * 0.6) * (1 - t / length);
+    let last = 0;
+    for (let i = 0; i < size && start + i < data.length; i++) {
+      const white = Math.random() * 2 - 1;
+      // Differencing keeps the bright part of the noise, like the slap of palms.
+      const bright = white - last;
+      last = white;
+      data[start + i] += bright * Math.exp((-6 * i) / size) * loud * 0.35;
+    }
   }
   const source = ctx.createBufferSource();
   source.buffer = buffer;
   const filter = ctx.createBiquadFilter();
   filter.type = 'bandpass';
-  filter.frequency.value = freq;
+  filter.frequency.value = 2200;
+  filter.Q.value = 0.5;
   const gain = ctx.createGain();
   gain.gain.value = volume;
   source.connect(filter).connect(gain).connect(ctx.destination);
-  source.start(ctx.currentTime + start);
+  source.start();
+}
+
+/**
+ * A worried murmur: several low "voices" (a buzzing tone through two vowel-like filters), each
+ * rising and falling in syllables at its own pace, so it sounds like people talking quietly.
+ */
+function murmur(ctx: AudioContext, length = 1.9, volume = 0.25) {
+  const out = ctx.createGain();
+  out.gain.setValueAtTime(0.0001, ctx.currentTime);
+  out.gain.exponentialRampToValueAtTime(volume, ctx.currentTime + 0.25);
+  out.gain.setValueAtTime(volume, ctx.currentTime + length - 0.5);
+  out.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + length);
+  out.connect(ctx.destination);
+
+  const vowels = [
+    [730, 1090],
+    [530, 1840],
+    [270, 2290],
+    [570, 840],
+  ];
+  for (let v = 0; v < 6; v++) {
+    const osc = ctx.createOscillator();
+    osc.type = 'sawtooth';
+    const pitch = 95 + Math.random() * 130;
+    osc.frequency.setValueAtTime(pitch, ctx.currentTime);
+    // The pitch drifts a little, like speech.
+    osc.frequency.linearRampToValueAtTime(pitch * (0.85 + Math.random() * 0.3), ctx.currentTime + length);
+
+    const formantA = ctx.createBiquadFilter();
+    const formantB = ctx.createBiquadFilter();
+    formantA.type = formantB.type = 'bandpass';
+    const [fa, fb] = vowels[Math.floor(Math.random() * vowels.length)];
+    formantA.frequency.value = fa;
+    formantB.frequency.value = fb;
+    formantA.Q.value = formantB.Q.value = 6;
+
+    // Syllables: the voice swells and fades three to five times a second.
+    const voice = ctx.createGain();
+    voice.gain.value = 0.0;
+    const lfo = ctx.createOscillator();
+    lfo.frequency.value = 2.5 + Math.random() * 3;
+    const depth = ctx.createGain();
+    depth.gain.value = 0.5;
+    const level = ctx.createConstantSource();
+    level.offset.value = 0.5;
+    lfo.connect(depth).connect(voice.gain);
+    level.connect(voice.gain);
+
+    osc.connect(formantA).connect(voice);
+    osc.connect(formantB).connect(voice);
+    voice.connect(out);
+
+    for (const node of [osc, lfo, level]) {
+      node.start(ctx.currentTime);
+      node.stop(ctx.currentTime + length + 0.1);
+    }
+  }
 }
 
 export type SoundName = 'pick' | 'applause' | 'murmur' | 'stamp' | 'medal';
@@ -95,17 +167,14 @@ export function play(name: SoundName) {
       tone(ctx, 660, 0, 0.08, 'triangle', 0.1);
       break;
     case 'applause':
-      [523, 659, 784].forEach((f, i) => tone(ctx, f, i * 0.09, 0.25, 'triangle', 0.12));
-      noise(ctx, 0.1, 1.2, 2500, 0.5, 40);
+      applause(ctx);
       break;
     case 'murmur':
-      tone(ctx, 220, 0, 0.35, 'sine', 0.12);
-      tone(ctx, 165, 0.25, 0.5, 'sine', 0.12);
-      noise(ctx, 0, 1.2, 400, 0.6, 7);
+      murmur(ctx);
       break;
     case 'stamp':
       tone(ctx, 90, 0, 0.25, 'sine', 0.4);
-      noise(ctx, 0, 0.15, 900, 0.6, 3);
+      tone(ctx, 55, 0, 0.3, 'triangle', 0.3);
       break;
     case 'medal':
       [784, 988, 1319].forEach((f, i) => tone(ctx, f, i * 0.11, 0.4, 'sine', 0.12));

@@ -80,7 +80,7 @@ export function describeAnswer(step: MeetingStep, answer: string | undefined): s
   if (step.kind === 'sentence' && step.sentence) {
     const { before, slots, joins, after } = step.sentence;
     const word = (i: number) => slots[i].options.find((o) => o.id === parts[i])?.text ?? '…';
-    return `${before} ${word(0)} ${joins[0]} ${word(1)} ${joins[1]} ${word(2)} ${after}`;
+    return `${before} ${word(0)} ${joins[0]} ${word(1)} ${joins[1]} ${word(2)}${after}`;
   }
   return label(answer);
 }

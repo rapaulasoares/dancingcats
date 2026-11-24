@@ -162,7 +162,7 @@ export const townMeeting: MeetingStep[] = [
     sentence: {
       before: 'The cats and people got sick because the',
       joins: ['released through', 'built up in the'],
-      after: 'they ate.',
+      after: '.',
       slots: [
         {
           id: 'substance',
@@ -188,10 +188,10 @@ export const townMeeting: MeetingStep[] = [
           id: 'carrier',
           correct: 'd',
           options: [
-            { id: 'a', text: 'tap water' },
-            { id: 'b', text: 'rat bites' },
-            { id: 'c', text: 'chimney air' },
-            { id: 'd', text: 'fish' },
+            { id: 'a', text: 'tap water they drank' },
+            { id: 'b', text: 'bites from rats' },
+            { id: 'c', text: 'chimney air they breathed' },
+            { id: 'd', text: 'fish they ate' },
           ],
         },
       ],
