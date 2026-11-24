@@ -33,7 +33,7 @@ export function ReflectionScreen() {
             nothing here is scored.
           </p>
           <p className={styles.whatsonSays}>
-            <strong>Whatson:</strong> {partner.greeting}
+            {partner.greeting}
           </p>
           </div>
         </header>
