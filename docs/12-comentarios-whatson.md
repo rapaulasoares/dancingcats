@@ -70,7 +70,7 @@ Generated from `src/content/townMeeting.ts` (the `whatson` field of each step). 
 
 ## Round 6 · Prof. Roberto (P2)
 
-**Question:** Good. Now tell us: what does each of those clues tell you?
+**Question:** Fine, but how do you know? What do these clues really tell us?
 
 **Right answer:** Sharp thinking. Each clue says something specific, and you saw what it really shows.
 

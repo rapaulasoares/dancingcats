@@ -220,7 +220,7 @@ export const townMeeting: MeetingStep[] = [
     speaker: 'Prof. Roberto',
     kind: 'inference',
     heading: 'What do the clues tell you?',
-    prompt: 'Good. Now tell us: what does each of those clues tell you?',
+    prompt: 'Fine, but how do you know? What do these clues really tell us?',
     hint: 'For each clue, tap the thought you agree with.',
     whatson: {
       right: 'Sharp thinking. Each clue says something specific, and you saw what it really shows.',
