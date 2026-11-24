@@ -59,7 +59,7 @@ export const townMeeting: MeetingStep[] = [
     options: [
       { id: 'a', label: 'A contagious illness', image: 'card-virus.webp' },
       { id: 'b', label: 'The rats', image: 'card-rats.webp' },
-      { id: 'c', label: 'A heavy metal in the fish', image: 'card-metal-fish.webp' },
+      { id: 'c', label: 'Heavy metal contamination', image: 'card-metal-fish.webp' },
       { id: 'd', label: 'Algae in the bay', image: 'card-algae.webp' },
       { id: 'e', label: 'A curse on the town', image: 'card-spirit.webp' },
     ],
@@ -161,7 +161,7 @@ export const townMeeting: MeetingStep[] = [
     options: [],
     sentence: {
       before: 'The cats and people got sick because the',
-      joins: ['released through', 'built up in the'],
+      joins: ['from', 'built up in the'],
       after: '.',
       slots: [
         {
@@ -180,8 +180,8 @@ export const townMeeting: MeetingStep[] = [
           options: [
             { id: 'a', text: "the rats' waste" },
             { id: 'b', text: "the boat yard's paint" },
-            { id: 'c', text: "the factory's channel" },
-            { id: 'd', text: 'the river' },
+            { id: 'c', text: "Tucano's wastewater" },
+            { id: 'd', text: "the river's water" },
           ],
         },
         {

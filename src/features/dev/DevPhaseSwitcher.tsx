@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { evidence } from '../../content/evidence';
 import { DevGallery } from './DevGallery';
 import { PHASES, useGame } from '../../state/store';
@@ -11,6 +11,12 @@ export function DevPhaseSwitcher() {
   const devSetPhase = useGame((s) => s.devSetPhase);
   const collect = useGame((s) => s.collect);
   const [gallery, setGallery] = useState(false);
+
+  // The bar sits over the bottom of the page: leave that strip free so no button hides under it.
+  useEffect(() => {
+    document.documentElement.classList.add('has-dev-bar');
+    return () => document.documentElement.classList.remove('has-dev-bar');
+  }, []);
 
   function collectThree() {
     collect(
