@@ -554,6 +554,7 @@ describe('show your proof', () => {
     expect(isRight(proof, 'SCI-09,SCI-10,CLI-01')).toBe(true); // two of three
     expect(isRight(proof, 'SCI-09,CLI-01,MKT-02')).toBe(false); // only one of three
     expect(isRight(proof, 'SCI-09')).toBe(true); // a single clue, and it is a key one
+    expect(isRight(proof, 'RES-01,RES-02,SQ-06')).toBe(true); // what the sick and the healthy families eat
     expect(isRight(proof, 'CLI-01')).toBe(false);
     expect(isRight(proof, 'none')).toBe(false);
   });

@@ -11,7 +11,7 @@ Replaces the written explanation and the 8-question report. Content lives in `sr
 | 3 | Carlos | tap a place on the bay map | R3 | the channel at the north point |
 | 4 | Mrs. Silva | put 3 cards in order | R4 | cats sick, fewer cats, more rats |
 | 5 | Mr. Santos | put a paper on the heavier side of a balance | R6 | independent analyses by the Science Center |
-| 6a | Prof. Roberto | show your proof: tap up to 3 clues from your own Evidence Board | P1 | at least 2 of the 3 clues are key ones (tissue analysis, bay samples, Tucano's waste, chemicals in production, substances that build up, food chain) |
+| 6a | Prof. Roberto | show your proof: tap up to 3 clues from your own Evidence Board | P1 | at least 2 of the 3 clues are key ones (tissue analysis, bay samples, Tucano's waste, chemicals in production, substances that build up, food chain, and what the sick and the healthy families eat: Silva, Maria, João, Costa, fish sent to Porto Azul) |
 | 6b | Prof. Roberto | build the sentence with a word bank | R7 | heavy metal, Tucano's wastewater, fish they ate |
 
 Every answer is locked with the big Answer button, then the crowd reacts (applause or murmur). No retry, no right answer shown. Trust starts at 50, +10 for a right answer (+3 per extra answer in a row, up to +9), -10 for a wrong one. The streak shows as x2, x3 and so on.

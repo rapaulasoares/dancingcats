@@ -92,34 +92,3 @@ export const revealPages: RevealPage[] = [
     ],
   },
 ];
-
-/** The final reveal page: what is history and what was written for the game. */
-export const factVsFiction = {
-  title: 'What was real, and what was written for the game',
-  facts: {
-    heading: 'Historical facts',
-    items: [
-      'Minamata is a real city in Japan, and Minamata disease is a real illness.',
-      'The Chisso factory released wastewater with methylmercury into Minamata Bay, from 1932 to 1968.',
-      'Fish and cats were affected before most people understood what was happening.',
-      'As the cats died, rats multiplied and gnawed the fishing nets.',
-      'The illness was first treated as contagious. Researchers then showed it was not.',
-      'People became ill by eating fish and shellfish from the bay. The illness damages the nervous system.',
-      'Some children were affected before they were born.',
-      'Mercury builds up in living things and becomes more concentrated up the food chain.',
-      "A company doctor's experiment in 1959 pointed to the wastewater, and the result was not made public. The government stated the cause in 1968.",
-      'In the Amazon today, mercury from gold mining reaches people through fish.',
-    ],
-  },
-  adapted: {
-    heading: 'Adapted or invented for this game',
-    items: [
-      'Vila do Sol, Tucano Industrial and everything its representative says.',
-      'Every character: Maria, Carlos, Dr. Ana, Mrs. Silva, João, Mr. Santos, Dona Rosa and Professor Roberto.',
-      'Every document, table, letter, date and number you collected, including the laboratory results.',
-      'The monthly counts of cats and rats, the newspaper article and the chewed rice sack. The rise in rats itself was real.',
-      'The red tide, the broken statue and the families in Porto Azul.',
-      'The timescale: months in the game, many years in Minamata.',
-    ],
-  },
-};

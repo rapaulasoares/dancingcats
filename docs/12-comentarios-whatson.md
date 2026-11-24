@@ -63,9 +63,9 @@ Generated from `src/content/townMeeting.ts` (the `whatson` field of each step). 
 
 **Question:** You have told us what you think. Now show us: which clues from your wall prove it?
 
-**Right answer:** Those clues hold up. Measurements in the animals, in the bay mud and water, and in the factory's own process all point the same way.
+**Right answer:** Those clues hold up. Measurements in the animals, in the bay and in the factory, and what the sick and the healthy families eat, all point the same way.
 
-**Wrong answer (general):** Some of those clues do not show how the metal got from Tucano to the cats. Look for the ones that measured it: in the animals, in the mud and water, and in what the factory uses.
+**Wrong answer (general):** Some of those clues do not show how the metal got from Tucano to the cats. Look for the ones that measured it, in the animals, in the mud and water, and in what the factory uses. Or for the ones that show what the sick families eat, and what the healthy ones eat.
 
 
 ## Round 6 · Prof. Roberto (R7)

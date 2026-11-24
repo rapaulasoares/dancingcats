@@ -198,15 +198,20 @@ export const townMeeting: MeetingStep[] = [
     prompt: 'You have told us what you think. Now show us: which clues from your wall prove it?',
     hint: 'Tap up to three clues from your Evidence Board, then press Answer.',
     whatson: {
-      right: "Those clues hold up. Measurements in the animals, in the bay mud and water, and in the factory's own process all point the same way.",
+      right:
+        "Those clues hold up. Measurements in the animals, in the bay and in the factory, and what the sick and the healthy families eat, all point the same way.",
       wrong:
-        "Some of those clues do not show how the metal got from Tucano to the cats. Look for the ones that measured it: in the animals, in the mud and water, and in what the factory uses.",
+        "Some of those clues do not show how the metal got from Tucano to the cats. Look for the ones that measured it, in the animals, in the mud and water, and in what the factory uses. Or for the ones that show what the sick families eat, and what the healthy ones eat.",
     },
     options: [],
     correct: 'SCI-09,SCI-10,TUC-03',
     dimension: 'evidenceAnalysis',
     // The clues that really show the chain; any of these counts.
-    evidenceRefs: ['SCI-09', 'SCI-10', 'TUC-03', 'TUC-08', 'SCI-04', 'SCI-01'],
+    // Measurements (animals, bay, factory), how the metal builds up, and what the sick and the healthy families eat.
+    evidenceRefs: [
+      'SCI-09', 'SCI-10', 'TUC-03', 'TUC-08', 'SCI-04', 'SCI-01',
+      'RES-01', 'RES-02', 'HAR-03', 'SQ-06', 'SQ-07', 'SQ-05', 'MKT-04',
+    ],
   },
   {
     id: 'R7',

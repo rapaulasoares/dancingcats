@@ -223,21 +223,13 @@ describe('nothing reveals the real case before the reveal', () => {
 });
 
 describe('reveal and reflection', () => {
-  it('names the real case only here, and separates fact from fiction', async () => {
-    const { revealPages, factVsFiction } = await import('../src/content/reveal');
+  it('names the real case only here', async () => {
+    const { revealPages } = await import('../src/content/reveal');
     const text = JSON.stringify(revealPages);
     for (const word of ['Minamata', 'Chisso', 'mercury', 'methylmercury', 'Japan', 'bioaccumulation', 'biomagnification']) {
       expect(text, word).toContain(word);
     }
     expect(revealPages[0].title).toBe('The case is closed. But it has happened before.');
-    expect(factVsFiction.facts.items.length).toBeGreaterThanOrEqual(6);
-    // The rise in rats after the cats died is history, not invention.
-    expect(factVsFiction.facts.items.join(' ')).toMatch(/rats multiplied/);
-    expect(factVsFiction.adapted.items.join(' ')).toContain('The rise in rats itself was real');
-    const adapted = factVsFiction.adapted.items.join(' ');
-    for (const invented of ['Vila do Sol', 'Tucano', 'character', 'monthly counts of cats and rats']) {
-      expect(adapted, invented).toContain(invented);
-    }
   });
 
   it('has four themes of discussion questions, with two starting points', async () => {
@@ -255,13 +247,13 @@ describe('reveal and reflection', () => {
 
 describe('historical context', () => {
   it('tells the real rat story, the early contagion scare, and the Amazon today', async () => {
-    const { revealPages, factVsFiction } = await import('../src/content/reveal');
+    const { revealPages } = await import('../src/content/reveal');
     const text = JSON.stringify(revealPages);
     expect(text).toMatch(/gnawed the fishing nets/);
     expect(text).toMatch(/August 1, 1954/);
     expect(text).toMatch(/not contagious/);
     for (const word of ['garimpo', 'Amazon', 'Munduruku', 'Tapajós', 'Fiocruz']) expect(text, word).toContain(word);
-    expect(factVsFiction.facts.items.join(' ')).toMatch(/first treated as contagious/);
+    expect(text).toMatch(/contagious/);
   });
 
   it('keeps every reveal claim listed in the sources document', async () => {
