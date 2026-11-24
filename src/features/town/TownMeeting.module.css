@@ -596,3 +596,44 @@
   color: var(--paper);
   opacity: 0.9;
 }
+
+/* ── Whatson in the corner ── */
+.corner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+.whatson {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.whatsonPortrait {
+  width: 3.6rem;
+  border: 3px solid var(--paper);
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: var(--shadow-paper);
+  background: var(--paper);
+}
+
+.whatsonName {
+  font-family: var(--font-hand);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.reactBody {
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+
+.whatsonSays {
+  margin: 0.3rem 0 0;
+  font-family: var(--font-story);
+  font-size: 1.05rem;
+  line-height: 1.4;
+}

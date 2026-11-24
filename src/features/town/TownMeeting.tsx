@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { characters } from '../../content/characters';
+import { partner } from '../../content/meetings';
 import { ROUND_COUNT, townMeeting } from '../../content/townMeeting';
-import { meetingStatus } from '../../state/meeting';
+import { meetingStatus, whatsonSays } from '../../state/meeting';
 import { useGame } from '../../state/store';
 import { GameImage } from '../../ui/GameImage';
 import { play } from '../../ui/sound';
@@ -22,6 +23,8 @@ interface Reaction {
   index: number;
   right: boolean;
   streak: number;
+  /** What Whatson says about this answer. */
+  comment: string;
 }
 
 /**
@@ -68,7 +71,7 @@ export function TownMeeting() {
     const after = meetingStatus({ ...answers, [step.id]: draft });
     const right = after.right > status.right;
     answerFinal(draft);
-    setReaction({ index: shownIndex, right, streak: after.streak });
+    setReaction({ index: shownIndex, right, streak: after.streak, comment: whatsonSays(step, draft, right) });
     play(right ? 'applause' : 'murmur');
   };
 
@@ -126,29 +129,50 @@ export function TownMeeting() {
 
       {reaction ? (
         <footer className={reaction.right ? styles.reactRight : styles.reactWrong} role="status">
-          <p className={styles.reactText}>
-            {reaction.right
-              ? reaction.streak >= 2
-                ? `👏 The crowd applauds! ${reaction.streak} in a row!`
-                : '👏 The crowd applauds!'
-              : '😟 A worried murmur runs through the square…'}
-          </p>
-          <button className="btn" autoFocus onClick={() => setReaction(null)}>
-            Continue
-          </button>
+          <div className={styles.reactBody}>
+            <p className={styles.reactText}>
+              {reaction.right
+                ? reaction.streak >= 2
+                  ? `👏 The crowd applauds! ${reaction.streak} in a row!`
+                  : '👏 The crowd applauds!'
+                : '😟 A worried murmur runs through the square…'}
+            </p>
+            <p className={styles.whatsonSays}>
+              <strong>Whatson:</strong> {reaction.comment}
+            </p>
+          </div>
+          <div className={styles.corner}>
+            <WhatsonCorner />
+            <button className="btn" autoFocus onClick={() => setReaction(null)}>
+              Continue
+            </button>
+          </div>
         </footer>
       ) : (
         <footer className={styles.actions}>
           <button type="button" className="btn btn--quiet" onClick={() => setShowBoard(true)}>
             Look at the Evidence Board
           </button>
-          <button type="button" className={`btn ${styles.answer}`} disabled={!draft} onClick={lock}>
-            Answer
-          </button>
+          <div className={styles.corner}>
+            <WhatsonCorner />
+            <button type="button" className={`btn ${styles.answer}`} disabled={!draft} onClick={lock}>
+              Answer
+            </button>
+          </div>
         </footer>
       )}
 
       {showBoard && <BoardOverlay onClose={() => setShowBoard(false)} />}
     </main>
+  );
+}
+
+/** Whatson Urmind, always in the corner of the question screens. */
+function WhatsonCorner() {
+  return (
+    <div className={styles.whatson}>
+      <GameImage file={partner.portrait} alt="Whatson Urmind, your thinking partner" ratio="1 / 1" className={styles.whatsonPortrait} />
+      <span className={styles.whatsonName}>Whatson</span>
+    </div>
   );
 }

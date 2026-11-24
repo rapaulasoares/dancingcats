@@ -19,6 +19,10 @@ Every answer is locked with the big Answer button, then the crowd reacts (applau
 
 The meeting opens on its own screen (the town square, the residents who will ask questions, "Face the town"). There is no separate meeting clock: the play clock keeps running from the moment the player entered the map. Each round is a real question from the character ("My family is sick. How is this poison reaching us?"), with a small instruction under it ("Tap one card.").
 
+## Whatson in the corner
+
+Whatson Urmind sits in the bottom corner of every question screen. After each answer he comments (text in `whatson` of each step in `townMeeting.ts`): a right answer gets a short explanation of why it holds; a wrong one gets a hint that never says the right answer (for the rats round: correlation is not causation, the cats got sick before the rats multiplied). Some wrong answers have their own hint (`wrongBy`).
+
 ## Endings
 
 - **Solved**: round 1 right, the map right, and at least 70% of all answers right. A case folder closes, a CASE SOLVED stamp lands on it, the time is shown big with "Were you the fastest in the class?", then a short paragraph about Tucano (held responsible and compensates the affected families; keeps operating, must improve its wastewater treatment and have its water tested by an outside laboratory).

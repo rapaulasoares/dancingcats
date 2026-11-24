@@ -84,3 +84,15 @@ export function describeAnswer(step: MeetingStep, answer: string | undefined): s
   }
   return label(answer);
 }
+
+/** What Whatson says after an answer. Right answers get a comment; wrong ones a hint that never gives the answer away. */
+export function whatsonSays(step: MeetingStep, answer: string, right: boolean): string {
+  const { whatson } = step;
+  if (right) return whatson.right;
+  if (step.kind === 'sentence' && step.sentence) {
+    const chosen = answer.split(ANSWER_SEPARATOR);
+    const wrongSlot = step.sentence.slots.find((slot, i) => chosen[i] !== slot.correct);
+    return (wrongSlot && whatson.wrongBy?.[wrongSlot.id]) || whatson.wrong;
+  }
+  return whatson.wrongBy?.[answer] ?? whatson.wrong;
+}

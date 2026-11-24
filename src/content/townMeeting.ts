@@ -36,6 +36,11 @@ export interface MeetingStep {
   prompt: string;
   /** A small instruction shown under the question. */
   hint: string;
+  /**
+   * What Whatson Urmind says once the answer is locked. Never says which answer was right.
+   * wrongBy: a more pointed comment for a particular wrong answer (an option id; for the sentence, the id of the first wrong blank).
+   */
+  whatson: { right: string; wrong: string; wrongBy?: Record<string, string> };
   /** pick, map, order (the cards to put in order) and scale (what goes on the scale). */
   options: StepOption[];
   /** sentence only: the words that fill the blanks, in order. */
@@ -60,6 +65,16 @@ export const townMeeting: MeetingStep[] = [
     heading: 'What is making them sick?',
     prompt: "I have treated these patients, and I have seen the sick cats. Tell me, what is making them all sick?",
     hint: 'Tap one card.',
+    whatson: {
+      "right": "Exactly! The laboratory found heavy metal in the blood and tissues of the cat and the fish, and it attacks the nervous system. That explains the stumbling and the dancing.",
+      "wrong": "Think about what the laboratory found in the blood and tissues of the cat and the fish.",
+      "wrongBy": {
+        "a": "Contagious illnesses spread to the people who care for the sick. Who looked after the sick, and who stayed well?",
+        "b": "The rats and the illness appeared at about the same time. Look again at which came first.",
+        "d": "The algae did multiply in January. Check when the first strange fish were seen, and what the laboratory found.",
+        "e": "The old stories deserve respect, but look for what can be measured. What did the laboratory find?"
+      }
+    },
     options: [
       { id: 'a', label: 'A contagious illness', image: 'card-virus.webp' },
       { id: 'b', label: 'The rats', image: 'card-rats.webp' },
@@ -79,6 +94,16 @@ export const townMeeting: MeetingStep[] = [
     heading: 'How does it reach us?',
     prompt: 'My family is sick. How is this poison reaching us?',
     hint: 'Tap one card.',
+    whatson: {
+      "right": "Yes! Heavy metal builds up in fish and shellfish, and then in the people who eat them often. The cats were eating fish scraps too.",
+      "wrong": "Think about what the sick families and the sick cats have in common.",
+      "wrongBy": {
+        "a": "Check where the town's water comes from, and who drinks it.",
+        "b": "Some people who never go near the sea became sick. Look at what they have in common with the fishing families.",
+        "c": "Look at where the patients live, and at the health of the people who work in the factory all day.",
+        "e": "Rats and illness are both in town. Look at what the sick people and the sick animals have in common."
+      }
+    },
     options: [
       { id: 'a', label: 'The tap water', image: 'card-tap-water.webp' },
       { id: 'b', label: 'The sea, through the skin', image: 'card-sea-skin.webp' },
@@ -98,6 +123,16 @@ export const townMeeting: MeetingStep[] = [
     heading: 'Where does it come from?',
     prompt: 'Everyone says the bay is dirty, but where is it coming from? Show us on the map!',
     hint: 'Tap a place on the map.',
+    whatson: {
+      "right": "Right. The mud and water samples were highest in the channel and at its mouth, and the Science Center took them outside the factory grounds. They trace back to Tucano's discharge.",
+      "wrong": "Look again at the mud and water samples. Where were the highest amounts?",
+      "wrongBy": {
+        "a": "The animals were found in the bay, but the highest amounts were measured upstream of it. Follow the numbers back to where they start.",
+        "b": "Look at the river mouth on the mud sampling map.",
+        "d": "Look at the boat-repair yard on the mud sampling map.",
+        "e": "The rats live in town, but the samples were taken from the mud and water of the bay. Where were the highest amounts?"
+      }
+    },
     // The picture map-bay-sites.webp shows the four places of the mud sampling. Ids: a bay, b river, c channel, d boat yard, e fishing community (for whoever blames the rats).
     options: [
       { id: 'a', label: 'The open bay', at: { x: 50, y: 56 } },
@@ -118,6 +153,10 @@ export const townMeeting: MeetingStep[] = [
     heading: 'And the rats?',
     prompt: 'What about the rats? We see them everywhere, and our cats are sick too!',
     hint: 'Tap the cards in the order things happened. Tap a card again to take it back.',
+    whatson: {
+      "right": "Good thinking! When the cats got sick and died, there were fewer predators to hunt the rats. Take away a predator and another species can explode: that is an imbalance in the ecosystem.",
+      "wrong": "Careful: correlation does not mean causation. The rats increased and so did the illness, but the cats were getting sick and disappearing before the rats multiplied."
+    },
     options: [
       { id: 'sick', label: 'The cats get sick', image: 'card-cats-sick.webp' },
       { id: 'fewer', label: 'There are fewer cats', image: 'card-fewer-cats.webp' },
@@ -135,6 +174,10 @@ export const townMeeting: MeetingStep[] = [
     heading: 'Who can we trust?',
     prompt: "Our own laboratory says Tucano's effluent is clean, and many workers depend on this company. Why should the town believe you?",
     hint: 'Tap the paper that weighs more as evidence.',
+    whatson: {
+      "right": "Well argued! The company tested its own water, while the Science Center took its samples outside the factory grounds. That does not make the company's report false, only less independent.",
+      "wrong": "The company's report may be true, but it was collected and tested by the company being investigated. Who took the independent samples?"
+    },
     // b: the company's own report. c: the independent analyses of the Science Center.
     options: [
       { id: 'b', label: "The company's own report", image: 'card-company-report.webp' },
@@ -152,6 +195,15 @@ export const townMeeting: MeetingStep[] = [
     heading: 'The conclusion',
     prompt: 'So, investigator, tell the whole town: why did the cats and the people get sick?',
     hint: 'Complete the sentence: tap a blank, then a word.',
+    whatson: {
+      "right": "That is the whole chain: the heavy metal left Tucano's wastewater, built up in the fish, and poisoned the animals and the people who ate them. Well done, investigator!",
+      "wrong": "Follow the whole chain once more: what was found, where it started, and how it reached the cats and the families.",
+      "wrongBy": {
+        "substance": "Look again at what the laboratory found in the blood and tissues of the animals.",
+        "source": "Where were the highest amounts measured? Follow them back to where they start.",
+        "carrier": "Think about what the cats and the affected families all ate."
+      }
+    },
     options: [],
     sentence: {
       before: 'The cats and people got sick because the',
