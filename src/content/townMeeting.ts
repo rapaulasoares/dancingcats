@@ -132,7 +132,7 @@ export const townMeeting: MeetingStep[] = [
     speaker: 'Mr. Santos',
     kind: 'scale',
     heading: 'Who can we trust?',
-    prompt: "Our own laboratory says Tucano's water is clean. Why should the town believe your papers over ours?",
+    prompt: "Our own laboratory says Tucano's effluent is clean, and many workers depend on this company. Why should the town believe you?",
     hint: 'Tap the paper that weighs more as evidence.',
     // b: the company's own report. c: the independent analyses of the Science Center.
     options: [
