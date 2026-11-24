@@ -338,7 +338,7 @@ export const evidence: Evidence[] = [
     locationId: 'community',
     source: 'Mrs. Silva',
     body: {
-      text: 'Bia is eighteen months old. She cannot sit up or hold a spoon the way her brothers did at her age. She was born this way. She has only ever had milk and has never eaten fish. Dr. Ana has no explanation.',
+      text: 'Bia is eighteen months old. She cannot sit up or hold a spoon the way her brothers did at her age. She was born this way. She has only ever had milk and has never eaten fish. Her mother changed nothing in her routine during the pregnancy: she worked as usual and ate what she always ate (fish, rice and beans). Dr. Ana has no explanation.',
     },
     internal: { relevance: 'medium', supports: [], weakens: [] },
   },
