@@ -5,6 +5,7 @@ import { meetingStatus } from '../../state/meeting';
 import { useGame } from '../../state/store';
 import { GameImage } from '../../ui/GameImage';
 import { PlayClock } from '../clock/PlayClock';
+import { CaseEnding } from './CaseEnding';
 import { BoardOverlay } from './BoardOverlay';
 import { StepInput } from './StepInput';
 import styles from './TownMeeting.module.css';
@@ -47,19 +48,7 @@ export function TownMeeting() {
     bubbleRef.current?.focus();
   }, [shownIndex]);
 
-  if (finished) {
-    // The ending screens come in a later stage; until then the meeting just closes.
-    return (
-      <main className={styles.scene}>
-        <section className={styles.endCard}>
-          <h1 className={styles.endTitle}>{status.solved ? 'Case solved!' : 'The mystery is not solved yet'}</h1>
-          <button className="btn" autoFocus onClick={finishMeeting}>
-            Continue
-          </button>
-        </section>
-      </main>
-    );
-  }
+  if (finished) return <CaseEnding solved={status.solved} onContinue={finishMeeting} />;
 
   const lock = () => {
     if (!draft || reaction) return;
