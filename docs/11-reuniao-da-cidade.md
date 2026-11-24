@@ -15,6 +15,10 @@ Replaces the written explanation and the 8-question report. Content lives in `sr
 
 Every answer is locked with the big Answer button, then the crowd reacts (applause or murmur). No retry, no right answer shown. Trust starts at 50, +10 for a right answer (+3 per extra answer in a row, up to +9), -10 for a wrong one. The streak shows as x2, x3 and so on.
 
+## Opening and wording
+
+The meeting opens on its own screen (the town square, the residents who will ask questions, "Face the town"). There is no separate meeting clock: the play clock keeps running from the moment the player entered the map. Each round is a real question from the character ("My family eats from this bay every single day. How is this poison reaching us?"), with a small instruction under it ("Tap one card.").
+
 ## Endings
 
 - **Solved**: round 1 right, the map right, and at least 70% of all answers right. A case folder closes, a CASE SOLVED stamp lands on it, the time is shown big with "Were you the fastest in the class?", then a short paragraph about Tucano (held responsible and compensates the affected families; keeps operating, must improve its wastewater treatment and have its water tested by an outside laboratory).

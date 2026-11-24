@@ -8,6 +8,7 @@ import { play } from '../../ui/sound';
 import { SoundToggle } from '../../ui/SoundToggle';
 import { PlayClock } from '../clock/PlayClock';
 import { CaseEnding } from './CaseEnding';
+import { MeetingIntro } from './MeetingIntro';
 import { BoardOverlay } from './BoardOverlay';
 import { StepInput } from './StepInput';
 import styles from './TownMeeting.module.css';
@@ -34,6 +35,8 @@ export function TownMeeting() {
   const answerFinal = useGame((s) => s.answerFinal);
   const finishMeeting = useGame((s) => s.finishMeeting);
 
+  // The meeting opens on its own screen. A game that is already under way skips it.
+  const [started, setStarted] = useState(index > 0);
   const [draft, setDraft] = useState<string | null>(null);
   const [reaction, setReaction] = useState<Reaction | null>(null);
   const [showBoard, setShowBoard] = useState(false);
@@ -50,6 +53,14 @@ export function TownMeeting() {
     bubbleRef.current?.focus();
   }, [shownIndex]);
 
+  if (!started && !finished) {
+    return (
+      <>
+        <MeetingIntro onStart={() => setStarted(true)} onBoard={() => setShowBoard(true)} />
+        {showBoard && <BoardOverlay onClose={() => setShowBoard(false)} />}
+      </>
+    );
+  }
   if (finished) return <CaseEnding solved={status.solved} onContinue={finishMeeting} />;
 
   const lock = () => {
@@ -102,6 +113,7 @@ export function TownMeeting() {
           <p className={styles.bubble} ref={bubbleRef} tabIndex={-1}>
             {step.prompt}
           </p>
+          <p className={styles.hint}>{step.hint}</p>
           <StepInput
             key={step.id}
             step={step}

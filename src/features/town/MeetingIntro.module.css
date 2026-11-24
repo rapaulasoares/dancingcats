@@ -1,0 +1,84 @@
+/* The town square at dusk, like the meeting itself. The photo is used when town-meeting-square.webp exists. */
+.scene {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background:
+    linear-gradient(180deg, rgba(15, 40, 52, 0.55), rgba(60, 39, 24, 0.85)),
+    url('/images/town-meeting-square.webp') center / cover,
+    linear-gradient(180deg, #27506a 0%, #6b4a33 70%, var(--wood-dark) 100%);
+  color: var(--paper);
+}
+
+.hud {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0.7rem 1rem;
+  background: rgba(15, 28, 30, 0.55);
+}
+
+.card {
+  width: min(100%, 52rem);
+  margin: auto;
+  padding: 1.5rem 1.5rem 1.25rem;
+  text-align: center;
+}
+
+.kicker {
+  margin: 0;
+  font-family: var(--font-typewriter);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--boat-yellow);
+}
+
+.title {
+  margin: 0.2rem 0 0.8rem;
+  font-family: var(--font-story);
+  font-size: var(--text-title);
+}
+
+.text {
+  max-width: 38rem;
+  margin: 0 auto 0.6rem;
+  font-family: var(--font-story);
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.crowd {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.person {
+  width: 6.5rem;
+}
+
+.portrait {
+  border: 3px solid var(--paper);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-paper);
+  overflow: hidden;
+}
+
+.name {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: var(--font-hand);
+  font-size: 1.2rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}

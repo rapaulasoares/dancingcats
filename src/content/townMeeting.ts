@@ -32,7 +32,10 @@ export interface MeetingStep {
   speaker: string;
   kind: StepKind;
   heading: string;
+  /** What the character says: a real question from a resident of Vila do Sol. */
   prompt: string;
+  /** A small instruction shown under the question. */
+  hint: string;
   /** pick, map, order (the cards to put in order) and scale (what goes on the scale). */
   options: StepOption[];
   /** sentence only: the words that fill the blanks, in order. */
@@ -55,7 +58,8 @@ export const townMeeting: MeetingStep[] = [
     speaker: 'Dr. Ana',
     kind: 'pick',
     heading: 'What is making them sick?',
-    prompt: 'What is making the cats and the people of Vila do Sol sick?',
+    prompt: "I have treated these patients, and I have seen the sick cats. Tell me, what is making them all sick?",
+    hint: 'Tap one card.',
     options: [
       { id: 'a', label: 'A contagious illness', image: 'card-virus.webp' },
       { id: 'b', label: 'The rats', image: 'card-rats.webp' },
@@ -73,7 +77,8 @@ export const townMeeting: MeetingStep[] = [
     speaker: 'Maria',
     kind: 'pick',
     heading: 'How does it reach us?',
-    prompt: 'How does the harmful substance reach the people of Vila do Sol?',
+    prompt: 'My family eats from this bay every single day. How is this poison reaching us?',
+    hint: 'Tap one card.',
     options: [
       { id: 'a', label: 'The tap water', image: 'card-tap-water.webp' },
       { id: 'b', label: 'The sea, through the skin', image: 'card-sea-skin.webp' },
@@ -90,7 +95,8 @@ export const townMeeting: MeetingStep[] = [
     speaker: 'Carlos',
     kind: 'map',
     heading: 'Where does it come from?',
-    prompt: 'Tap the place on the map where the contamination comes from.',
+    prompt: 'Everyone says the bay is dirty, but where is it coming from? Show us on the map!',
+    hint: 'Tap a place on the map.',
     // The picture map-bay-sites.webp shows the four places of the mud sampling. Ids: a bay, b river, c channel, d boat yard, e fishing community (for whoever blames the rats).
     options: [
       { id: 'a', label: 'The open bay', at: { x: 50, y: 56 } },
@@ -109,7 +115,8 @@ export const townMeeting: MeetingStep[] = [
     speaker: 'Mrs. Silva',
     kind: 'order',
     heading: 'And the rats?',
-    prompt: 'Put the three cards in the order in which things happened.',
+    prompt: 'First our cats got sick, and now the rats are everywhere. What happened first, and what came after?',
+    hint: 'Tap the cards in the order things happened. Tap a card again to take it back.',
     options: [
       { id: 'sick', label: 'The cats get sick', image: 'card-cats-sick.webp' },
       { id: 'fewer', label: 'There are fewer cats', image: 'card-fewer-cats.webp' },
@@ -125,7 +132,8 @@ export const townMeeting: MeetingStep[] = [
     speaker: 'Mr. Santos',
     kind: 'scale',
     heading: 'Who can we trust?',
-    prompt: 'Mr. Santos holds up two papers. Which one weighs more as evidence?',
+    prompt: "Our own laboratory says Tucano's water is clean. Why should the town believe your papers over ours?",
+    hint: 'Tap the paper that weighs more as evidence.',
     // b: the company's own report. c: the independent analyses of the Science Center.
     options: [
       { id: 'b', label: "The company's own report", image: 'card-company-report.webp' },
@@ -141,7 +149,8 @@ export const townMeeting: MeetingStep[] = [
     speaker: 'Prof. Roberto',
     kind: 'sentence',
     heading: 'The conclusion',
-    prompt: 'Prof. Roberto asks the final question: complete the sentence that explains the case.',
+    prompt: 'So, investigator, tell the whole town: why did the cats and the people get sick?',
+    hint: 'Complete the sentence: tap a blank, then a word.',
     options: [],
     sentence: {
       before: 'The cats and people got sick because the',
