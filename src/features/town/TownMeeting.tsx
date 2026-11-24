@@ -5,6 +5,7 @@ import { ROUND_COUNT, townMeeting } from '../../content/townMeeting';
 import { meetingStatus, whatsonSays } from '../../state/meeting';
 import { useGame } from '../../state/store';
 import { GameImage } from '../../ui/GameImage';
+import { Typewriter } from '../../ui/Typewriter';
 import { play } from '../../ui/sound';
 import { SoundToggle } from '../../ui/SoundToggle';
 import { PlayClock } from '../clock/PlayClock';
@@ -114,7 +115,13 @@ export function TownMeeting() {
         </div>
         <div className={styles.talk}>
           <p className={styles.bubble} ref={bubbleRef} tabIndex={-1}>
-            {step.prompt}
+            {/* The full text keeps the bubble the same size while the letters appear on top of it. */}
+            <span className={styles.ghost} aria-hidden="true">
+              {step.prompt}
+            </span>
+            <span className={styles.typed}>
+              <Typewriter key={step.id} text={step.prompt} msPerChar={16} />
+            </span>
           </p>
           <p className={styles.hint}>{step.hint}</p>
           <StepInput

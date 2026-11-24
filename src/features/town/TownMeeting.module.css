@@ -637,3 +637,14 @@
   font-size: 1.05rem;
   line-height: 1.4;
 }
+
+/* The resident's question is typed out letter by letter over an invisible copy of itself. */
+.ghost {
+  display: block;
+  visibility: hidden;
+}
+
+.typed {
+  position: absolute;
+  inset: 1rem 1.25rem;
+}
