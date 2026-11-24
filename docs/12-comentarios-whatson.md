@@ -70,7 +70,7 @@ Generated from `src/content/townMeeting.ts` (the `whatson` field of each step). 
 
 ## Round 6 · Prof. Roberto (P2)
 
-**Question:** Fine, but how do you know? What do these clues really tell us?
+**Question:** How did you solve this case, investigator? What did each of these clues tell you?
 
 **Right answer:** Sharp thinking. Each clue says something specific, and you saw what it really shows.
 
