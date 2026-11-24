@@ -10,7 +10,7 @@ import { PHASES, type SaveGame } from './store';
  * (notes and meeting answers); only counts and the choices they made remain.
  */
 export function buildSessionSummary(save: SaveGame) {
-  const finished = PHASES.indexOf(save.phase) > PHASES.indexOf('report');
+  const finished = PHASES.indexOf(save.phase) > PHASES.indexOf('report') || Object.keys(save.final.answers).length >= finalReport.length;
   const profile = finished ? buildProfile(save) : null;
   const classCounts: Record<string, number> = {};
   for (const entry of save.questionLog) classCounts[entry.class] = (classCounts[entry.class] ?? 0) + 1;

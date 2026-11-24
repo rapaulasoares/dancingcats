@@ -182,6 +182,8 @@ interface Actions {
   beginReport: () => boolean;
   /** Locks the answer of the current step of the meeting. Ignored if it does not fit the step. */
   answerFinal: (answer: string) => void;
+  /** Leaves the meeting once its ending has been seen. Only after the last answer. */
+  finishMeeting: () => void;
   continueAfter: (phase: 'profile' | 'reveal') => void;
   /** After the report is finished, the closing screens can be visited in any order. */
   visitAfterGame: (phase: 'profile' | 'reveal' | 'reflection') => void;
@@ -504,14 +506,18 @@ export const useGame = create<GameState>()(
             index: s.final.index + 1,
             answers: { ...s.final.answers, [question.id]: answer },
           };
-          const done = final.index >= finalReport.length;
-          return done ? { final, ...enterPhase(s, 'profile') } : { final };
+          // The last answer stops the clock; the meeting screen then shows its ending and calls finishMeeting.
+          return { final };
         }),
+
+      finishMeeting: () =>
+        set((s) => (s.phase === 'report' && s.final.index >= finalReport.length ? enterPhase(s, 'profile') : {})),
 
       addPlayTime: (ms) =>
         set((s) => {
           if (!s.sessionActive || s.phase === 'start' || ms <= 0) return {};
-          const counts = s.phase === 'investigation' || s.phase === 'report';
+          // The meeting stops the clock at its last answer, while the ending is still on screen.
+          const counts = s.phase === 'investigation' || (s.phase === 'report' && s.final.index < finalReport.length);
           return {
             timing: {
               ...s.timing,

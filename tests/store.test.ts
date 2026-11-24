@@ -216,6 +216,9 @@ describe('progress events and the final report', () => {
     game().answerFinal('c,c,d');
     expect(game().final.index).toBe(7);
     expect(game().final.answers.R1).toBe('c');
+    // The last answer stops the clock but the meeting stays open for its ending.
+    expect(game().phase).toBe('report');
+    game().finishMeeting();
     expect(game().phase).toBe('profile');
   });
 });
@@ -330,8 +333,11 @@ describe('play clock', () => {
     expect(game().timing.playMs).toBe(90_000);
 
     answerAll(WRONG);
+    game().addPlayTime(5_000); // the ending is on screen: the clock stopped at the last answer
+    expect(game().timing.playMs).toBe(90_000);
+    game().finishMeeting();
     expect(game().phase).toBe('profile');
-    game().addPlayTime(10_000); // the report is finished: the clock has stopped
+    game().addPlayTime(10_000);
     expect(game().timing.playMs).toBe(90_000);
   });
 
@@ -426,6 +432,7 @@ describe('after the report', () => {
     expect(game().phase).toBe('report');
 
     answerAll(WRONG);
+    game().finishMeeting();
     expect(game().phase).toBe('profile');
     game().visitAfterGame('reflection');
     expect(game().phase).toBe('reflection');

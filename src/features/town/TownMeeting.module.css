@@ -1,0 +1,333 @@
+/* The town square at dusk. The background image is added when town-meeting-square.webp exists. */
+.scene {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background:
+    linear-gradient(180deg, rgba(15, 40, 52, 0.55), rgba(60, 39, 24, 0.85)),
+    url('/images/town-meeting-square.webp') center / cover,
+    linear-gradient(180deg, #27506a 0%, #6b4a33 70%, var(--wood-dark) 100%);
+  color: var(--paper);
+}
+
+/* ── Top strip: clock, rounds, trust ── */
+.hud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1.25rem;
+  padding: 0.7rem 1rem;
+  background: rgba(15, 28, 30, 0.55);
+}
+
+.rounds {
+  display: flex;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.round,
+.roundDone,
+.roundNow {
+  width: 2.2rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  border: 2px solid var(--paper);
+}
+
+.roundDone {
+  background: var(--boat-yellow);
+  border-color: var(--boat-yellow);
+}
+
+.roundNow {
+  background: var(--paper);
+}
+
+.trust {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.trustLabel {
+  font-family: var(--font-typewriter);
+  font-size: 0.9rem;
+}
+
+.trustBar {
+  width: min(14rem, 38vw);
+  height: 1.1rem;
+  border-radius: 999px;
+  border: 2px solid var(--paper);
+  background: rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.trustFill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--boat-red), var(--boat-yellow) 50%, #6cbf6a);
+  transition: width 0.6s ease;
+}
+
+.streak {
+  min-width: 2.6rem;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  background: var(--boat-yellow);
+  color: var(--ink);
+  font-family: var(--font-typewriter);
+  font-weight: 700;
+  text-align: center;
+  animation: pop 0.4s ease;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.5);
+  }
+  70% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ── The speaker and what they ask ── */
+.stage {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr);
+  gap: 1.25rem;
+  width: min(100%, 62rem);
+  margin: 0 auto;
+  padding: 1.25rem 1rem;
+  align-items: start;
+}
+
+.speaker {
+  text-align: center;
+}
+
+.portrait {
+  border: 4px solid var(--paper);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-paper);
+  overflow: hidden;
+}
+
+.speakerName {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+}
+
+.talk {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.bubble {
+  position: relative;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 1rem;
+  font-family: var(--font-story);
+  font-size: 1.3rem;
+  line-height: 1.4;
+  box-shadow: var(--shadow-paper);
+}
+
+.bubble:focus-visible {
+  outline: 3px solid var(--boat-yellow);
+  outline-offset: 3px;
+}
+
+/* ── Cards to tap ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem;
+  border: 3px solid var(--paper-edge);
+  border-radius: 0.8rem;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-paper);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover:not(:disabled) {
+  transform: translateY(-3px);
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--boat-yellow);
+  outline-offset: 2px;
+}
+
+.cardOn {
+  border-color: var(--sea);
+  box-shadow: 0 0 0 4px var(--sea-light), var(--shadow-paper);
+  transform: translateY(-4px);
+}
+
+/* After the answer, only the correct card is marked, and only by a gentle outline. */
+.cardRight {
+  border-color: #3f8f4a;
+}
+
+.cardImage {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.cardLabel {
+  font-family: var(--font-story);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.selects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.selects select {
+  min-height: var(--touch-target);
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  border-radius: var(--radius);
+}
+
+/* ── Bottom bar ── */
+.actions,
+.reactRight,
+.reactWrong {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding: 0.9rem 1.25rem;
+}
+
+.actions {
+  background: rgba(15, 28, 30, 0.7);
+}
+
+.answer {
+  min-width: 11rem;
+  font-size: 1.2rem;
+}
+
+.reactRight {
+  background: #dff1d8;
+  color: #1f4d28;
+  animation: rise 0.3s ease;
+}
+
+.reactWrong {
+  background: #f6dcd6;
+  color: #6b241c;
+  animation: rise 0.3s ease;
+}
+
+.reactText {
+  margin: 0;
+  font-family: var(--font-story);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ── Temporary ending card ── */
+.endCard {
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-paper);
+}
+
+.endTitle {
+  margin: 0 0 1rem;
+  font-family: var(--font-story);
+}
+
+/* ── The player's own board, read only ── */
+.boardOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 2rem;
+  background: var(--wood-dark);
+}
+
+.boardBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
+  background: linear-gradient(180deg, #24625c, var(--sea-deep));
+  border-bottom: 4px solid var(--wood-dark);
+  color: var(--paper);
+  font-family: var(--font-typewriter);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 40rem) {
+  .stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .speaker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .portrait {
+    width: 5rem;
+  }
+}

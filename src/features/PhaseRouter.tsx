@@ -5,7 +5,7 @@ import { Investigation } from './investigation/Investigation';
 import { OpeningBook } from './opening/OpeningBook';
 import { ProfileScreen } from './profile/ProfileScreen';
 import { ReflectionScreen } from './reflection/ReflectionScreen';
-import { ReportScreen } from './report/ReportScreen';
+import { TownMeeting } from './town/TownMeeting';
 import { RevealSequence } from './reveal/RevealSequence';
 import { StartScreen } from './start/StartScreen';
 
@@ -13,7 +13,7 @@ const SCREENS: Record<Phase, ReactNode> = {
   start: <StartScreen />,
   opening: <OpeningBook />,
   investigation: <Investigation />,
-  report: <ReportScreen />,
+  report: <TownMeeting />,
   profile: <ProfileScreen />,
   reveal: <RevealSequence />,
   reflection: <ReflectionScreen />,
