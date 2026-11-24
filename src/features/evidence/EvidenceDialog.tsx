@@ -20,6 +20,7 @@ export function EvidenceDialog({ evidenceId, isNew, onClose, showStatus = true, 
   const evidence = evidenceById[evidenceId];
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const pressedBackdrop = useRef(false);
   useFocusTrap(dialogRef);
 
   useEffect(() => {
@@ -34,7 +35,20 @@ export function EvidenceDialog({ evidenceId, isNew, onClose, showStatus = true, 
   if (!evidence) return null;
 
   return (
-    <div className={styles.backdrop} onClick={onClose}>
+    <div
+      className={styles.backdrop}
+      // Only a press that starts on the dark backdrop closes the window. On a touch screen the browser sends a
+      // click after the finger lifts, and the card on the board opens this window on release: that click would
+      // land on the backdrop and close it again at once (when the card is outside the centred window).
+      onPointerDown={(e) => {
+        pressedBackdrop.current = e.target === e.currentTarget;
+      }}
+      onClick={(e) => {
+        const intended = pressedBackdrop.current && e.target === e.currentTarget;
+        pressedBackdrop.current = false;
+        if (intended) onClose();
+      }}
+    >
       <div
         ref={dialogRef}
         className={styles.dialog}
