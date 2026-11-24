@@ -91,12 +91,13 @@ export const townMeeting: MeetingStep[] = [
     kind: 'map',
     heading: 'Where does it come from?',
     prompt: 'Tap the place on the map where the contamination comes from.',
-    // The picture map-bay-sites.webp shows the four places of the mud sampling. Ids: a bay, b river, c channel, d boat yard.
+    // The picture map-bay-sites.webp shows the four places of the mud sampling. Ids: a bay, b river, c channel, d boat yard, e fishing community (for whoever blames the rats).
     options: [
       { id: 'a', label: 'The open bay', at: { x: 50, y: 56 } },
       { id: 'b', label: 'The river mouth', at: { x: 16, y: 34 } },
-      { id: 'c', label: 'The channel at the north point', at: { x: 80, y: 24 } },
-      { id: 'd', label: 'The boat-repair yard', at: { x: 22, y: 78 } },
+      { id: 'c', label: "North channel: Tucano's discharge", at: { x: 80, y: 24 } },
+      { id: 'd', label: 'The boat-repair yard', at: { x: 20, y: 80 } },
+      { id: 'e', label: 'The fishing community', at: { x: 60, y: 80 } },
     ],
     correct: 'c',
     dimension: 'systemsThinking',

@@ -64,7 +64,7 @@ A plate of grilled fish with rice, beans and lime on a simple wooden table, stea
 
 ### `map-bay-sites.webp` (formato 16:10, 1920 × 1200)
 ```
-A stylized 3D diorama of the bay seen from high above at a slight angle, like a game map. Four clearly separated places, each with open space around it: (1) a plain concrete channel coming down from green hills to the sea at the north point, top right; (2) a river mouth on the left; (3) a small boat-repair yard with a slipway and two boats on the south beach, bottom left; (4) the open middle of the bay with a few fishing boats. Bright, even daylight so every place is easy to see. No labels, no text. 16:10.
+A stylized 3D diorama of the bay seen from high above at a slight angle, like a game map. Five clearly separated places, each with open space around it: (1) a plain concrete channel coming down from green hills to the sea at the north point, top right; (2) a river mouth on the left; (3) a small boat-repair yard with a slipway and two boats on the south beach, bottom left; (4) the open middle of the bay with a few fishing boats; (5) a small fishing community of colourful houses on the shore, bottom centre. Bright, even daylight so every place is easy to see. No labels, no text. 16:10.
 ```
 
 ## Rodada 4: "E os ratos?" (3 cartas, para ordenar)

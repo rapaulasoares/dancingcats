@@ -186,6 +186,7 @@ export function buildProfile(save: SaveGame): Profile {
       a: 'The algae did multiply in January. Check when the first strange fish were seen, and what the laboratory found.',
       b: 'Look at the river mouth on the mud sampling map.',
       d: 'Look at the boat-repair yard on the mud sampling map.',
+      e: 'The rats live in town, but the samples were taken from the mud and water of the bay. Where were the highest amounts?',
     };
     stFeedback.push(r3Hints[chosen('R3')!] ?? '');
   }
