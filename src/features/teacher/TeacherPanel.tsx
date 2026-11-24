@@ -99,6 +99,10 @@ export function TeacherPanel({ onClose }: { onClose: () => void }) {
               meeting. A solved case shows the time taken. Just ask: who was fastest?
             </li>
             <li>
+              <strong>How they reasoned.</strong> In the meeting students show the clues that prove their answer. Afterwards
+              ask each team to explain aloud, in 30 seconds, how they reached it. Their Evidence Board shows the path.
+            </li>
+            <li>
               <strong>Afterwards.</strong> Investigator Profile, the real case that inspired the story, and discussion
               questions that can be printed.
             </li>

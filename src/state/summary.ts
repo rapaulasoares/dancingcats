@@ -47,6 +47,10 @@ export function buildSessionSummary(save: SaveGame) {
       tagged: tags,
       notes: save.board.notes.filter((n) => n.kind !== 'conclusion').length,
       conclusions: save.board.notes.filter((n) => n.kind === 'conclusion').length,
+      // How many conclusion cards are tied to at least one piece of evidence (the text itself is never exported).
+      conclusionsWithEvidence: save.board.notes.filter(
+        (n) => n.kind === 'conclusion' && save.board.links.some((l) => l.from === n.id || l.to === n.id),
+      ).length,
       strings: save.board.links.length,
     },
     meetings: Object.fromEntries(

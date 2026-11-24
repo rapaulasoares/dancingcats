@@ -41,6 +41,7 @@ export function ProfileScreen({ onClose }: Props = {}) {
         .map((id) => evidenceById[id]?.title)
         .filter((title): title is string => !!title),
     }));
+  const markedCount = Object.values(save.board.items).filter((item) => item.tag).length;
   const questionCount = Object.keys(save.asked).reduce((n, id) => n + save.asked[id].length, 0);
 
   return (
@@ -162,23 +163,34 @@ export function ProfileScreen({ onClose }: Props = {}) {
           </section>
         )}
 
-        {conclusions.length > 0 && (
+        {finished && (
           <section aria-labelledby="your-conclusions">
             <h2 id="your-conclusions" className={styles.sectionTitle}>
-              Your conclusions
+              How you got here
             </h2>
-            <ul className={styles.conclusions}>
-              {conclusions.map((c) => (
-                <li key={c.id}>
-                  <p className={styles.conclusionText}>{c.text}</p>
-                  <p className={styles.markNote}>
-                    {c.basedOn.length > 0
-                      ? `Based on: ${c.basedOn.join(' · ')}`
-                      : 'Not tied to any evidence on the board.'}
-                  </p>
-                </li>
-              ))}
-            </ul>
+            <p className={styles.sectionLead}>
+              On your Evidence Board you marked {markedCount} {markedCount === 1 ? 'clue' : 'clues'}, tied{' '}
+              {save.board.links.length} red {save.board.links.length === 1 ? 'thread' : 'threads'} and wrote{' '}
+              {conclusions.length} {conclusions.length === 1 ? 'conclusion' : 'conclusions'}.
+            </p>
+            {conclusions.length > 0 ? (
+              <ul className={styles.conclusions}>
+                {conclusions.map((c) => (
+                  <li key={c.id}>
+                    <p className={styles.conclusionText}>{c.text}</p>
+                    <p className={styles.markNote}>
+                      {c.basedOn.length > 0
+                        ? `Based on: ${c.basedOn.join(' · ')}`
+                        : 'Not tied to any evidence on the board.'}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className={styles.markNote}>
+                You did not write a conclusion. A conclusion card tied to the clues behind it shows how you reached your answer.
+              </p>
+            )}
           </section>
         )}
 

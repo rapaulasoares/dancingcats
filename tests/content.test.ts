@@ -20,8 +20,8 @@ function unique<T>(items: T[]): boolean {
 describe('content counts match the design documents', () => {
   it('has 64 evidence items', () => expect(evidence).toHaveLength(64));
   it('has 76 questions', () => expect(allQuestions).toHaveLength(76));
-  it('has 6 town meeting answers in 6 rounds', () => {
-    expect(finalReport).toHaveLength(6);
+  it('has 7 town meeting answers in 6 rounds', () => {
+    expect(finalReport).toHaveLength(7);
     expect(new Set(finalReport.map((q) => q.round)).size).toBe(6);
   });
   it('has 9 locations and 9 characters', () => {
@@ -85,7 +85,9 @@ describe('references', () => {
 
   it('final report answers and evidence references exist', () => {
     for (const q of finalReport) {
-      if (q.kind === 'sentence') {
+      if (q.kind === 'proof') {
+        for (const id of q.correct.split(',')) expect(q.evidenceRefs).toContain(id);
+      } else if (q.kind === 'sentence') {
         expect(q.sentence!.slots.map((slot) => slot.correct).join(',')).toBe(q.correct);
         for (const slot of q.sentence!.slots) expect(slot.options.map((o) => o.id)).toContain(slot.correct);
       } else if (q.kind === 'order') {

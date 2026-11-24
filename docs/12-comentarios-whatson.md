@@ -59,6 +59,15 @@ Generated from `src/content/townMeeting.ts` (the `whatson` field of each step). 
 **Wrong answer (general):** The company's report may be true, but it was collected and tested by the company being investigated. Who took the independent samples?
 
 
+## Round 6 · Prof. Roberto (P1)
+
+**Question:** You have told us what you think. Now show us: which clues from your wall prove it?
+
+**Right answer:** Those clues hold up. Measurements in the animals, in the bay mud and water, and in the factory's own process all point the same way.
+
+**Wrong answer (general):** Some of those clues do not show how the metal got from Tucano to the cats. Look for the ones that measured it: in the animals, in the mud and water, and in what the factory uses.
+
+
 ## Round 6 · Prof. Roberto (R7)
 
 **Question:** So, investigator, tell the whole town: why did the cats and the people get sick?

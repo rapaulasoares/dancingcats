@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { evidenceById } from '../../content/evidence';
 import { ANSWER_SEPARATOR, type MeetingStep } from '../../content/townMeeting';
+import { useGame } from '../../state/store';
 import { shuffled } from '../../state/scoring';
 import { GameImage } from '../../ui/GameImage';
 import { play } from '../../ui/sound';
+import { FORMAT_LABEL } from '../evidence/EvidenceView';
 import styles from './TownMeeting.module.css';
 
 interface Props {
@@ -33,6 +36,8 @@ export function StepInput(props: Props) {
       return <Balance {...props} />;
     case 'sentence':
       return <SentenceBuilder {...props} />;
+    case 'proof':
+      return <ProofPicker {...props} />;
     default:
       return <CardChoice {...props} />;
   }
@@ -268,6 +273,62 @@ function SentenceBuilder({ step, seed, locked, onChange }: Props) {
           ))}
         </ul>
       )}
+    </div>
+  );
+}
+
+/** The proof: up to three clues from the player's own wall that show how they know. */
+function ProofPicker({ locked, onChange }: Props) {
+  const collected = useGame((s) => s.evidence);
+  const [picked, setPicked] = useState<string[]>([]);
+  const shown = locked ? (locked === 'none' ? [] : locked.split(ANSWER_SEPARATOR)) : picked;
+  const MAX = 3;
+
+  const toggle = (id: string) =>
+    setPicked((now) => (now.includes(id) ? now.filter((x) => x !== id) : now.length < MAX ? [...now, id] : now));
+
+  // The answer follows the clues chosen.
+  useEffect(() => {
+    if (locked === undefined && collected.length > 0) onChange(picked.length ? picked.join(ANSWER_SEPARATOR) : null);
+  }, [picked, locked, collected.length, onChange]);
+
+  if (collected.length === 0) {
+    return (
+      <div className={styles.proofEmpty}>
+        <p>Your wall is empty: you have no clues to show.</p>
+        <button type="button" className="btn" disabled={locked !== undefined} onClick={() => onChange('none')}>
+          Show nothing
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.proofArea}>
+      <p className={styles.proofCount} role="status">
+        {shown.length} of {MAX} clues chosen
+      </p>
+      <ul className={styles.proofList} aria-label="Clues on your Evidence Board">
+        {collected.map((id) => {
+          const clue = evidenceById[id];
+          if (!clue) return null;
+          const on = shown.includes(id);
+          return (
+            <li key={id}>
+              <button
+                type="button"
+                aria-pressed={on}
+                disabled={locked !== undefined || (!on && shown.length >= MAX)}
+                className={on ? `${styles.proof} ${styles.proofOn}` : styles.proof}
+                onClick={() => toggle(id)}
+              >
+                <span className={styles.proofKind}>{FORMAT_LABEL[clue.format]}</span>
+                <span className={styles.proofTitle}>{clue.title}</span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

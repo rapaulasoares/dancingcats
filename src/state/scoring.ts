@@ -2,6 +2,7 @@ import { evidenceById } from '../content/evidence';
 import { finalReport } from '../content/finalReport';
 import { classPoints } from '../content/interviews';
 import type { Dimension } from '../content/types';
+import { isRight } from './meeting';
 import type { SaveGame } from './store';
 
 /**
@@ -63,7 +64,7 @@ export function buildProfile(save: SaveGame): Profile {
   const chosen = (id: string) => save.final.answers[id];
   const right = (id: string) => {
     const q = finalReport.find((f) => f.id === id);
-    return !!q && chosen(id) === q.correct;
+    return !!q && isRight(q, chosen(id));
   };
   const count = (...ids: string[]) => ids.filter(right).length;
   const asked = new Set(Object.values(save.asked).flat());
@@ -136,6 +137,12 @@ export function buildProfile(save: SaveGame): Profile {
     eaFeedback.push('The evidence you marked was sorted well. Marking more of it would show more of your thinking.');
   }
 
+  if (chosen('P1') && !right('P1')) {
+    eaFeedback.push('Some of the clues you showed do not directly prove the cause. Look for the ones that measured the metal: in the animals, in the bay, and in the factory.');
+  } else if (right('P1')) {
+    eaFeedback.push('You showed clues that really prove the chain, from the factory to the animals.');
+  }
+
   // ── Logical Reasoning ──
   const lrFeedback: string[] = [];
   if (right('R7')) {
@@ -204,14 +211,14 @@ export function buildProfile(save: SaveGame): Profile {
     questionId: q.id,
     chosen: chosen(q.id),
     correct: q.correct,
-    isCorrect: chosen(q.id) === q.correct,
+    isCorrect: isRight(q, chosen(q.id)),
   }));
 
   return {
     dimensions: [
       dimension('questionQuality', qqScore, qqFeedback),
       // Half from the report answers, half from how the player sorted evidence on the board.
-      dimension('evidenceAnalysis', clamp01(0.5 * (count('R1', 'R2') / 2) + 0.5 * marks.score), eaFeedback),
+      dimension('evidenceAnalysis', clamp01(0.5 * (count('R1', 'R2', 'P1') / 3) + 0.5 * marks.score), eaFeedback),
       dimension('logicalReasoning', clamp01(count('R7')), lrFeedback),
       dimension('sourceEvaluation', blend(count('R6'), 1, seBehaviour), seFeedback),
       dimension('systemsThinking', blend(count('R3', 'R4'), 2, stBehaviour), stFeedback),

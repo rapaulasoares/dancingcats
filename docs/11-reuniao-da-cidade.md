@@ -2,7 +2,7 @@
 
 Replaces the written explanation and the 8-question report. Content lives in `src/content/townMeeting.ts`; trust, streak and the ending are computed from the answers in `src/state/meeting.ts`.
 
-## Rounds (6 answers, 6 rounds)
+## Rounds (7 answers, 6 rounds)
 
 | Round | Speaker | Piece | Reasoning id | Right answer |
 |---|---|---|---|---|
@@ -11,7 +11,8 @@ Replaces the written explanation and the 8-question report. Content lives in `sr
 | 3 | Carlos | tap a place on the bay map | R3 | the channel at the north point |
 | 4 | Mrs. Silva | put 3 cards in order | R4 | cats sick, fewer cats, more rats |
 | 5 | Mr. Santos | put a paper on the heavier side of a balance | R6 | independent analyses by the Science Center |
-| 6 | Prof. Roberto | build the sentence with a word bank | R7 | heavy metal, Tucano's wastewater, fish they ate |
+| 6a | Prof. Roberto | show your proof: tap up to 3 clues from your own Evidence Board | P1 | at least 2 of the 3 clues are key ones (tissue analysis, bay samples, Tucano's waste, chemicals in production, substances that build up, food chain) |
+| 6b | Prof. Roberto | build the sentence with a word bank | R7 | heavy metal, Tucano's wastewater, fish they ate |
 
 Every answer is locked with the big Answer button, then the crowd reacts (applause or murmur). No retry, no right answer shown. Trust starts at 50, +10 for a right answer (+3 per extra answer in a row, up to +9), -10 for a wrong one. The streak shows as x2, x3 and so on.
 
@@ -39,3 +40,9 @@ No result codes, no ranking, no album. The clock runs from entering Vila do Sol 
 - Profile: no "x of 8"; shows "The case: Solved / Not solved yet".
 
 Card illustrations: [10-prompts-cartas-reuniao.md](10-prompts-cartas-reuniao.md).
+
+## Showing how they reasoned
+
+- **Show your proof (P1)**: before the final sentence, the player picks up to three clues from their own wall. A player with no clues can show nothing.
+- **How you got here** (profile): how many clues the player marked, how many red threads they tied, and their conclusion cards with the evidence behind each. The teacher export counts conclusions tied to evidence (no text).
+- **Teacher guide**: ask each team to explain aloud, in 30 seconds, how they reached the answer.

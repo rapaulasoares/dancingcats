@@ -7,7 +7,7 @@ import type { Dimension } from './types';
  * Card illustrations: docs/10-prompts-cartas-reuniao.md
  */
 
-export type StepKind = 'pick' | 'map' | 'order' | 'scale' | 'sentence';
+export type StepKind = 'pick' | 'map' | 'order' | 'scale' | 'sentence' | 'proof';
 
 export interface StepOption {
   id: string;
@@ -48,6 +48,8 @@ export interface MeetingStep {
   /**
    * What the right answer is. pick/map/scale: an option id. order: option ids joined by ",".
    * sentence: one chosen option id per slot, joined by ",".
+   * proof: up to three evidence ids from the player's own board, joined by "," (or "none"). Right when at least two of them
+   * (or all, if fewer were picked) are in evidenceRefs; `correct` only lists the best clues, for the review.
    */
   correct: string;
   dimension: Dimension;
@@ -186,6 +188,25 @@ export const townMeeting: MeetingStep[] = [
     correct: 'c',
     dimension: 'sourceEvaluation',
     evidenceRefs: ['TUC-02', 'SCI-07', 'TUC-01', 'SCI-10'],
+  },
+  {
+    id: 'P1',
+    round: 6,
+    speaker: 'Prof. Roberto',
+    kind: 'proof',
+    heading: 'Show your proof',
+    prompt: 'You have told us what you think. Now show us: which clues from your wall prove it?',
+    hint: 'Tap up to three clues from your Evidence Board, then press Answer.',
+    whatson: {
+      right: "Those clues hold up. Measurements in the animals, in the bay mud and water, and in the factory's own process all point the same way.",
+      wrong:
+        "Some of those clues do not show how the metal got from Tucano to the cats. Look for the ones that measured it: in the animals, in the mud and water, and in what the factory uses.",
+    },
+    options: [],
+    correct: 'SCI-09,SCI-10,TUC-03',
+    dimension: 'evidenceAnalysis',
+    // The clues that really show the chain; any of these counts.
+    evidenceRefs: ['SCI-09', 'SCI-10', 'TUC-03', 'TUC-08', 'SCI-04', 'SCI-01'],
   },
   {
     id: 'R7',
