@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { evidenceById } from '../../content/evidence';
 import { finalReport } from '../../content/finalReport';
+import { describeAnswer, meetingStatus } from '../../state/meeting';
 import { LEVELS, buildProfile } from '../../state/scoring';
 import { useGame } from '../../state/store';
 import { formatPlayTime } from '../clock/PlayClock';
@@ -77,23 +78,11 @@ export function ProfileScreen({ onClose }: Props = {}) {
               <dd>{questionCount}</dd>
             </div>
             <div>
-              <dt>Best-supported answers</dt>
-              <dd>
-                {profile.correctCount} of {finalReport.length}
-              </dd>
+              <dt>The case</dt>
+              <dd>{finished ? (meetingStatus(save.final.answers).solved ? 'Solved' : 'Not solved yet') : '—'}</dd>
             </div>
           </dl>
         </header>
-
-        {save.final.explanation && (
-          <section aria-labelledby="own-words">
-            <h2 id="own-words" className={styles.sectionTitle}>
-              In your own words
-            </h2>
-            <p className={styles.sectionLead}>What do you think is happening in Vila do Sol, and why?</p>
-            <blockquote className={styles.explanation}>{save.final.explanation}</blockquote>
-          </section>
-        )}
 
         <section aria-labelledby="how-you-worked">
           <h2 id="how-you-worked" className={styles.sectionTitle}>
@@ -206,20 +195,18 @@ export function ProfileScreen({ onClose }: Props = {}) {
           <ol className={styles.answers}>
             {finalReport.map((q, i) => {
               const result = profile.answers[i];
-              const yours = q.options.find((o) => o.id === result.chosen);
-              const best = q.options.find((o) => o.id === q.correct)!;
               return (
                 <li key={q.id} className={styles.answer}>
                   <h3 className={styles.question}>{q.prompt}</h3>
 
                   <p className={result.isCorrect ? styles.yoursRight : styles.yoursWrong}>
                     <span className={styles.tag}>{result.isCorrect ? '✓ Your answer' : '✗ Your answer'}</span>
-                    {yours?.text ?? 'No answer'}
+                    {describeAnswer(q, result.chosen)}
                   </p>
                   {!result.isCorrect && (
                     <p className={styles.best}>
                       <span className={styles.tag}>Best supported by the evidence</span>
-                      {best.text}
+                      {describeAnswer(q, q.correct)}
                     </p>
                   )}
 

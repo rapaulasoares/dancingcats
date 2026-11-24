@@ -8,6 +8,7 @@ import { events, locationById, locations, readyToSolve } from '../content/locati
 import { meetings } from '../content/meetings';
 import { MAX_TIPS, tipsByClass, tipsByQuestion } from '../content/tips';
 import type { LocationId, QuestionClass } from '../content/types';
+import { isValidAnswer } from './meeting';
 import { SAVE_KEY, SAVE_VERSION, saveStorage, storageAvailable } from './persistence';
 
 /**
@@ -26,10 +27,6 @@ export const PHASES = [
 
 export type Phase = (typeof PHASES)[number];
 export type Tag = 'important' | 'unsure' | 'notRelevant';
-
-/** The written explanation before the report questions: shortest and longest accepted, in characters. */
-export const EXPLANATION_MIN = 20;
-export const EXPLANATION_MAX = 600;
 
 /** The Evidence Board uses a fixed logical space so saves look the same on any screen. */
 export const BOARD = { width: 2400, height: 1600 };
@@ -93,12 +90,12 @@ export interface SaveGame {
   };
   /** meetingId → promptId → what the team wrote. */
   meetings: Record<string, Record<string, string>>;
+  /** The town meeting. Trust, streak and the ending are worked out from the answers (see meeting.ts). */
   final: {
+    /** Position of the next answer in townMeeting. */
     index: number;
+    /** Step id (R1 to R7) → the answer: an option id, or ids joined by commas for order and sentence steps. */
     answers: Record<string, string>;
-    /** Written before the questions: "What do you think is happening in Vila do Sol, and why?" */
-    explanation: string;
-    explanationDone: boolean;
   };
   timing: {
     startedAt: number;
@@ -127,7 +124,7 @@ export function freshSave(): SaveGame {
     boardSeen: 0,
     board: { items: {}, notes: [], links: [], topZ: 0 },
     meetings: {},
-    final: { index: 0, answers: {}, explanation: '', explanationDone: false },
+    final: { index: 0, answers: {} },
     timing: { startedAt: 0, lastPlayedAt: 0, phaseStartedAt: {}, playMs: 0, phaseMs: {} },
   };
 }
@@ -183,9 +180,8 @@ interface Actions {
   saveMeetingAnswer: (meetingId: string, promptId: string, text: string) => void;
 
   beginReport: () => boolean;
-  /** Locks the written explanation and opens the questions. Returns false if it is too short. */
-  submitExplanation: (text: string) => boolean;
-  answerFinal: (optionId: string) => void;
+  /** Locks the answer of the current step of the meeting. Ignored if it does not fit the step. */
+  answerFinal: (answer: string) => void;
   continueAfter: (phase: 'profile' | 'reveal') => void;
   /** After the report is finished, the closing screens can be visited in any order. */
   visitAfterGame: (phase: 'profile' | 'reveal' | 'reflection') => void;
@@ -499,23 +495,14 @@ export const useGame = create<GameState>()(
         return true;
       },
 
-      submitExplanation: (text) => {
-        const s = get();
-        const clean = text.trim().slice(0, EXPLANATION_MAX);
-        if (s.phase !== 'report' || s.final.explanationDone || clean.length < EXPLANATION_MIN) return false;
-        set({ final: { ...s.final, explanation: clean, explanationDone: true } });
-        return true;
-      },
-
-      answerFinal: (optionId) =>
+      answerFinal: (answer) =>
         set((s) => {
-          if (s.phase !== 'report' || !s.final.explanationDone) return {};
+          if (s.phase !== 'report') return {};
           const question = finalReport[s.final.index];
-          if (!question || !question.options.some((o) => o.id === optionId)) return {};
+          if (!question || !isValidAnswer(question, answer)) return {};
           const final = {
-            ...s.final,
             index: s.final.index + 1,
-            answers: { ...s.final.answers, [question.id]: optionId },
+            answers: { ...s.final.answers, [question.id]: answer },
           };
           const done = final.index >= finalReport.length;
           return done ? { final, ...enterPhase(s, 'profile') } : { final };
@@ -569,12 +556,17 @@ export const useGame = create<GameState>()(
         const base = freshSave();
         const valid = typeof saved === 'object' && PHASES.includes(saved.phase as Phase);
         if (!valid) return current;
+        // A save from before the town meeting has the old written explanation and eight multiple-choice
+        // answers. Unfinished ones start the meeting over; finished ones keep what they have.
+        const oldFinal = saved.final && 'explanationDone' in saved.final;
+        const restart = oldFinal && saved.phase === 'report';
+        const savedFinal = restart ? undefined : saved.final;
         return {
           ...current,
           ...base,
           ...saved,
           board: { ...base.board, ...saved.board },
-          final: { ...base.final, ...saved.final },
+          final: { index: savedFinal?.index ?? 0, answers: { ...savedFinal?.answers } },
           timing: { ...base.timing, ...saved.timing },
         };
       },

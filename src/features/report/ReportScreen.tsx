@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { finalReport } from '../../content/finalReport';
+import { ANSWER_SEPARATOR, type MeetingStep } from '../../content/townMeeting';
+import { isValidAnswer } from '../../state/meeting';
 import { shuffled } from '../../state/scoring';
-import { EXPLANATION_MAX, EXPLANATION_MIN, useGame } from '../../state/store';
+import { useGame } from '../../state/store';
 import { useFocusTrap } from '../../ui/useFocusTrap';
 import { BoardScreen } from '../board/BoardScreen';
 import { PlayClock } from '../clock/PlayClock';
@@ -62,7 +64,11 @@ function Questions() {
           {question.prompt}
         </h1>
 
-        <fieldset className={styles.options}>
+        {(question.kind === 'order' || question.kind === 'sentence') && (
+          <TemporaryPicker key={question.id} step={question} onChange={setSelected} />
+        )}
+
+        <fieldset className={styles.options} hidden={question.kind === 'order' || question.kind === 'sentence'}>
           <legend className={styles.srOnly}>Choose one answer</legend>
           {options.map((option, i) => (
             <label key={option.id} className={selected === option.id ? styles.optionChosen : styles.option}>
@@ -76,7 +82,7 @@ function Questions() {
               <span className={styles.letter} aria-hidden="true">
                 {LETTERS[i]}
               </span>
-              <span>{option.text}</span>
+              <span>{option.label}</span>
             </label>
           ))}
         </fieldset>
@@ -87,7 +93,7 @@ function Questions() {
           </button>
           <div className={styles.submit}>
             <span className={styles.lockNote}>Your answer is locked once you submit it.</span>
-            <button type="submit" className="btn" disabled={!selected}>
+            <button type="submit" className="btn" disabled={!selected || !isValidAnswer(question, selected)}>
               {index === finalReport.length - 1 ? 'Submit and finish the report' : 'Submit answer'}
             </button>
           </div>
@@ -96,6 +102,42 @@ function Questions() {
 
       {showBoard && <BoardOverlay onClose={() => setShowBoard(false)} />}
     </main>
+  );
+}
+
+/**
+ * Stand-in until the meeting scene has its own pieces: order and sentence steps are filled in with
+ * plain selects. Replaced in the next stage.
+ */
+function TemporaryPicker({ step, onChange }: { step: MeetingStep; onChange: (answer: string | null) => void }) {
+  const count = step.kind === 'order' ? step.options.length : (step.sentence?.slots.length ?? 0);
+  const [picked, setPicked] = useState<string[]>(Array(count).fill(''));
+  const choices =
+    step.kind === 'order'
+      ? step.options.map((o) => ({ id: o.id, text: o.label }))
+      : null;
+  return (
+    <div className={styles.options}>
+      {picked.map((value, i) => (
+        <select
+          key={i}
+          aria-label={step.kind === 'order' ? `Step ${i + 1}` : `Blank ${i + 1}`}
+          value={value}
+          onChange={(e) => {
+            const next = picked.map((p, j) => (j === i ? e.target.value : p));
+            setPicked(next);
+            onChange(next.every(Boolean) ? next.join(ANSWER_SEPARATOR) : null);
+          }}
+        >
+          <option value="">Choose…</option>
+          {(choices ?? step.sentence!.slots[i].options).map((o) => (
+            <option key={o.id} value={o.id}>
+              {o.text}
+            </option>
+          ))}
+        </select>
+      ))}
+    </div>
   );
 }
 
@@ -122,69 +164,6 @@ function BoardOverlay({ onClose }: { onClose: () => void }) {
   );
 }
 
-/**
- * Before any question is shown, the player explains the case in their own
- * words. The answer is locked like the others, and appears in the profile.
- */
-function ExplanationStep() {
-  const submitExplanation = useGame((s) => s.submitExplanation);
-  const [text, setText] = useState('');
-  const [showBoard, setShowBoard] = useState(false);
-  const length = text.trim().length;
-  const ready = length >= EXPLANATION_MIN;
-
-  return (
-    <main className={styles.screen}>
-      <form
-        className={styles.sheet}
-        onSubmit={(e) => {
-          e.preventDefault();
-          submitExplanation(text);
-        }}
-      >
-        <header className={styles.header}>
-          <p className={styles.kicker}>Final Investigation Report</p>
-          <PlayClock tone="dark" />
-          <p className={styles.progressText}>In your own words</p>
-        </header>
-
-        <label className={styles.prompt} htmlFor="explanation">
-          What do you think is happening in Vila do Sol, and why?
-        </label>
-        <p className={styles.explainHelp}>
-          Write two or three sentences. Say what you think is happening, and which evidence makes you think so.
-        </p>
-        <textarea
-          id="explanation"
-          className={styles.explanation}
-          rows={5}
-          maxLength={EXPLANATION_MAX}
-          value={text}
-          autoFocus
-          onChange={(e) => setText(e.target.value)}
-        />
-
-        <footer className={styles.footer}>
-          <button type="button" className="btn btn--quiet" onClick={() => setShowBoard(true)}>
-            Look at the Evidence Board
-          </button>
-          <div className={styles.submit}>
-            <span className={styles.lockNote}>
-              {ready ? 'Your answer is locked once you submit it.' : 'Write a little more before you continue.'}
-            </span>
-            <button type="submit" className="btn" disabled={!ready}>
-              Lock my answer and see the questions
-            </button>
-          </div>
-        </footer>
-      </form>
-
-      {showBoard && <BoardOverlay onClose={() => setShowBoard(false)} />}
-    </main>
-  );
-}
-
 export function ReportScreen() {
-  const explained = useGame((s) => s.final.explanationDone);
-  return explained ? <Questions /> : <ExplanationStep />;
+  return <Questions />;
 }

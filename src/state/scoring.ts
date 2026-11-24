@@ -120,6 +120,7 @@ export function buildProfile(save: SaveGame): Profile {
   } else if (!right('R2') && chosen('R2')) {
     eaFeedback.push(r2Hints[chosen('R2')!] ?? '');
   }
+  // r2Hints: a tap water, b skin, c chimney air.
   if (marks.judged === 0) {
     eaFeedback.push(
       'You did not mark any evidence on your board as Important or Not relevant. Sorting evidence is part of investigating.',
@@ -141,16 +142,21 @@ export function buildProfile(save: SaveGame): Profile {
       "You joined the whole chain of evidence into one clear conclusion, from the factory's wastewater to the symptoms.",
     );
   } else {
-    const r7Hints: Record<string, string> = {
-      a: 'Algae can release natural poisons, but the laboratory found no algae toxins in the animals. What did it find instead?',
-      b: 'Two things happening at the same time does not show that one caused the other.',
-      d: "Respect for a person is not the same as evidence for that person's explanation.",
-    };
-    lrFeedback.push(r7Hints[chosen('R7') ?? ''] ?? '');
+    // The sentence has three blanks: the substance, where it came from, how it reached people.
+    const [substance, source, carrier] = (chosen('R7') ?? '').split(',');
+    if (substance === 'b') {
+      lrFeedback.push('Algae can release natural poisons, but the laboratory found no algae toxins in the animals. What did it find instead?');
+    } else if (substance && substance !== 'c') {
+      lrFeedback.push('Look again at what the laboratory found in the blood and tissues of the animals.');
+    } else if (source && source !== 'c') {
+      lrFeedback.push('Where were the highest amounts measured? Follow them back to where they start.');
+    } else if (carrier && carrier !== 'd') {
+      lrFeedback.push('Think about what the cats and the affected families all ate.');
+    }
   }
   if (right('R5')) {
     lrFeedback.push("You drew a careful conclusion from João's case: no stronger than the evidence allows.");
-  } else if (chosen('R5') === 'a') {
+  } else if (chosen('R5') === 'a' || chosen('R5') === 'd') {
     lrFeedback.push(
       "João's health tells you something about factory work. Does it tell you anything about what the factory releases?",
     );
@@ -168,23 +174,10 @@ export function buildProfile(save: SaveGame): Profile {
         ? 'You were careful about distinguishing company statements from independent evidence.'
         : "You judged the company's report by who produced it, without assuming it was false.",
     );
-  } else {
-    const r6Hints: Record<string, string> = {
-      a: "You treated the company's report as false. Being cautious about a source is different from assuming it is lying.",
-      b: 'A real laboratory can still belong to the company being investigated. Who collected the sample?',
-      d: 'Follow the wastewater. Where does the channel end?',
-    };
-    seFeedback.push(r6Hints[chosen('R6') ?? ''] ?? '');
-  }
-  if (right('R8')) {
-    seFeedback.push('You picked the clues that point to the source, measured in the channel, in the bay and in the animals.');
-  } else if (chosen('R8')) {
-    const r8Hints: Record<string, string> = {
-      a: "Those clues do not clear the factory: the company tested its own wastewater, and one healthy worker does not show what the water carries.",
-      b: 'More rats show that the rats multiplied, not what made people sick. Look at what happened to the cats first.',
-      c: 'These clues show how the substance reaches people, not where it comes from. Which clues point to the source?',
-    };
-    seFeedback.push(r8Hints[chosen('R8')!] ?? '');
+  } else if (chosen('R6')) {
+    seFeedback.push(
+      "The company's report may be true, but it was collected and tested by the company being investigated. Who took the independent samples?",
+    );
   }
 
   // ── Systems Thinking ──
@@ -195,11 +188,7 @@ export function buildProfile(save: SaveGame): Profile {
     stFeedback.push('You identified relationships between different parts of the ecosystem.');
   }
   if (!right('R4') && chosen('R4')) {
-    stFeedback.push(
-      chosen('R4') === 'a'
-        ? 'The rats and the illness appeared at about the same time. Look again at which came first.'
-        : 'Nothing in the evidence shows more food or an infestation. What changed just before the rats arrived?',
-    );
+    stFeedback.push('What happened to the cats just before the rats multiplied? Think about who normally keeps the rats away.');
   }
   if (!right('R3') && chosen('R3')) {
     const r3Hints: Record<string, string> = {
@@ -231,7 +220,7 @@ export function buildProfile(save: SaveGame): Profile {
       // Half from the report answers, half from how the player sorted evidence on the board.
       dimension('evidenceAnalysis', clamp01(0.5 * (count('R1', 'R2') / 2) + 0.5 * marks.score), eaFeedback),
       dimension('logicalReasoning', clamp01(count('R5', 'R7') / 2), lrFeedback),
-      dimension('sourceEvaluation', blend(count('R6', 'R8'), 2, seBehaviour), seFeedback),
+      dimension('sourceEvaluation', blend(count('R6'), 1, seBehaviour), seFeedback),
       dimension('systemsThinking', blend(count('R3', 'R4'), 2, stBehaviour), stFeedback),
     ],
     answers,

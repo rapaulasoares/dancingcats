@@ -19,7 +19,7 @@ function game(questionIds: string[], answers: Record<string, string>, extra: Par
     save.questionLog.push({ questionId: id, interviewId: q.interviewId, class: q.class, at: 0 });
     save.evidence.push(...(q.unlocks ?? []));
   }
-  save.final = { index: finalReport.length, answers, explanation: 'We think the evidence shows it.', explanationDone: true };
+  save.final = { index: finalReport.length, answers };
   return { ...save, ...extra };
 }
 
@@ -46,7 +46,7 @@ describe('investigator profile', () => {
       },
     });
     const profile = buildProfile(save);
-    expect(profile.correctCount).toBe(8);
+    expect(profile.correctCount).toBe(7);
     for (const d of profile.dimensions) expect(d.level, d.id).toBe('Master Investigator');
     expect(level(save, 'questionQuality').feedback).toContain(
       'You asked several specific questions that produced useful evidence.',
@@ -71,12 +71,12 @@ describe('investigator profile', () => {
   });
 
   it('gives a pointed hint for each wrong explanation, never the answer itself', () => {
-    const save = game(['M1'], { ...allCorrect, R1: 'b', R4: 'a', R5: 'a', R6: 'a' });
+    const save = game(['M1'], { ...allCorrect, R1: 'b', R4: 'more,sick,fewer', R5: 'a', R6: 'b' });
     const profile = buildProfile(save);
-    expect(profile.correctCount).toBe(4);
-    expect(level(save, 'evidenceAnalysis').feedback[0]).toMatch(/which came first/);
+    expect(profile.correctCount).toBe(3);
+    expect(level(save, 'evidenceAnalysis').feedback[0]).toMatch(/Look at who cared for the sick|which came first/);
     expect(level(save, 'logicalReasoning').feedback.join(' ')).toMatch(/what the factory releases/);
-    expect(level(save, 'sourceEvaluation').feedback[0]).toMatch(/different from assuming it is lying/);
+    expect(level(save, 'sourceEvaluation').feedback[0]).toMatch(/Who took the independent samples/);
     const everything = JSON.stringify(profile.dimensions);
     expect(everything).not.toMatch(/heavy metal|wastewater released by Tucano/i);
   });
@@ -88,7 +88,7 @@ describe('investigator profile', () => {
   });
 
   it('never gives more than two comments per dimension', () => {
-    const save = game(['M2', 'M4', 'C6', 'S6', 'C4', 'A5', 'T3', 'S4'], { R1: 'a', R2: 'a', R3: 'a', R4: 'a' });
+    const save = game(['M2', 'M4', 'C6', 'S6', 'C4', 'A5', 'T3', 'S4'], { R1: 'a', R2: 'a', R3: 'a', R4: 'more,sick,fewer' });
     for (const d of buildProfile(save).dimensions) expect(d.feedback.length).toBeLessThanOrEqual(2);
   });
 });

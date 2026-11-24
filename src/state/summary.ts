@@ -1,5 +1,6 @@
 import { evidence } from '../content/evidence';
 import { finalReport } from '../content/finalReport';
+import { meetingStatus } from './meeting';
 import { buildProfile } from './scoring';
 import { PHASES, type SaveGame } from './store';
 
@@ -54,9 +55,10 @@ export function buildSessionSummary(save: SaveGame) {
         { promptsAnswered: Object.values(answers).filter((text) => text.trim()).length },
       ]),
     ),
-    wroteExplanation: save.final.explanationDone,
     report: finished
       ? {
+          solved: meetingStatus(save.final.answers).solved,
+          bestStreak: meetingStatus(save.final.answers).bestStreak,
           correct: profile!.correctCount,
           outOf: finalReport.length,
           answers: profile!.answers.map((a) => ({ question: a.questionId, chosen: a.chosen, correct: a.isCorrect })),

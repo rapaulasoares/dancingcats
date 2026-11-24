@@ -20,7 +20,10 @@ function unique<T>(items: T[]): boolean {
 describe('content counts match the design documents', () => {
   it('has 64 evidence items', () => expect(evidence).toHaveLength(64));
   it('has 76 questions', () => expect(allQuestions).toHaveLength(76));
-  it('has 8 final report questions', () => expect(finalReport).toHaveLength(8));
+  it('has 7 town meeting answers in 6 rounds', () => {
+    expect(finalReport).toHaveLength(7);
+    expect(new Set(finalReport.map((q) => q.round)).size).toBe(6);
+  });
   it('has 9 locations and 9 characters', () => {
     expect(locations).toHaveLength(9);
     expect(characters).toHaveLength(9);
@@ -82,7 +85,14 @@ describe('references', () => {
 
   it('final report answers and evidence references exist', () => {
     for (const q of finalReport) {
-      expect(q.options.map((o) => o.id)).toContain(q.correct);
+      if (q.kind === 'sentence') {
+        expect(q.sentence!.slots.map((slot) => slot.correct).join(',')).toBe(q.correct);
+        for (const slot of q.sentence!.slots) expect(slot.options.map((o) => o.id)).toContain(slot.correct);
+      } else if (q.kind === 'order') {
+        expect([...q.correct.split(',')].sort()).toEqual(q.options.map((o) => o.id).sort());
+      } else {
+        expect(q.options.map((o) => o.id)).toContain(q.correct);
+      }
       for (const id of q.evidenceRefs) expect(evidenceById[id], `${q.id} → ${id}`).toBeDefined();
     }
   });
