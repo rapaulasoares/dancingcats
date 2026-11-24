@@ -4,6 +4,8 @@ import { ROUND_COUNT, townMeeting } from '../../content/townMeeting';
 import { meetingStatus } from '../../state/meeting';
 import { useGame } from '../../state/store';
 import { GameImage } from '../../ui/GameImage';
+import { play } from '../../ui/sound';
+import { SoundToggle } from '../../ui/SoundToggle';
 import { PlayClock } from '../clock/PlayClock';
 import { CaseEnding } from './CaseEnding';
 import { BoardOverlay } from './BoardOverlay';
@@ -56,6 +58,7 @@ export function TownMeeting() {
     const right = after.right > status.right;
     answerFinal(draft);
     setReaction({ index: shownIndex, right, streak: after.streak });
+    play(right ? 'applause' : 'murmur');
   };
 
   const lockedAnswer = reaction ? answers[step.id] : undefined;
@@ -64,6 +67,7 @@ export function TownMeeting() {
     <main className={styles.scene}>
       <header className={styles.hud}>
         <PlayClock />
+        <SoundToggle className={styles.soundToggle} />
         <ol className={styles.rounds} aria-label={`Round ${step.round} of ${ROUND_COUNT}`}>
           {Array.from({ length: ROUND_COUNT }, (_, i) => (
             <li key={i} className={i + 1 < step.round ? styles.roundDone : i + 1 === step.round ? styles.roundNow : styles.round} />

@@ -1,5 +1,7 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useGame } from '../../state/store';
+import { play } from '../../ui/sound';
+import { SoundToggle } from '../../ui/SoundToggle';
 import styles from './Trophies.module.css';
 
 /**
@@ -23,6 +25,11 @@ export function Trophies() {
     },
   ];
 
+  const newest = Number(caught && !earnedAtOpen.current.caught) + Number(delivered && !earnedAtOpen.current.delivered);
+  useEffect(() => {
+    if (newest > 0) play('medal');
+  }, [newest]);
+
   return (
     <aside className={styles.trophies} aria-label="Cat chase" onPointerDown={(e) => e.stopPropagation()}>
       <ul>
@@ -38,6 +45,7 @@ export function Trophies() {
           </li>
         ))}
       </ul>
+      <SoundToggle className={styles.soundToggle} />
     </aside>
   );
 }

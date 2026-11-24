@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
 import { useGame } from '../../state/store';
+import { play } from '../../ui/sound';
+import { SoundToggle } from '../../ui/SoundToggle';
 import { formatPlayTime } from '../clock/PlayClock';
 import styles from './CaseEnding.module.css';
 
@@ -9,6 +12,13 @@ import styles from './CaseEnding.module.css';
  */
 export function CaseEnding({ solved, onContinue }: { solved: boolean; onContinue: () => void }) {
   const playMs = useGame((s) => s.timing.playMs);
+
+  // The stamp lands 2.25 seconds in (see the stamp animation in the stylesheet).
+  useEffect(() => {
+    if (!solved) return;
+    const timer = window.setTimeout(() => play('stamp'), 2250);
+    return () => window.clearTimeout(timer);
+  }, [solved]);
 
   return (
     <main className={styles.scene}>
@@ -56,6 +66,7 @@ export function CaseEnding({ solved, onContinue }: { solved: boolean; onContinue
           </>
         )}
 
+        <SoundToggle />
         <button className="btn" autoFocus onClick={onContinue}>
           Continue
         </button>

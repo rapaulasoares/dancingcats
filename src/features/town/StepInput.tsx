@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ANSWER_SEPARATOR, type MeetingStep } from '../../content/townMeeting';
 import { shuffled } from '../../state/scoring';
 import { GameImage } from '../../ui/GameImage';
+import { play } from '../../ui/sound';
 import styles from './TownMeeting.module.css';
 
 interface Props {
@@ -20,6 +21,9 @@ interface Props {
  * when the player presses the big button, so a mis-tap is never final.
  */
 export function StepInput(props: Props) {
+  // A small tick whenever the player picks something (the sound is off unless they turned it on).
+  const inner = props.onChange;
+  props = { ...props, onChange: (answer) => { play('pick'); inner(answer); } };
   switch (props.step.kind) {
     case 'map':
       return <MapPins {...props} />;

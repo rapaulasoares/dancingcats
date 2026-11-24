@@ -97,3 +97,15 @@
     font-size: 0.8rem;
   }
 }
+
+.soundToggle {
+  margin-top: 0.5rem;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-typewriter);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
