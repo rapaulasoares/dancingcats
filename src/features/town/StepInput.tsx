@@ -91,7 +91,7 @@ function MapPins({ step, locked, onChange }: Props) {
   const current = locked ?? chosen;
   return (
     <div className={styles.bayMap}>
-      <GameImage file="map-bay-sites.webp" alt="" ratio="16 / 10" className={styles.bayMapImage} />
+      <GameImage file="map-vila-do-sol.webp" alt="" ratio="1312 / 776" className={styles.bayMapImage} />
       <div role="radiogroup" aria-label="Places on the map of the bay">
         {step.options.map((place) => (
           <button

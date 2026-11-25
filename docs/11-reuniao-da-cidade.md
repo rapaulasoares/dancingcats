@@ -8,7 +8,7 @@ Replaces the written explanation and the 8-question report. Content lives in `sr
 |---|---|---|---|---|
 | 1 | Dr. Ana | tap 1 of 5 cards | R1 | heavy metal contamination |
 | 2 | Maria | tap 1 of 5 cards | R2 | the fish on our plates |
-| 3 | Carlos | tap a place on the bay map | R3 | the channel at the north point |
+| 3 | Carlos | tap a place on the town map (the same map the player walks on) | R3 | the channel at the north point |
 | 4 | Mrs. Silva | put 3 cards in order | R4 | cats sick, fewer cats, more rats |
 | 5 | Mr. Santos | put a paper on the heavier side of a balance | R6 | independent analyses by the Science Center |
 | 6a | Prof. Roberto | show your proof: tap up to 3 clues from your own Evidence Board | P1 | at least 2 of the 3 clues are key ones (tissue analysis, bay samples, Tucano's waste, chemicals in production, substances that build up, food chain, and what the sick and the healthy families eat: Silva, Maria, João, Costa, fish sent to Porto Azul) |

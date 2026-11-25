@@ -202,7 +202,7 @@ export function buildProfile(save: SaveGame): Profile {
   if (!right('R3') && chosen('R3')) {
     const r3Hints: Record<string, string> = {
       a: 'The algae did multiply in January. Check when the first strange fish were seen, and what the laboratory found.',
-      b: 'Look at the river mouth on the mud sampling map.',
+      b: 'The market is where the rats and the fish scraps are, but the samples that matter were taken from the mud and water of the bay. Where were the highest amounts?',
       d: 'Look at the boat-repair yard on the mud sampling map.',
       e: 'The rats live in town, but the samples were taken from the mud and water of the bay. Where were the highest amounts?',
     };

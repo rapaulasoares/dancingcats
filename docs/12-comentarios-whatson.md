@@ -37,7 +37,7 @@ Generated from `src/content/townMeeting.ts` (the `whatson` field of each step). 
 **Wrong answer (general):** Look again at the mud and water samples. Where were the highest amounts?
 
 - **If wrong, after choosing The open bay:** The animals were found in the bay, but the highest amounts were measured upstream of it. Follow the numbers back to where they start.
-- **If wrong, after choosing The river mouth:** Look at the river mouth on the mud sampling map.
+- **If wrong, after choosing The fish market:** The market is where the rats and the fish scraps are, but the samples that matter were taken from the mud and water of the bay. Where were the highest amounts?
 - **If wrong, after choosing The boat-repair yard:** Look at the boat-repair yard on the mud sampling map.
 - **If wrong, after choosing The fishing community:** The rats live in town, but the samples were taken from the mud and water of the bay. Where were the highest amounts?
 

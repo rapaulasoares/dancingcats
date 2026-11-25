@@ -134,18 +134,18 @@ export const townMeeting: MeetingStep[] = [
       "wrong": "Look again at the mud and water samples. Where were the highest amounts?",
       "wrongBy": {
         "a": "The animals were found in the bay, but the highest amounts were measured upstream of it. Follow the numbers back to where they start.",
-        "b": "Look at the river mouth on the mud sampling map.",
+        "b": "The market is where the rats and the fish scraps are, but the samples that matter were taken from the mud and water of the bay. Where were the highest amounts?",
         "d": "Look at the boat-repair yard on the mud sampling map.",
         "e": "The rats live in town, but the samples were taken from the mud and water of the bay. Where were the highest amounts?"
       }
     },
-    // The picture map-bay-sites.webp shows the four places of the mud sampling. Ids: a bay, b river, c channel, d boat yard, e fishing community (for whoever blames the rats).
+    // The pins sit on the same map the player walks on (map-vila-do-sol.webp). Ids: a open bay, b fish market, c north channel, d boat yard, e fishing community (b and e are for whoever blames the rats).
     options: [
-      { id: 'a', label: 'The open bay', at: { x: 50, y: 56 } },
-      { id: 'b', label: 'The river mouth', at: { x: 16, y: 34 } },
-      { id: 'c', label: "North channel: Tucano's discharge", at: { x: 80, y: 24 } },
-      { id: 'd', label: 'The boat-repair yard', at: { x: 20, y: 80 } },
-      { id: 'e', label: 'The fishing community', at: { x: 60, y: 80 } },
+      { id: 'a', label: 'The open bay', at: { x: 66, y: 86 } },
+      { id: 'b', label: 'The fish market', at: { x: 47, y: 49 } },
+      { id: 'c', label: "North channel: Tucano's discharge", at: { x: 75, y: 19 } },
+      { id: 'd', label: 'The boat-repair yard', at: { x: 13, y: 87 } },
+      { id: 'e', label: 'The fishing community', at: { x: 19, y: 51 } },
     ],
     correct: 'c',
     dimension: 'systemsThinking',

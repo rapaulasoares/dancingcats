@@ -1,6 +1,6 @@
 # Prompts das cartas da reunião da cidade (novo final)
 
-20 ilustrações para o novo final do jogo. Cada carta é tocada, arrastada ou ordenada durante a reunião na praça.
+19 ilustrações para o novo final do jogo. Cada carta é tocada, arrastada ou ordenada durante a reunião na praça.
 
 **Como usar:** cole antes de cada prompt o **bloco de estilo** do topo de [07-image-prompts.md](07-image-prompts.md), o mesmo das outras imagens. Salve em `public/images/` com **exatamente os nomes** abaixo (`.webp`, ou PNG que eu converto).
 
@@ -65,12 +65,9 @@ A plate of grilled fish with rice, beans and lime on a simple wooden table, stea
 A wooden kitchen counter with a few small wet puddles and tiny pawprints, a single rat sitting at the edge of a bag of rice looking at the viewer, a faint damp stain spreading on the sack. Centred, simple soft background. Unpleasant but not gory. Square 1:1.
 ```
 
-## Rodada 3: "De onde vem?" (1 imagem, paisagem)
+## Rodada 3: "De onde vem?" (nenhuma imagem nova)
 
-### `map-bay-sites.webp` (formato 16:10, 1920 × 1200)
-```
-A stylized 3D diorama of the bay seen from high above at a slight angle, like a game map. Five clearly separated places, each with open space around it: (1) a plain concrete channel coming down from green hills to the sea at the north point, top right; (2) a river mouth on the left; (3) a small boat-repair yard with a slipway and two boats on the south beach, bottom left; (4) the open middle of the bay with a few fishing boats; (5) a small fishing community of colourful houses on the shore, bottom centre. Bright, even daylight so every place is easy to see. No labels, no text. 16:10.
-```
+Os pinos ficam no mesmo mapa por onde o jogador anda (`map-vila-do-sol.webp`): o canal norte, o mercado de peixe, a comunidade de pescadores, a oficina de barcos (praia ao sul) e a baía aberta. Não é preciso gerar o mapa da baía.
 
 ## Rodada 4: "E os ratos?" (3 cartas, para ordenar)
 
@@ -151,6 +148,5 @@ The town square in the early evening set up for a community meeting: rows of sim
 1. As 5 da rodada 1 e as 4 da rodada 2, que são as primeiras que o jogador vê.
 2. As 3 da rodada 4 e as 3 da rodada 5.
 3. `town-meeting-square`, `badge-case-solved` e `crowd-applause`.
-4. `map-bay-sites` por último: o jogo já tem o mapa desenhado por código, que serve enquanto esta não chega.
 
 Para as palavras da frase da rodada 6 não precisamos de imagens; elas aparecem como fichas com pequenos ícones desenhados por código.
