@@ -63,7 +63,7 @@ export function CaseEnding({
             <p className={styles.fastest}>Were you the fastest in the class?</p>
             <p className={styles.text}>
               {measuresRight
-                ? 'Everyone agrees with your measures. Tucano Industrial will be held responsible and will compensate the affected families. It keeps operating, but it must treat and monitor its effluent to remove heavy metals, with weekly proof, or the factory can be shut down. João and Marcos are relieved.'
+                ? 'Everyone agrees with your measures. Tucano Industrial will be held responsible and will compensate the affected families. It keeps operating, but it must treat and monitor its effluent to remove heavy metals, with weekly proof, or the factory can be shut down.'
                 : 'The town agrees with your solution to the case, but people are still arguing about what to do with Tucano. Who is responsible, who must repair the harm, and how do you stop it at the source and make sure it never happens again?'}
             </p>
           </>
