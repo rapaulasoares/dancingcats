@@ -1,0 +1,260 @@
+/* ── Which drawing of the detective is visible: set by data-dir on the character's box ── */
+.viewS,
+.viewN,
+.viewE {
+  display: none;
+}
+
+:global([data-dir='s']) .viewS,
+:global([data-dir='n']) .viewN,
+:global([data-dir='e']) .viewE,
+:global([data-dir='w']) .viewE {
+  display: block;
+}
+
+/* Facing west mirrors the side drawing. */
+:global([data-dir='w']) .viewE {
+  transform: translateX(30px) scaleX(-1);
+}
+
+/* Every part turns around its own joint. */
+.legL,
+.legR,
+.legFar,
+.legNear,
+.armL,
+.armR,
+.armFar,
+.armNear,
+.body,
+.head,
+.catLegBackFar,
+.catLegFrontFar,
+.catLegBackNear,
+.catLegFrontNear,
+.catTail,
+.catBody,
+.catHead,
+.lens,
+.lensNear {
+  transform-box: fill-box;
+}
+.legL,
+.legR,
+.legFar,
+.legNear,
+.catLegBackFar,
+.catLegFrontFar,
+.catLegBackNear,
+.catLegFrontNear {
+  transform-origin: 50% 8%;
+}
+.armL,
+.armR,
+.armFar,
+.armNear {
+  transform-origin: 50% 6%;
+}
+.catTail {
+  transform-origin: 90% 90%;
+}
+.head {
+  transform-origin: 50% 90%;
+}
+.body {
+  transform-origin: 50% 100%;
+}
+.catHead {
+  transform-origin: 20% 80%;
+}
+
+/* ── Standing still: the detective breathes, the cat flicks its tail ── */
+.body {
+  animation: breathe 3.2s ease-in-out infinite;
+}
+.catTail {
+  animation: tail-idle 2.4s ease-in-out infinite;
+}
+@keyframes breathe {
+  50% {
+    transform: scaleY(1.018);
+  }
+}
+@keyframes tail-idle {
+  50% {
+    transform: rotate(12deg);
+  }
+}
+
+/* ── Walking: a stride is 0.52 s. The box gets the class "walking" while it moves ── */
+:global(.walking) .body {
+  animation: bob 0.26s ease-in-out infinite;
+}
+:global(.walking) .head {
+  animation: head-bob 0.26s ease-in-out infinite;
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.1px);
+  }
+}
+@keyframes head-bob {
+  0%,
+  100% {
+    transform: rotate(-1.5deg);
+  }
+  50% {
+    transform: rotate(1.5deg);
+  }
+}
+
+/* Seen from the front or the back the legs step up and down, the arms swing a little. */
+:global(.walking) .legL,
+:global(.walking) .legR {
+  animation: step 0.52s ease-in-out infinite;
+}
+:global(.walking) .legR {
+  animation-delay: -0.26s;
+}
+@keyframes step {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(-2.4px) scaleY(0.82);
+  }
+}
+:global(.walking) .armL,
+:global(.walking) .armR {
+  animation: swing-front 0.52s ease-in-out infinite;
+}
+:global(.walking) .armR {
+  animation-delay: -0.26s;
+}
+@keyframes swing-front {
+  0%,
+  100% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(-5deg);
+  }
+}
+
+/* Seen from the side the legs and arms swing like a real stride. */
+:global(.walking) .legNear {
+  animation: stride 0.52s ease-in-out infinite;
+}
+:global(.walking) .legFar {
+  animation: stride 0.52s ease-in-out infinite reverse;
+}
+:global(.walking) .armNear {
+  animation: arm-stride 0.52s ease-in-out infinite reverse;
+}
+:global(.walking) .armFar {
+  animation: arm-stride 0.52s ease-in-out infinite;
+}
+@keyframes stride {
+  0%,
+  100% {
+    transform: rotate(-17deg);
+  }
+  50% {
+    transform: rotate(17deg);
+  }
+}
+@keyframes arm-stride {
+  0%,
+  100% {
+    transform: rotate(-14deg);
+  }
+  50% {
+    transform: rotate(14deg);
+  }
+}
+
+/* ── The cat walks on four legs, in pairs that alternate ── */
+:global(.walking) .catLegBackNear,
+:global(.walking) .catLegFrontFar {
+  animation: cat-stride 0.4s ease-in-out infinite;
+}
+:global(.walking) .catLegFrontNear,
+:global(.walking) .catLegBackFar {
+  animation: cat-stride 0.4s ease-in-out infinite reverse;
+}
+:global(.walking) .catBody {
+  animation: cat-bob 0.2s ease-in-out infinite;
+}
+:global(.walking) .catHead {
+  animation: cat-nod 0.4s ease-in-out infinite;
+}
+:global(.walking) .catTail {
+  animation: tail-walk 0.8s ease-in-out infinite;
+}
+@keyframes cat-stride {
+  0%,
+  100% {
+    transform: rotate(-20deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+}
+@keyframes cat-bob {
+  50% {
+    transform: translateY(-0.7px);
+  }
+}
+@keyframes cat-nod {
+  50% {
+    transform: rotate(-4deg);
+  }
+}
+@keyframes tail-walk {
+  50% {
+    transform: rotate(-14deg);
+  }
+}
+
+/* ── The contact shadow ── */
+.shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -6%;
+  height: 16%;
+  aspect-ratio: auto;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(18, 38, 48, 0.55) 0%, rgba(18, 38, 48, 0.32) 45%, rgba(18, 38, 48, 0) 75%);
+  filter: blur(0.6px);
+  z-index: -1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .body,
+  .catTail,
+  :global(.walking) .body,
+  :global(.walking) .head,
+  :global(.walking) .legL,
+  :global(.walking) .legR,
+  :global(.walking) .legNear,
+  :global(.walking) .legFar,
+  :global(.walking) .armL,
+  :global(.walking) .armR,
+  :global(.walking) .armNear,
+  :global(.walking) .armFar,
+  :global(.walking) .catLegBackNear,
+  :global(.walking) .catLegFrontFar,
+  :global(.walking) .catLegFrontNear,
+  :global(.walking) .catLegBackFar,
+  :global(.walking) .catBody,
+  :global(.walking) .catHead,
+  :global(.walking) .catTail {
+    animation: none;
+  }
+}

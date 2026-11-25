@@ -3,7 +3,7 @@ import { locationById } from '../../content/locations';
 import type { LocationId } from '../../content/types';
 import { useGame, visibleLocations } from '../../state/store';
 import { LivingBackdrop } from './LivingBackdrop';
-import { CatSprite, InvestigatorSprite } from './Sprites';
+import { CatSprite, ContactShadow, InvestigatorSprite } from './Sprites';
 import {
   CAT_START,
   ENTRIES,
@@ -133,6 +133,7 @@ export function MapScreen() {
     let last = performance.now();
     let frame = 0;
     let nearNow: LocationId | null = null;
+    let catPrev: Pt = [world.cat.pos[0], world.cat.pos[1]];
 
     const tick = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000);
@@ -151,6 +152,7 @@ export function MapScreen() {
       });
       let moving = false;
       let facing = 0;
+      let faceDy = 0;
       if (vx || vy) {
         route.current = null;
         pendingEnter.current = null;
@@ -158,6 +160,7 @@ export function MapScreen() {
         const next = step(world.player, (vx / n) * PLAYER_SPEED * dt, (vy / n) * PLAYER_SPEED * dt);
         moving = next !== world.player;
         facing = vx;
+        faceDy = vy;
         world.player = next;
       } else if (route.current) {
         const before = world.player;
@@ -165,6 +168,7 @@ export function MapScreen() {
         world.player = p;
         moving = true;
         facing = p[0] - before[0];
+        faceDy = p[1] - before[1];
         route.current = rest.length ? rest : null;
         if (!route.current && pendingEnter.current) {
           const id = pendingEnter.current;
@@ -247,13 +251,20 @@ export function MapScreen() {
       if (pe) {
         Object.assign(pe.style, pct(world.player));
         pe.style.zIndex = String(1000 + Math.round(world.player[1]));
-        pe.classList.toggle(styles.walking, moving);
-        if (facing) pe.classList.toggle(styles.facingLeft, facing < 0);
+        pe.classList.toggle('walking', moving);
+        // Which drawing of the detective to show: the way he is heading, judged on the screen.
+        if (facing || faceDy) pe.dataset.dir = Math.abs(facing) > Math.abs(faceDy) * 1.25 ? (facing > 0 ? 'e' : 'w') : faceDy > 0 ? 's' : 'n';
       }
       const ce = catEl.current;
       if (ce) {
         Object.assign(ce.style, pct(cat.pos));
         ce.style.zIndex = String(1000 + Math.round(cat.pos[1]) + (cat.mode === 'carried' ? 2 : 0));
+        const cdx = cat.pos[0] - catPrev[0];
+        const cdy = cat.pos[1] - catPrev[1];
+        const catMoving = Math.hypot(cdx, cdy) > 0.05 && cat.mode !== 'dance';
+        ce.classList.toggle('walking', catMoving);
+        if (Math.abs(cdx) > 0.05) ce.classList.toggle(styles.facingLeft, cdx < 0);
+        catPrev = [cat.pos[0], cat.pos[1]];
         ce.classList.toggle(styles.dancing, cat.mode === 'dance');
         ce.classList.toggle(styles.carried, cat.mode === 'carried');
       }
@@ -354,11 +365,13 @@ export function MapScreen() {
           })}
         </ul>
 
-        <div ref={playerEl} className={styles.player} style={pct(world.player)}>
+        <div ref={playerEl} className={styles.player} data-dir="s" style={pct(world.player)}>
+          <ContactShadow width={72} />
           <InvestigatorSprite />
         </div>
         {catHere && (
           <div ref={catEl} className={styles.cat} style={pct(world.cat.pos)}>
+            <ContactShadow width={80} />
             <CatSprite />
           </div>
         )}

@@ -75,6 +75,7 @@
 .player,
 .cat {
   position: absolute;
+  isolation: isolate;
   transform: translate(-50%, -100%);
   pointer-events: none;
 }
@@ -97,16 +98,6 @@
 
 .facingLeft svg {
   transform: scaleX(-1);
-}
-
-.walking svg {
-  animation: walk 0.34s ease-in-out infinite;
-}
-
-@keyframes walk {
-  50% {
-    translate: 0 -6%;
-  }
 }
 
 /* The sick cat stops to spin, jerk and hop: "dancing". */
@@ -196,7 +187,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .walking svg,
   .dancing svg {
     animation: none;
   }
