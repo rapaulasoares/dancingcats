@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } f
 import { locationById } from '../../content/locations';
 import type { LocationId } from '../../content/types';
 import { useGame, visibleLocations } from '../../state/store';
-import { GameImage } from '../../ui/GameImage';
+import { LivingBackdrop } from './LivingBackdrop';
 import { CatSprite, InvestigatorSprite } from './Sprites';
 import {
   CAT_START,
@@ -333,11 +333,7 @@ export function MapScreen() {
   return (
     <section className={styles.screen} aria-label="Map of Vila do Sol">
       <div className={styles.map} ref={mapEl} onPointerDown={onMapPointer}>
-        <GameImage
-          file="map-vila-do-sol.webp"
-          alt="Illustrated map of Vila do Sol: the bay and harbor, the town, the hills, and the industrial area beyond them."
-          ratio="1312 / 776"
-        />
+        <LivingBackdrop />
 
         <ul className={styles.places}>
           {places.map((place) => {

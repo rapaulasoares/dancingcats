@@ -1,0 +1,38 @@
+.backdrop {
+  position: relative;
+}
+
+/* The video appears over the still map once it is really playing. */
+.videoLayer,
+.videoLayerOn {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.videoLayerOn {
+  opacity: 1;
+}
+
+.video {
+  position: absolute;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/* A soft blur over the corner of open sea where the video carries a small mark. */
+.haze {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 15%;
+  height: 12%;
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  background: radial-gradient(ellipse at 70% 70%, rgba(14, 58, 72, 0.35), rgba(14, 58, 72, 0) 70%);
+  -webkit-mask-image: radial-gradient(ellipse at 70% 70%, #000 40%, transparent 78%);
+  mask-image: radial-gradient(ellipse at 70% 70%, #000 40%, transparent 78%);
+}
