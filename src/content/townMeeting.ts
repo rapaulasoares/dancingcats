@@ -136,7 +136,7 @@ export const townMeeting: MeetingStep[] = [
         "a": "The animals were found in the bay, but the highest amounts were measured upstream of it. Follow the numbers back to where they start.",
         "b": "The market is where the rats and the fish scraps are, but the samples that matter were taken from the mud and water of the bay. Where were the highest amounts?",
         "d": "Look at the boat-repair yard on the mud sampling map.",
-        "e": "The rats live in town, but the samples were taken from the mud and water of the bay. Where were the highest amounts?"
+        "e": "The rats live in town, but the samples were taken from the mud and water of the bay. Where were the highest amounts?",
         "f": "The whole town drinks that water, and most people are healthy. Look at what separates the sick from the healthy, and at where the highest amounts were measured.",
       }
     },
