@@ -127,7 +127,7 @@ export const townMeeting: MeetingStep[] = [
     speaker: 'Carlos',
     kind: 'map',
     heading: 'Where does it come from?',
-    prompt: 'Everyone says the bay is dirty, but where is it coming from? Show us on the map!',
+    prompt: 'Where is it coming from? Show us on the map!',
     hint: 'Tap a place on the map.',
     whatson: {
       "right": "Right. The mud and water samples were highest in the channel and at its mouth, and the Science Center took them outside the factory grounds. They trace back to Tucano's discharge.",
@@ -137,15 +137,17 @@ export const townMeeting: MeetingStep[] = [
         "b": "The market is where the rats and the fish scraps are, but the samples that matter were taken from the mud and water of the bay. Where were the highest amounts?",
         "d": "Look at the boat-repair yard on the mud sampling map.",
         "e": "The rats live in town, but the samples were taken from the mud and water of the bay. Where were the highest amounts?"
+        "f": "The whole town drinks that water, and most people are healthy. Look at what separates the sick from the healthy, and at where the highest amounts were measured.",
       }
     },
-    // The pins sit on the same map the player walks on (map-vila-do-sol.webp). Ids: a open bay, b fish market, c north channel, d boat yard, e fishing community (b and e are for whoever blames the rats).
+    // The pins sit on the same map the player walks on (map-vila-do-sol.webp). Ids: a open bay, b fish market, c north channel, d boat yard, e fishing community (b and e are for whoever blames the rats), f the town's water supply in the mountains near Dona Rosa's house (the Serra reservoir).
     options: [
       { id: 'a', label: 'The open bay', at: { x: 66, y: 86 } },
       { id: 'b', label: 'The fish market', at: { x: 47, y: 49 } },
       { id: 'c', label: "North channel: Tucano's discharge", at: { x: 75, y: 19 } },
-      { id: 'd', label: 'The boat-repair yard', at: { x: 13, y: 87 } },
+      { id: 'd', label: 'The boat-repair yard', at: { x: 34, y: 87 } },
       { id: 'e', label: 'The fishing community', at: { x: 19, y: 51 } },
+      { id: 'f', label: "The town's water supply", at: { x: 16, y: 9 } },
     ],
     correct: 'c',
     dimension: 'systemsThinking',
