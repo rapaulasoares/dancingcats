@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { GameImage } from '../../ui/GameImage';
+import { LoopVideo } from '../../ui/LoopVideo';
 import styles from './LivingBackdrop.module.css';
 
 /**
@@ -25,58 +26,12 @@ const FIT = {
 };
 
 export function LivingBackdrop() {
-  const a = useRef<HTMLVideoElement>(null);
-  const b = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [failed, setFailed] = useState(false);
   const reduced = useMemo(
     () => typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches,
     [],
   );
-
-  useEffect(() => {
-    if (reduced || failed) return;
-    const va = a.current;
-    const vb = b.current;
-    if (!va || !vb) return;
-    let raf = 0;
-    let started = false;
-
-    // Two copies of the video play half a clip apart. The top one fades out just as it reaches the end of its
-    // clip, so the jump from the last frame back to the first is never seen.
-    const frame = () => {
-      const d = va.duration || 1;
-      const p = (va.currentTime % d) / d;
-      const s = Math.sin(Math.PI * p);
-      vb.style.opacity = String(1 - s * s);
-      // Keep the two copies half a clip apart if one of them drifts.
-      const expected = (va.currentTime + d / 2) % d;
-      const off = Math.abs(vb.currentTime - expected);
-      if (off > 0.3 && off < d - 0.3) vb.currentTime = expected;
-      raf = requestAnimationFrame(frame);
-    };
-
-    const start = () => {
-      if (started || va.readyState < 2 || vb.readyState < 2 || !va.duration) return;
-      started = true;
-      vb.currentTime = va.duration / 2;
-      Promise.all([va.play(), vb.play()])
-        .then(() => {
-          setPlaying(true);
-          frame();
-        })
-        .catch(() => setFailed(true));
-    };
-
-    va.addEventListener('canplay', start);
-    vb.addEventListener('canplay', start);
-    start();
-    return () => {
-      cancelAnimationFrame(raf);
-      va.removeEventListener('canplay', start);
-      vb.removeEventListener('canplay', start);
-    };
-  }, [reduced, failed]);
 
   return (
     <div className={styles.backdrop}>
@@ -87,21 +42,7 @@ export function LivingBackdrop() {
       />
       {!reduced && !failed && (
         <div className={playing ? styles.videoLayerOn : styles.videoLayer} aria-hidden="true">
-          {[a, b].map((ref, i) => (
-            <video
-              key={i}
-              ref={ref}
-              className={styles.video}
-              style={FIT}
-              src={SRC}
-              muted
-              loop
-              playsInline
-              preload="auto"
-              disablePictureInPicture
-              onError={() => setFailed(true)}
-            />
-          ))}
+          <LoopVideo src={SRC} className={styles.video} style={FIT} onPlaying={() => setPlaying(true)} onFail={() => setFailed(true)} />
           {/* The generator's mark sits in the open sea at the bottom right: a soft haze covers it. */}
           <div className={styles.haze} />
         </div>

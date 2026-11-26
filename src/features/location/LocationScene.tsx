@@ -7,6 +7,7 @@ import { locationById } from '../../content/locations';
 import type { LocationId } from '../../content/types';
 import { progressOf, questionsLeft, useGame } from '../../state/store';
 import { GameImage } from '../../ui/GameImage';
+import { SceneMedia } from './SceneMedia';
 import { EvidenceDialog } from '../evidence/EvidenceDialog';
 import styles from './LocationScene.module.css';
 
@@ -44,7 +45,7 @@ export function LocationScene({ locationId }: { locationId: LocationId }) {
   return (
     <section className={styles.screen} aria-label={location.name}>
       <div className={styles.scene}>
-        <GameImage file={location.image} alt={location.imageAlt} ratio="16 / 9" />
+        <SceneMedia image={location.image} alt={location.imageAlt} video={location.video} />
 
         <ul className={styles.hotspots}>
           {location.hotspots.map((h) => {
