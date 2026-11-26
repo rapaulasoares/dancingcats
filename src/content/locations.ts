@@ -56,6 +56,7 @@ export const locations: Location[] = [
     name: 'Fishing Community',
     image: 'fishing-community.webp',
     video: 'fishing-community-video.mp4',
+    videoCut: true,
     imageAlt: 'A street of small colourful houses with laundry lines, nets on a fence, an alley and a lamp post.',
     mapPos: { x: 19, y: 51 },
     intro: 'Small bright houses, nets drying on fences. The doorsteps are empty. Something grey slips along the wall and into an alley — a rat, in broad daylight.',

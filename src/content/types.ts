@@ -138,6 +138,8 @@ export interface Location {
   image: string;
   /** A silent looping video of the same scene, in public/images. Optional. */
   video?: string;
+  /** Set when something moves across the picture (a running animal): the loop then restarts with a plain cut, because any blend would show it twice. */
+  videoCut?: boolean;
   imageAlt: string;
   mapPos: { x: number; y: number };
   /** One or two sentences read on arrival. */

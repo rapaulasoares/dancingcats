@@ -45,7 +45,7 @@ export function LocationScene({ locationId }: { locationId: LocationId }) {
   return (
     <section className={styles.screen} aria-label={location.name}>
       <div className={styles.scene}>
-        <SceneMedia image={location.image} alt={location.imageAlt} video={location.video} />
+        <SceneMedia image={location.image} alt={location.imageAlt} video={location.video} cut={location.videoCut} />
 
         <ul className={styles.hotspots}>
           {location.hotspots.map((h) => {

@@ -8,6 +8,8 @@ interface Props {
   alt: string;
   /** A silent looping video of the same scene, same framing as the picture. */
   video?: string;
+  /** Restart the loop with a plain cut instead of a soft blend. */
+  cut?: boolean;
 }
 
 /**
@@ -15,7 +17,7 @@ interface Props {
  * underneath as the first thing shown, as the fallback if the video cannot play, and for people who asked their
  * device for less motion.
  */
-export function SceneMedia({ image, alt, video }: Props) {
+export function SceneMedia({ image, alt, video, cut }: Props) {
   const [playing, setPlaying] = useState(false);
   const [failed, setFailed] = useState(false);
   const reduced = useMemo(
@@ -30,6 +32,7 @@ export function SceneMedia({ image, alt, video }: Props) {
           <LoopVideo
             src={`${import.meta.env.BASE_URL}images/${video}`}
             className={styles.video}
+            fade={cut ? 0 : undefined}
             onPlaying={() => setPlaying(true)}
             onFail={() => setFailed(true)}
           />

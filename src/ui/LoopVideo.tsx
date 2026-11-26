@@ -36,7 +36,7 @@ export function LoopVideo({ src, className, style, fade = 0.2, onPlaying, onFail
       const d = va.duration || 1;
       const t = va.currentTime % d;
       // How close the first copy is to its restart, from 0 (far) to 1 (right at it).
-      const k = Math.max(0, 1 - Math.min(t, d - t) / fade);
+      const k = fade > 0 ? Math.max(0, 1 - Math.min(t, d - t) / fade) : 0;
       vb.style.opacity = String(k * k * (3 - 2 * k));
       // Keep the two copies half a clip apart if one of them drifts.
       const expected = (va.currentTime + d / 2) % d;
