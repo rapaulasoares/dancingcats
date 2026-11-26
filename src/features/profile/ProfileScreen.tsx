@@ -254,7 +254,7 @@ export function ProfileScreen({ onClose }: Props = {}) {
           <footer className={styles.footer}>
             <p className={styles.tease}>The case is closed. But it has happened before.</p>
             <button className="btn" onClick={() => save.continueAfter('profile')}>
-              Continue
+              Reveal the case →
             </button>
           </footer>
         )}
