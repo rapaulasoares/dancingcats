@@ -1,16 +1,129 @@
 /* The base style of every animated part is its finished state; keyframes start from somewhere else. */
 .scene {
+  position: relative;
   height: 100%;
+  overflow: hidden;
+  background: #2a160c;
+  color: var(--ink);
+}
+
+.scroll {
+  position: absolute;
+  inset: 0;
   display: grid;
   place-items: center;
   overflow-y: auto;
   padding: 1rem;
-  background: radial-gradient(ellipse at 50% 30%, #3b6a74, var(--wood-dark) 75%);
-  color: var(--ink);
+}
+
+/* ── The desk: a 16:9 picture that always covers the screen. Things placed in it use the picture's own percentages. ── */
+.desk {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, calc(100vh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  transform: translate(-50%, -50%);
+}
+
+.deskImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* The lamp's warm light brightens and dims a little, like a real bulb. */
+.lamp {
+  position: absolute;
+  left: 2%;
+  top: -8%;
+  width: 46%;
+  height: 70%;
+  background: radial-gradient(ellipse at 30% 30%, rgba(255, 190, 100, 0.55), rgba(255, 160, 60, 0) 65%);
+  mix-blend-mode: screen;
+  animation: flicker 3.4s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  18% {
+    opacity: 0.85;
+  }
+  32% {
+    opacity: 0.6;
+  }
+  47% {
+    opacity: 0.95;
+  }
+  63% {
+    opacity: 0.7;
+  }
+  81% {
+    opacity: 0.9;
+  }
+}
+
+/* Steam curling up from the cup (top right of the picture). */
+.steam {
+  position: absolute;
+  left: 85.5%;
+  top: 2%;
+  width: 3%;
+  height: 12%;
+}
+
+.steam i {
+  position: absolute;
+  bottom: 0;
+  left: 40%;
+  width: 60%;
+  height: 80%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 70%);
+  filter: blur(4px);
+  opacity: 0;
+  animation: rise 4s ease-out infinite;
+}
+.steam i:nth-child(2) {
+  animation-delay: 1.3s;
+  left: 10%;
+}
+.steam i:nth-child(3) {
+  animation-delay: 2.6s;
+  left: 60%;
+}
+
+@keyframes rise {
+  0% {
+    transform: translate(0, 0) scale(0.6);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(35%, -190%) scale(1.6);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lamp,
+  .steam i {
+    animation: none;
+  }
+  .lamp {
+    opacity: 0.7;
+  }
 }
 
 .card {
+  position: relative;
   width: min(100%, 34rem);
+  transform: rotate(-0.6deg);
   padding: 1.25rem 1.5rem 1.5rem;
   text-align: center;
   background: var(--paper);

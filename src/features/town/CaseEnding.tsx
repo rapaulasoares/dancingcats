@@ -31,6 +31,17 @@ export function CaseEnding({
 
   return (
     <main className={styles.scene}>
+      {/* The detective's desk seen from above: the lamp flickers softly and the coffee steams. */}
+      <div className={styles.desk} aria-hidden="true">
+        <img className={styles.deskImg} src={`${import.meta.env.BASE_URL}images/desk-top.webp`} alt="" />
+        <span className={styles.lamp} />
+        <span className={styles.steam}>
+          <i />
+          <i />
+          <i />
+        </span>
+      </div>
+      <div className={styles.scroll}>
       <section className={styles.card} aria-labelledby="ending-title">
         <div className={solved ? styles.folder : styles.folderOpen} aria-hidden="true">
           <div className={styles.back} />
@@ -81,6 +92,7 @@ export function CaseEnding({
           Continue
         </button>
       </section>
+      </div>
     </main>
   );
 }
