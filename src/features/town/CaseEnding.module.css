@@ -16,6 +16,67 @@
   padding: 1rem;
 }
 
+/* The card and Whatson's note side by side on a wide screen, one above the other on a narrow one. */
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem 2rem;
+  width: 100%;
+}
+
+/* ── Whatson's note, taped to the desk ── */
+.note,
+.noteLate {
+  position: relative;
+  width: min(100%, 15rem);
+  padding: 1.4rem 1.1rem 1rem;
+  background: #fff2a6;
+  border-radius: 0.2rem;
+  box-shadow: 2px 6px 14px rgba(0, 0, 0, 0.35);
+  transform: rotate(3deg);
+  animation: noteIn 0.6s 0.6s ease-out both;
+}
+
+.noteLate {
+  animation-delay: 3.6s;
+}
+
+.tape {
+  position: absolute;
+  top: -0.7rem;
+  left: 50%;
+  width: 5rem;
+  height: 1.3rem;
+  background: rgba(240, 235, 215, 0.75);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transform: translateX(-50%) rotate(-3deg);
+}
+
+.noteText {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  line-height: 1.2;
+  color: #2c3a46;
+}
+
+.noteSign {
+  margin: 0.6rem 0 0;
+  text-align: right;
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  color: var(--sea-deep);
+}
+
+@keyframes noteIn {
+  from {
+    transform: translateY(-1.5rem) rotate(9deg);
+    opacity: 0;
+  }
+}
+
 /* ── The desk: a 16:9 picture that always covers the screen. Things placed in it use the picture's own percentages. ── */
 .desk {
   position: absolute;

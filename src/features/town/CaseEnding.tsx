@@ -21,6 +21,11 @@ export function CaseEnding({
   onContinue: () => void;
 }) {
   const playMs = useGame((s) => s.timing.playMs);
+  const note = !solved
+    ? "Don't be discouraged. A good detective goes back to the clues. Let's see what we missed."
+    : measuresRight
+      ? 'Well done, partner. You followed the evidence, not the rumours. The town is safer because of you.'
+      : 'You found what happened. Now comes the harder part: making sure it never happens again. Think about who must repair the harm.';
 
   // The stamp lands 2.25 seconds in (see the stamp animation in the stylesheet).
   useEffect(() => {
@@ -42,6 +47,7 @@ export function CaseEnding({
         </span>
       </div>
       <div className={styles.scroll}>
+      <div className={styles.stack}>
       <section className={styles.card} aria-labelledby="ending-title">
         <div className={solved ? styles.folder : styles.folderOpen} aria-hidden="true">
           <div className={styles.back} />
@@ -92,6 +98,12 @@ export function CaseEnding({
           Continue
         </button>
       </section>
+      <aside className={solved ? styles.noteLate : styles.note} aria-label="A note from Whatson">
+        <span className={styles.tape} aria-hidden="true" />
+        <p className={styles.noteText}>{note}</p>
+        <p className={styles.noteSign}>— Whatson</p>
+      </aside>
+      </div>
       </div>
     </main>
   );
