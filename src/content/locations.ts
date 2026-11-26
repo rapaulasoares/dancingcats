@@ -68,6 +68,7 @@ export const locations: Location[] = [
     id: 'square',
     name: 'Town Square',
     image: 'town-square.webp',
+    video: 'town-square-video.mp4',
     imageAlt: 'A small square with a big tree, a bus stop, a municipal notice board, a newspaper stand and a football poster.',
     mapPos: { x: 65, y: 43 },
     intro: 'The afternoon bus from the industrial area has just arrived. Workers step down, tired and talking. One of them waves.',
