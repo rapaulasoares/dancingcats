@@ -85,6 +85,7 @@ export const locations: Location[] = [
     id: 'rosa',
     name: "Dona Rosa's House",
     image: 'dona-rosa-house.webp',
+    video: 'dona-rosa-house-video.mp4',
     imageAlt: 'A simple house with a veranda and a garden full of herbs. Hens scratch in the yard.',
     mapPos: { x: 22, y: 16 },
     intro: 'The path climbs to a small house wrapped in herbs and flowers. Hens scratch in the yard. An old woman watches you arrive from her veranda.',
